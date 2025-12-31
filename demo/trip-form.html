@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upravit plavbu – SailPlan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .form-section {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-xl);
+    }
+    .form-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .form-section-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .form-section-title h3 {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+    .form-section-title p {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      margin-top: var(--space-xs);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+    }
+    .form-grid.three-cols {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    .timeline-item-form {
+      display: flex;
+      gap: var(--space-md);
+      padding: var(--space-lg);
+      background: var(--gray-50);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+      align-items: flex-start;
+    }
+    .timeline-item-form .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .boat-form-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .boat-form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-lg);
+    }
+    .sticky-actions {
+      position: sticky;
+      bottom: 0;
+      background: var(--white);
+      border-top: 1px solid var(--gray-100);
+      padding: var(--space-lg) var(--space-xl);
+      margin: 0 calc(-1 * var(--space-lg));
+      margin-top: var(--space-xl);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      z-index: 10;
+    }
+    .check-option {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--gray-50);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .check-option:hover {
+      background: var(--foam);
+    }
+    .check-option input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--turquoise);
+    }
+    .check-option-text h5 {
+      font-size: 0.9375rem;
+      margin-bottom: 2px;
+    }
+    .check-option-text p {
+      font-size: 0.8125rem;
+      color: var(--gray-500);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="dashboard.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-sailboat"></i>
+          </div>
+          SailPlan
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="#" class="nav-link">Mé plavby</a></li>
+            <li><a href="#" class="nav-link active">Organizuji</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="btn btn-icon btn-ghost">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div class="profile-btn">
+            <div class="profile-avatar" style="background: linear-gradient(135deg, var(--coral), var(--coral-light));">JC</div>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i>
+                Můj profil
+              </a>
+              <a href="organizer-settings.html" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                Nastavení organizátora
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="index.html" class="dropdown-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Odhlásit se
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="trip-header" style="padding: var(--space-xl) 0;">
+    <div class="container">
+      <div class="trip-header-content">
+        <div class="breadcrumb">
+          <a href="dashboard.html"><i class="fas fa-home"></i></a>
+          <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+          <a href="#">Organizuji</a>
+          <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+          <a href="trip-organizer.html">Chorvatsko 2025</a>
+          <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+          <span>Upravit</span>
+        </div>
+        
+        <div class="trip-title-row" style="margin-top: var(--space-lg);">
+          <div>
+            <h1 class="trip-title" style="font-size: 2rem;">Upravit plavbu</h1>
+            <p style="color: var(--gray-400); margin-top: var(--space-sm);">Chorvatsko 2025 – Flotila</p>
+          </div>
+          <div style="display: flex; gap: var(--space-md);">
+            <a href="trip-organizer.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+              <i class="fas fa-times"></i>
+              Zrušit
+            </a>
+            <button class="btn btn-coral" onclick="saveForm()">
+              <i class="fas fa-save"></i>
+              Uložit změny
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Content -->
+  <main class="trip-content">
+    <div class="container" style="max-width: 1000px;">
+      
+      <!-- Basic Info Section -->
+      <div class="form-section animate-in">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-info-circle" style="color: var(--turquoise); margin-right: var(--space-sm);"></i> Základní informace</h3>
+              <p>Hlavní údaje o plavbě viditelné pro účastníky</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Název plavby *</label>
+            <input type="text" class="form-input" value="Chorvatsko 2025 – Flotila" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Typ plavby</label>
+            <select class="form-input">
+              <option selected>Flotila (více lodí)</option>
+              <option>Jedna loď</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Datum od *</label>
+            <input type="date" class="form-input" value="2025-07-15" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Datum do *</label>
+            <input type="date" class="form-input" value="2025-07-22" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cena zájezdu</label>
+            <input type="text" class="form-input" value="11 000 Kč + lodní pokladna" placeholder="např. 12 000 Kč" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Poznámka k ceně</label>
+            <input type="text" class="form-input" value="V ceně není zahrnuta doprava na místo startu" placeholder="Co je/není v ceně..." />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Popis pro zájemce (veřejná stránka)</label>
+            <textarea class="form-input" rows="4" style="resize: vertical;" placeholder="Tento popis uvidí zájemci, kteří ještě nejsou účastníky plavby...">Vítejte na naší tradiční letní flotilové plavbě Chorvatskem! Letos se vydáme ze Splitu směr střední Dalmácie s návštěvou ostrovů Brač, Hvar, Vis a dalších.
+
+Plavba je vhodná pro všechny úrovně zkušeností – od úplných začátečníků po pokročilé jachtaře. Každá loď má zkušeného kapitána a můžete se naučit základy jachtingu nebo si jen užít krásné moře.</textarea>
+            <p class="text-xs text-muted" style="margin-top: var(--space-xs);">Zobrazí se na veřejné stránce plavby pro zájemce.</p>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Popis pro účastníky</label>
+            <textarea class="form-input" rows="4" style="resize: vertical;" placeholder="Tento popis uvidí pouze účastníci, kteří se již připojili k plavbě...">Vítejte na naší tradiční letní flotilové plavbě Chorvatskem! Letos se vydáme ze Splitu směr střední Dalmácie s návštěvou ostrovů Brač, Hvar, Vis a dalších.
+
+Plavba je vhodná pro všechny úrovně zkušeností – od úplných začátečníků po zkušené jachtaře. Kapitáni jsou zkušení a pomohou vám s čímkoliv budete potřebovat.
+
+Flotila se bude držet pohromadě a každý večer kotvíme společně. Plánované zastávky zahrnují Bol na Braču (slavná pláž Zlatní Rat), město Hvar, a ostrov Vis s návštěvou Modré jeskyně.</textarea>
+            <p class="text-xs text-muted" style="margin-top: var(--space-xs);">Zobrazí se pouze účastníkům, kteří se již připojili k plavbě.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location Section -->
+      <div class="form-section animate-in delay-1">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-map-marker-alt" style="color: var(--coral); margin-right: var(--space-sm);"></i> Lokality</h3>
+              <p>Místo startu, cíle a zastávky během plavby</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Místo startu *</label>
+            <input type="text" class="form-input" value="Marina Kaštela, Split" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Místo cíle (volitelně)</label>
+            <input type="text" class="form-input" placeholder="Stejný jako start" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Check-in datum a čas</label>
+            <input type="datetime-local" class="form-input" value="2025-07-15T17:00" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Check-out datum a čas</label>
+            <input type="datetime-local" class="form-input" value="2025-07-22T09:00" />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Informace o přepravě</label>
+            <textarea class="form-input" rows="2" placeholder="Jak se dostat na místo startu...">Nejbližší letiště je Split Airport (SPU), vzdálené 5 km od mariny. Transfer lze objednat přes charterovou společnost.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boats Section -->
+      <div class="form-section animate-in delay-2">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-ship" style="color: var(--turquoise); margin-right: var(--space-sm);"></i> Lodě</h3>
+              <p>Definice lodí v plavbě</p>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-secondary">
+            <i class="fas fa-plus"></i> Přidat loď
+          </button>
+        </div>
+        
+        <!-- Boat 1 -->
+        <div class="boat-form-card">
+          <div class="boat-form-header">
+            <h4 style="margin: 0;">
+              <i class="fas fa-anchor" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+              Loď 1
+            </h4>
+            <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="form-grid three-cols">
+            <div class="form-group">
+              <label class="form-label">Název lodě</label>
+              <input type="text" class="form-input" value="Mořská Víla" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" class="form-input" value="Bavaria 46" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kapacita</label>
+              <input type="number" class="form-input" value="8" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: var(--space-md);">
+            <label class="form-label">Dostupné podrole pro tuto loď</label>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-sm);">
+              <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                <input type="checkbox" checked />
+                <span class="text-sm">Kormidelník</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                <input type="checkbox" checked />
+                <span class="text-sm">Mastman</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                <input type="checkbox" checked />
+                <span class="text-sm">Bowman</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                <input type="checkbox" />
+                <span class="text-sm">Navigátor</span>
+              </label>
+            </div>
+            <p class="text-xs text-muted" style="margin-top: var(--space-xs);">Vyberte podrole, které budou dostupné pro přiřazení členům posádky této lodě.</p>
+          </div>
+        </div>
+        
+        <!-- Boat 2 -->
+        <div class="boat-form-card">
+          <div class="boat-form-header">
+            <h4 style="margin: 0;">
+              <i class="fas fa-anchor" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+              Loď 2
+            </h4>
+            <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="form-grid three-cols">
+            <div class="form-group">
+              <label class="form-label">Název lodě</label>
+              <input type="text" class="form-input" value="Bílá Perla" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" class="form-input" value="Jeanneau 54" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kapacita</label>
+              <input type="number" class="form-input" value="10" />
+            </div>
+          </div>
+        </div>
+        
+        <!-- Boat 3 -->
+        <div class="boat-form-card">
+          <div class="boat-form-header">
+            <h4 style="margin: 0;">
+              <i class="fas fa-anchor" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+              Loď 3
+            </h4>
+            <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="form-grid three-cols">
+            <div class="form-group">
+              <label class="form-label">Název lodě</label>
+              <input type="text" class="form-input" value="Modrý Sen" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" class="form-input" value="Hanse 458" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kapacita</label>
+              <input type="number" class="form-input" value="8" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline / Main Checklist Section -->
+      <div class="form-section animate-in delay-3">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-flag-checkered" style="color: var(--coral); margin-right: var(--space-sm);"></i> Hlavní checklist (timeline)</h3>
+              <p>Události a termíny, které musí účastníci splnit</p>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-secondary">
+            <i class="fas fa-plus"></i> Přidat položku
+          </button>
+        </div>
+        
+        <!-- Timeline Item 1 -->
+        <div class="timeline-item-form">
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm); flex: 2;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Název</label>
+              <input type="text" class="form-input" value="Zaplacení zálohy" />
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Pro role</label>
+              <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                  <input type="checkbox" checked />
+                  <span class="text-sm">Kapitáni</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                  <input type="checkbox" checked />
+                  <span class="text-sm">Organizátoři</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;">
+                  <input type="checkbox" checked />
+                  <span class="text-sm">Účastníci</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Typ</label>
+            <select class="form-input">
+              <option selected>Platba</option>
+              <option>Crewlist</option>
+              <option>Custom</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Termín</label>
+            <input type="date" class="form-input" value="2025-05-31" />
+          </div>
+          <button class="btn btn-icon btn-ghost" style="color: var(--danger); margin-top: 28px;">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        
+        <!-- Timeline Item 2 -->
+        <div class="timeline-item-form">
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm); flex: 2;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Název</label>
+              <input type="text" class="form-input" value="Vyplnění crew listu" />
+            </div>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Typ</label>
+            <select class="form-input">
+              <option>Platba</option>
+              <option selected>Crewlist</option>
+              <option>Custom</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Termín</label>
+            <input type="date" class="form-input" value="2025-06-15" />
+          </div>
+          <button class="btn btn-icon btn-ghost" style="color: var(--danger); margin-top: 28px;">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        
+        <!-- Timeline Item 3 -->
+        <div class="timeline-item-form">
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm); flex: 2;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Název</label>
+              <input type="text" class="form-input" value="Doplatek" />
+            </div>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Typ</label>
+            <select class="form-input">
+              <option selected>Platba</option>
+              <option>Crewlist</option>
+              <option>Custom</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Termín</label>
+            <input type="date" class="form-input" value="2025-07-01" />
+          </div>
+          <button class="btn btn-icon btn-ghost" style="color: var(--danger); margin-top: 28px;">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        
+        <!-- Timeline Item 4 -->
+        <div class="timeline-item-form">
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm); flex: 2;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Název</label>
+              <input type="text" class="form-input" value="Check-in a předání lodě" />
+            </div>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Typ</label>
+            <select class="form-input">
+              <option>Platba</option>
+              <option>Crewlist</option>
+              <option selected>Custom</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Termín</label>
+            <input type="date" class="form-input" value="2025-07-15" />
+          </div>
+          <button class="btn btn-icon btn-ghost" style="color: var(--danger); margin-top: 28px;">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Payments Section -->
+      <div class="form-section animate-in delay-4">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-credit-card" style="color: var(--coral); margin-right: var(--space-sm);"></i> Platební údaje</h3>
+              <p>Bankovní údaje pro platby účastníků</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Číslo účtu</label>
+            <input type="text" class="form-input" value="1234567890/0100" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">IBAN (volitelně)</label>
+            <input type="text" class="form-input" value="CZ65 0100 0000 0012 3456 7890" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Variabilní symbol</label>
+            <input type="text" class="form-input" value="202507" placeholder="Např. číslo plavby" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Zpráva pro příjemce</label>
+            <input type="text" class="form-input" value="Jméno účastníka - Chorvatsko 2025" placeholder="Jak má vypadat zpráva pro příjemce" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Visibility Section -->
+      <div class="form-section animate-in delay-5">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-eye" style="color: var(--turquoise); margin-right: var(--space-sm);"></i> Viditelnost</h3>
+              <p>Co mohou účastníci vidět o ostatních lodích</p>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <div style="padding: var(--space-lg); background: var(--gray-50); border-radius: var(--radius-md);">
+            <h5 style="margin-bottom: var(--space-sm);">
+              <i class="fas fa-ship" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+              Základní informace o flotile
+            </h5>
+            <p class="text-muted text-sm">Všichni účastníci vždy vidí základní přehled lodí (název, model) a kapitány. Detailní crew listy ostatních lodí nejsou přístupné.</p>
+          </div>
+          
+          <label class="check-option">
+            <input type="checkbox" checked />
+            <div class="check-option-text">
+              <h5>Zobrazit členy posádek ostatních lodí</h5>
+              <p>Účastníci uvidí jména členů posádek na ostatních lodích (bez kontaktních údajů)</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Crew List Settings Section -->
+      <div class="form-section animate-in delay-6">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-clipboard-list" style="color: var(--turquoise); margin-right: var(--space-sm);"></i> Pole crew listu</h3>
+              <p>Jaké údaje potřebujete od účastníků – můžete přidat vlastní pole</p>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-secondary">
+            <i class="fas fa-plus"></i> Přidat pole
+          </button>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+          <!-- Existing fields -->
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+              <span class="font-medium">Jméno a příjmení</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span class="status-pill info" style="font-size: 0.6875rem;">Text</span>
+              <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+              <span class="font-medium">Datum narození</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span class="status-pill info" style="font-size: 0.6875rem;">Datum</span>
+              <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+              <span class="font-medium">Státní občanství</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span class="status-pill info" style="font-size: 0.6875rem;">Text</span>
+              <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+              <span class="font-medium">Číslo dokladu</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span class="status-pill info" style="font-size: 0.6875rem;">Text</span>
+              <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+              <span class="font-medium">Email</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span class="status-pill info" style="font-size: 0.6875rem;">Email</span>
+              <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+              <span class="font-medium">Telefon</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span class="status-pill info" style="font-size: 0.6875rem;">Telefon</span>
+              <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklisty Section -->
+      <div class="form-section animate-in delay-7">
+        <div class="form-section-header">
+          <div class="form-section-title">
+            <div>
+              <h3><i class="fas fa-tasks" style="color: var(--coral); margin-right: var(--space-sm);"></i> Checklisty</h3>
+              <p>Přiřazené checklisty pro tuto plavbu</p>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <div style="width: 44px; height: 44px; background: rgba(249, 115, 22, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--coral);">
+                <i class="fas fa-clipboard-check"></i>
+              </div>
+              <div>
+                <div class="font-medium">Předání lodě</div>
+                <div class="text-sm text-muted">Pro kapitány • 24 položek</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-sm);">
+              <button class="btn btn-sm btn-ghost">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); background: var(--gray-50); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <div style="width: 44px; height: 44px; background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--turquoise);">
+                <i class="fas fa-suitcase"></i>
+              </div>
+              <div>
+                <div class="font-medium">Co sebou na plavbu</div>
+                <div class="text-sm text-muted">Pro účastníky • 11 položek</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-sm);">
+              <button class="btn btn-sm btn-ghost">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          
+          <button class="btn btn-secondary" style="align-self: flex-start;">
+            <i class="fas fa-plus"></i> Přidat checklist
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Actions -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-xl) 0; margin-bottom: var(--space-2xl);">
+        <a href="trip-organizer.html" class="btn btn-ghost">
+          <i class="fas fa-arrow-left"></i>
+          Zpět na plavbu
+        </a>
+        <div style="display: flex; gap: var(--space-md);">
+          <a href="trip-organizer.html" class="btn btn-secondary">
+            Zrušit
+          </a>
+          <button class="btn btn-coral" onclick="saveForm()">
+            <i class="fas fa-save"></i>
+            Uložit změny
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Role switcher for demo -->
+  <div style="position: fixed; bottom: 24px; right: 24px; background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: var(--space-md); display: flex; gap: var(--space-sm); z-index: 1000;">
+    <span style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem; color: var(--gray-500);">Demo:</span>
+    <a href="trip-participant.html" class="btn btn-sm btn-ghost">Účastník</a>
+    <a href="trip-captain.html" class="btn btn-sm btn-ghost">Kapitán</a>
+    <a href="trip-organizer.html" class="btn btn-sm btn-ghost">Organizátor</a>
+  </div>
+
+  <script>
+    function saveForm() {
+      // Demo: just show alert and redirect
+      alert('Změny uloženy! (Demo)');
+      window.location.href = 'trip-organizer.html';
+    }
+  </script>
+</body>
+</html>
+

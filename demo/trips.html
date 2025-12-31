@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SailPlan — Plavby (demo)</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <div class="appShell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html">
+          <div class="brandMark" aria-hidden="true"></div>
+          <div>
+            <div class="brandName">SailPlan</div>
+            <div class="brandTag">plavby • demo</div>
+          </div>
+        </a>
+
+        <div class="nav">
+          <div class="hint">Plavby</div>
+          <a data-nav href="app.html">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3c3.4 3.7 6 8.1 7.6 13.3-3.4 1.9-7.2 2.8-11.4 2.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M12 3v16.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Domů
+          </a>
+          <a data-nav href="trips.html" class="active">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 6h10.8c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 10h8M8 13.5h8M8 17h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>
+              </svg>
+            </span>
+            Přehled plaveb
+          </a>
+          <a data-nav href="organizer-settings.html">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M19.4 13.2l1.2-1.2-1.6-2.8-1.6.4a7.8 7.8 0 0 0-1.3-1.3l.4-1.6L13.7 5 12.5 6.2h-1L10.3 5 7.5 6.7l.4 1.6c-.5.4-.9.8-1.3 1.3l-1.6-.4L3.4 12l1.2 1.2v1l-1.2 1.2L5 18.2l1.6-.4c.4.5.8.9 1.3 1.3l-.4 1.6 2.8 1.6 1.2-1.2h1l1.2 1.2 2.8-1.6-.4-1.6c.5-.4.9-.8 1.3-1.3l1.6.4 1.6-2.8-1.2-1.2v-1z" stroke="currentColor" stroke-width="1.2" opacity=".85" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            Nastavení organizátora
+          </a>
+        </div>
+
+        <div class="divider"></div>
+        <a class="btn block" href="trip-form.html">+ Zorganizovat plavbu</a>
+        <a class="btn block ghost" href="app.html" style="margin-top:10px">← Dashboard</a>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="row">
+            <div class="search" role="search">
+              <span aria-hidden="true" style="opacity:.85">⌘</span>
+              <input placeholder="Hledat v plavbách…" />
+            </div>
+            <div class="right row" style="gap:10px">
+              <button class="btn ghost small" data-theme-toggle type="button">Vzhled</button>
+              <div class="dropdown" data-dropdown>
+                <div class="avatar" data-dropdown-btn aria-label="Profil"><b>MS</b></div>
+                <div class="menu" data-dropdown-menu>
+                  <div class="p" style="padding:8px 10px 10px 10px"><b>Marek Š.</b><br /><span class="small">marek@example.com</span></div>
+                  <hr />
+                  <a href="#" data-toast="Profil" data-toast-msg="Editace profilu je v demu pouze naznačená.">Upravit profil</a>
+                  <a href="index.html">Landing</a>
+                  <hr />
+                  <button type="button" data-toast="Odhlášení" data-toast-msg="Statické demo — žádné skutečné odhlášení.">Odhlásit se</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="content">
+          <div class="row wrap" style="align-items:flex-end">
+            <div class="grow">
+              <h1 class="h1">Přehled plaveb</h1>
+              <p class="subtitle">Menu podle mindmapu: plavby, kterých se účastníš, a plavby, které organizuješ.</p>
+            </div>
+          </div>
+
+          <div data-tabs data-tabs-default="participating">
+            <div class="tabs">
+              <button class="tab" data-tab="participating" type="button">Účastním se</button>
+              <button class="tab" data-tab="organizing" type="button">Organizuji</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <section data-pane="participating">
+              <div class="grid two">
+                <div class="card">
+                  <div class="hd">
+                    <div class="grow">
+                      <div class="h2">Kornati Flotila 2026</div>
+                      <div class="p">7.–14. 6. 2026 • Zadar → Kornati → Šibenik</div>
+                      <div class="small" style="margin-top:6px">Moje role: <b>Účastník</b></div>
+                    </div>
+                    <span class="badge good"><span class="dot"></span>upcoming</span>
+                  </div>
+                  <div class="bd">
+                    <div class="row wrap">
+                      <a class="btn primary" href="trip-participant.html">Otevřít (účastník)</a>
+                      <a class="btn" href="trip-captain.html">Náhled kapitána</a>
+                      <a class="btn ghost" href="trip-organizer.html">Náhled organizátora</a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="small">Připravenost</div>
+                    <div class="progress" data-progress="72"><span></span></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="hd">
+                    <div class="grow">
+                      <div class="h2">Loďařská víkendovka</div>
+                      <div class="p">22.–24. 8. 2026 • Lipno</div>
+                      <div class="small" style="margin-top:6px">Moje role: <b>Kapitán</b></div>
+                    </div>
+                    <span class="badge"><span class="dot"></span>archiv</span>
+                  </div>
+                  <div class="bd">
+                    <div class="p">Ukázková historická plavba (v demu bez detailu).</div>
+                    <div class="row wrap" style="margin-top:10px">
+                      <a class="btn" href="#" data-toast="Archiv" data-toast-msg="V demu pouze jedna detailní plavba.">Otevřít</a>
+                      <a class="btn ghost" href="#" data-toast="Export" data-toast-msg="V reálu by šel export crewlistu / checklists.">Export</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section data-pane="organizing">
+              <div class="grid two">
+                <div class="card">
+                  <div class="hd">
+                    <div class="grow">
+                      <div class="h2">Kornati Flotila 2026</div>
+                      <div class="p">Organizuješ • 3 lodě • 14 lidí</div>
+                      <div class="small" style="margin-top:6px">Z pohledu organizátora vidíš stav všeho: platby, crewlisty, checklisty lodí.</div>
+                    </div>
+                    <span class="badge good"><span class="dot"></span>aktivní</span>
+                  </div>
+                  <div class="bd">
+                    <div class="row wrap">
+                      <a class="btn primary" href="trip-organizer.html">Otevřít (organizátor)</a>
+                      <a class="btn" href="organizer-settings.html">Checklisty & templaty</a>
+                      <a class="btn ghost" href="trip-form.html">Upravit plavbu</a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="small">Crewlist (celkem)</div>
+                    <div class="progress" data-progress="64"><span></span></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="hd">
+                    <div class="grow">
+                      <div class="h2">Nová plavba</div>
+                      <div class="p">Vytvořit z templatů a upravit ve formuláři.</div>
+                    </div>
+                    <span class="badge"><span class="dot"></span>rychle</span>
+                  </div>
+                  <div class="bd">
+                    <div class="p">V demu je formulář ukázkový — hlavní je struktura a UX.</div>
+                    <div class="row wrap" style="margin-top:10px">
+                      <a class="btn primary" href="trip-form.html">Založit plavbu</a>
+                      <a class="btn" href="#" data-toast="Templaty" data-toast-msg="V reálu by se tu spravovaly šablony plaveb (formulář je stejný).">Vybrat template</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>
+
+

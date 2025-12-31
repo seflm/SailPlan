@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – SailPlan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard">
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="dashboard.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-sailboat"></i>
+          </div>
+          SailPlan
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+            <li><a href="dashboard.html#my-trips" class="nav-link">Mé plavby</a></li>
+            <li><a href="dashboard.html#organizing" class="nav-link">Organizuji</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="btn btn-icon btn-ghost">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div class="profile-btn">
+            <div class="profile-avatar">MS</div>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i>
+                Můj profil
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                Nastavení organizátora
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="index.html" class="dropdown-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Odhlásit se
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Content -->
+  <main class="dashboard-content">
+    <div class="container">
+      <!-- Welcome Banner -->
+      <div class="welcome-banner animate-in">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-lg);">
+          <div>
+            <h2>Ahoj, Marku! 👋</h2>
+            <p>Máš blížící se plavbu za 14 dní. Nezapomeň zkontrolovat checklist.</p>
+          </div>
+          <div class="welcome-stats" style="display: flex; gap: var(--space-xl); flex-wrap: wrap;">
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; font-weight: 700; font-family: var(--font-display);">3</div>
+              <div style="font-size: 0.875rem; opacity: 0.8;">Celkem plaveb</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; font-weight: 700; font-family: var(--font-display);">1</div>
+              <div style="font-size: 0.875rem; opacity: 0.8;">Nadcházející</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; font-weight: 700; font-family: var(--font-display);">2</div>
+              <div style="font-size: 0.875rem; opacity: 0.8;">Dokončené</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Main Content -->
+        <div class="main-content">
+          <!-- Upcoming Trip -->
+          <h3 style="margin-bottom: var(--space-lg);">
+            <i class="fas fa-calendar-alt" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+            Nadcházející plavba
+          </h3>
+          
+          <a href="trip-participant.html" class="trip-card animate-in delay-1" style="display: block; text-decoration: none; margin-bottom: var(--space-xl);">
+            <div class="trip-card-image" style="background: linear-gradient(135deg, #1a5f7a, #06b6d4), url('https://images.unsplash.com/photo-1500514966906-fe245eea9344?w=800') center/cover;">
+              <h3>Chorvatsko 2025 – Flotila</h3>
+            </div>
+            <div class="trip-card-content">
+              <div class="trip-meta">
+                <div class="trip-meta-item">
+                  <i class="fas fa-calendar"></i>
+                  15. – 22. července 2025
+                </div>
+                <div class="trip-meta-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  Marina Kaštela, Split
+                </div>
+                <div class="trip-meta-item">
+                  <i class="fas fa-sailboat"></i>
+                  Bavaria 46 – Mořská Víla
+                </div>
+              </div>
+              
+              <div class="trip-stats">
+                <div class="trip-stat">
+                  <div class="trip-stat-value">3</div>
+                  <div class="trip-stat-label">Lodě</div>
+                </div>
+                <div class="trip-stat">
+                  <div class="trip-stat-value">18</div>
+                  <div class="trip-stat-label">Účastníků</div>
+                </div>
+                <div class="trip-stat">
+                  <div class="trip-stat-value">14</div>
+                  <div class="trip-stat-label">Dní do startu</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside>
+          <!-- Quick Actions -->
+          <div class="sidebar-card animate-in delay-1">
+            <h4>
+              <i class="fas fa-bolt" style="color: var(--coral);"></i>
+              Rychlé akce
+            </h4>
+            
+            <div class="quick-actions">
+              <div class="quick-action">
+                <div class="quick-action-icon turquoise">
+                  <i class="fas fa-plus"></i>
+                </div>
+                <div class="quick-action-text">
+                  <h5>Zorganizovat plavbu</h5>
+                  <p>Vytvořte novou plavbu</p>
+                </div>
+              </div>
+              
+              <div class="quick-action" onclick="openModal('join-trip-modal')" style="cursor: pointer;">
+                <div class="quick-action-icon coral">
+                  <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <div class="quick-action-text">
+                  <h5>Připojit se k plavbě</h5>
+                  <p>Pomocí ID a PINu</p>
+                </div>
+              </div>
+              
+              <div class="quick-action">
+                <div class="quick-action-icon ocean">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="quick-action-text">
+                  <h5>Demo plavba</h5>
+                  <p>Prohlédněte si ukázku</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Events -->
+          <div class="sidebar-card animate-in delay-3">
+            <h4>
+              <i class="fas fa-bell" style="color: var(--warning);"></i>
+              Připomínky
+            </h4>
+            
+            <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-md);">
+              <div style="display: flex; gap: var(--space-md); padding: var(--space-md); background: var(--warning-light); border-radius: var(--radius-md);">
+                <div style="color: var(--warning); font-size: 1.25rem;">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <div>
+                  <div class="font-medium" style="color: var(--ocean-deep);">Doplatek 7 000 Kč</div>
+                  <div class="text-sm text-muted">Splatnost: 1. července</div>
+                </div>
+              </div>
+              
+              <div style="display: flex; gap: var(--space-md); padding: var(--space-md); background: var(--foam); border-radius: var(--radius-md);">
+                <div style="color: var(--turquoise); font-size: 1.25rem;">
+                  <i class="fas fa-suitcase"></i>
+                </div>
+                <div>
+                  <div class="font-medium" style="color: var(--ocean-deep);">Checklist na balení</div>
+                  <div class="text-sm text-muted">3 položky nevyplněny</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Join Trip Modal -->
+  <div class="modal-overlay" id="join-trip-modal" style="position: fixed; inset: 0; background: rgba(10, 22, 40, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000;">
+    <div class="modal" style="background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); max-width: 500px; width: 90%; max-height: 90vh; overflow: auto;">
+      <div class="modal-header" style="padding: var(--space-xl); border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; justify-content: space-between;">
+        <h4>Připojit se k plavbě</h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('join-trip-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: var(--space-xl);">
+        <div class="form-group">
+          <label class="form-label">ID plavby *</label>
+          <input type="text" class="form-input" id="join-trip-id" placeholder="např. ABC123" style="font-family: monospace; text-transform: uppercase;" maxlength="6" />
+          <p class="text-xs text-muted" style="margin-top: var(--space-xs);">Zadejte ID plavby, které vám poskytl organizátor.</p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">PIN *</label>
+          <input type="text" class="form-input" id="join-trip-pin" placeholder="např. 7890" style="font-family: monospace;" maxlength="10" />
+          <p class="text-xs text-muted" style="margin-top: var(--space-xs);">Zadejte PIN, který vám poskytl organizátor.</p>
+        </div>
+        
+        <div id="join-trip-error" style="display: none; padding: var(--space-md); background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md); color: var(--danger); margin-top: var(--space-md);">
+          <i class="fas fa-exclamation-circle"></i> Nesprávné ID nebo PIN. Zkuste to znovu.
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: var(--space-lg) var(--space-xl); border-top: 1px solid var(--gray-100); display: flex; justify-content: flex-end; gap: var(--space-sm);">
+        <button class="btn btn-ghost" onclick="closeModal('join-trip-modal')">Zrušit</button>
+        <button class="btn btn-primary" onclick="joinTrip()">
+          <i class="fas fa-sign-in-alt"></i>
+          Připojit se
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+    
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+      // Reset form
+      if (id === 'join-trip-modal') {
+        document.getElementById('join-trip-id').value = '';
+        document.getElementById('join-trip-pin').value = '';
+        document.getElementById('join-trip-error').style.display = 'none';
+      }
+    }
+    
+    function joinTrip() {
+      const tripId = document.getElementById('join-trip-id').value.trim().toUpperCase();
+      const pin = document.getElementById('join-trip-pin').value.trim();
+      const errorDiv = document.getElementById('join-trip-error');
+      
+      if (!tripId || !pin) {
+        errorDiv.textContent = 'Vyplňte ID plavby i PIN.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      
+      // Demo validation - in real app, this would be an API call
+      if (tripId === 'ABC123' && pin === '7890') {
+        alert('Úspěšně jste se připojili k plavbě! (Demo)');
+        closeModal('join-trip-modal');
+        // In real app, redirect to trip page
+        // window.location.href = 'trip-participant.html';
+      } else {
+        errorDiv.textContent = 'Nesprávné ID nebo PIN. Zkuste to znovu.';
+        errorDiv.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
+

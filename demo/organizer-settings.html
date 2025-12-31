@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nastavení organizátora – SailPlan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .modal-overlay { display: none; }
+    .modal-overlay.active { display: flex; opacity: 1; visibility: visible; }
+    .settings-nav {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--gray-100);
+      padding-bottom: var(--space-md);
+    }
+    .settings-nav-item {
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--radius-md);
+      color: var(--gray-500);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .settings-nav-item:hover {
+      color: var(--ocean-dark);
+      background: var(--foam);
+    }
+    .settings-nav-item.active {
+      color: var(--turquoise);
+      background: rgba(6, 182, 212, 0.1);
+    }
+    .checklist-template-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      transition: all 0.2s;
+    }
+    .checklist-template-card:hover {
+      border-color: var(--turquoise);
+      box-shadow: var(--shadow-md);
+    }
+    .checklist-template-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-md);
+    }
+    .trip-template-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .trip-template-card:hover {
+      border-color: var(--coral);
+      box-shadow: var(--shadow-md);
+    }
+    .empty-state {
+      text-align: center;
+      padding: var(--space-2xl);
+      color: var(--gray-400);
+    }
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: var(--space-lg);
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="dashboard.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-sailboat"></i>
+          </div>
+          SailPlan
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="#" class="nav-link">Mé plavby</a></li>
+            <li><a href="#" class="nav-link">Organizuji</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="btn btn-icon btn-ghost">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div class="profile-btn">
+            <div class="profile-avatar" style="background: linear-gradient(135deg, var(--coral), var(--coral-light));">JC</div>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i>
+                Můj profil
+              </a>
+              <a href="organizer-settings.html" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                Nastavení organizátora
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="index.html" class="dropdown-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Odhlásit se
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="trip-header" style="padding: var(--space-xl) 0;">
+    <div class="container">
+      <div class="trip-header-content">
+        <div class="breadcrumb">
+          <a href="dashboard.html"><i class="fas fa-home"></i></a>
+          <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+          <span>Nastavení organizátora</span>
+        </div>
+        
+        <div class="trip-title-row" style="margin-top: var(--space-lg);">
+          <div>
+            <h1 class="trip-title" style="font-size: 2rem;">Nastavení organizátora</h1>
+            <p style="color: var(--gray-400); margin-top: var(--space-sm);">Správa checklistů a templatů plaveb</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <main class="trip-content">
+    <div class="container" style="max-width: 1000px;">
+      
+      <!-- Settings Navigation -->
+      <div class="settings-nav">
+        <div class="settings-nav-item active" data-tab="checklisty" onclick="switchTab('checklisty')">
+          <i class="fas fa-clipboard-list" style="margin-right: var(--space-sm);"></i>
+          Checklisty
+        </div>
+        <div class="settings-nav-item" data-tab="templaty" onclick="switchTab('templaty')">
+          <i class="fas fa-copy" style="margin-right: var(--space-sm);"></i>
+          Templaty plaveb
+        </div>
+      </div>
+      
+      <!-- TAB: Checklisty -->
+      <div class="tab-content active" id="tab-checklisty">
+        <div class="card animate-in" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h4 class="card-title">
+              <i class="fas fa-clipboard-list" style="color: var(--turquoise);"></i>
+              Moje checklisty
+            </h4>
+            <button class="btn btn-primary" onclick="openModal('new-checklist-modal')">
+              <i class="fas fa-plus"></i>
+              Nový checklist
+            </button>
+          </div>
+          
+          <p class="text-muted" style="margin-bottom: var(--space-xl);">
+            Vytvořte si vlastní checklisty pro různé účely – předání lodě, vracení lodě, balení pro posádku a další. Checklisty pak můžete přiřadit k jednotlivým plavbám.
+          </p>
+          
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <!-- Checklist 1: Předání lodě -->
+            <div class="checklist-template-card">
+              <div class="checklist-template-header">
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                  <div style="width: 48px; height: 48px; background: rgba(249, 115, 22, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--coral); font-size: 1.25rem;">
+                    <i class="fas fa-clipboard-check"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold" style="font-size: 1.125rem;">Předání lodě</div>
+                    <div class="text-sm text-muted">Pro kapitány • 24 položek • 4 kategorie</div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: var(--space-sm);">
+                  <button class="btn btn-sm btn-secondary" onclick="openModal('edit-checklist-modal')">
+                    <i class="fas fa-edit"></i> Upravit
+                  </button>
+                  <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+                <span class="status-pill info" style="font-size: 0.6875rem;">Dokumenty a vybavení</span>
+                <span class="status-pill info" style="font-size: 0.6875rem;">Motor a technické systémy</span>
+                <span class="status-pill info" style="font-size: 0.6875rem;">Plachty a takeláž</span>
+                <span class="status-pill info" style="font-size: 0.6875rem;">Paluba a kokpit</span>
+              </div>
+            </div>
+            
+            <!-- Checklist 2: Co sebou na plavbu -->
+            <div class="checklist-template-card">
+              <div class="checklist-template-header">
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                  <div style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--turquoise); font-size: 1.25rem;">
+                    <i class="fas fa-suitcase"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold" style="font-size: 1.125rem;">Co sebou na plavbu</div>
+                    <div class="text-sm text-muted">Pro účastníky • 11 položek • 3 kategorie</div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: var(--space-sm);">
+                  <button class="btn btn-sm btn-secondary">
+                    <i class="fas fa-edit"></i> Upravit
+                  </button>
+                  <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+                <span class="status-pill info" style="font-size: 0.6875rem;">Dokumenty</span>
+                <span class="status-pill info" style="font-size: 0.6875rem;">Oblečení</span>
+                <span class="status-pill info" style="font-size: 0.6875rem;">Vybavení</span>
+              </div>
+            </div>
+            
+            <!-- Checklist 3: Vracení lodě -->
+            <div class="checklist-template-card">
+              <div class="checklist-template-header">
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                  <div style="width: 48px; height: 48px; background: rgba(99, 102, 241, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #6366f1; font-size: 1.25rem;">
+                    <i class="fas fa-undo"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold" style="font-size: 1.125rem;">Vracení lodě</div>
+                    <div class="text-sm text-muted">Pro kapitány • 12 položek • 2 kategorie</div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: var(--space-sm);">
+                  <button class="btn btn-sm btn-secondary">
+                    <i class="fas fa-edit"></i> Upravit
+                  </button>
+                  <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+                <span class="status-pill info" style="font-size: 0.6875rem;">Úklid</span>
+                <span class="status-pill info" style="font-size: 0.6875rem;">Kontrola stavu</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- TAB: Templaty -->
+      <div class="tab-content" id="tab-templaty">
+        <div class="card animate-in" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h4 class="card-title">
+              <i class="fas fa-copy" style="color: var(--coral);"></i>
+              Templaty plaveb
+            </h4>
+            <button class="btn btn-primary" onclick="openModal('new-template-modal')">
+              <i class="fas fa-plus"></i>
+              Nový templát
+            </button>
+          </div>
+          
+          <p class="text-muted" style="margin-bottom: var(--space-xl);">
+            Uložte si oblíbená nastavení plaveb jako templaty a používejte je pro rychlé vytvoření nových plaveb.
+          </p>
+          
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <!-- Template 1 -->
+            <div class="trip-template-card">
+              <div style="display: flex; align-items: center; gap: var(--space-md);">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--coral), var(--coral-light)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+                  <i class="fas fa-sailboat"></i>
+                </div>
+                <div>
+                  <div class="font-semibold" style="font-size: 1.125rem;">Chorvatsko – Flotila</div>
+                  <div class="text-sm text-muted">3 lodě • Marina Kaštela • 7 dní</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--space-sm);">
+                <button class="btn btn-sm btn-primary">
+                  <i class="fas fa-plus"></i> Použít
+                </button>
+                <button class="btn btn-sm btn-secondary">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Template 2 -->
+            <div class="trip-template-card">
+              <div style="display: flex; align-items: center; gap: var(--space-md);">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--turquoise), var(--ocean-light)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+                  <i class="fas fa-anchor"></i>
+                </div>
+                <div>
+                  <div class="font-semibold" style="font-size: 1.125rem;">Řecko – Jedna loď</div>
+                  <div class="text-sm text-muted">1 loď • Lefkada Marina • 14 dní</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--space-sm);">
+                <button class="btn btn-sm btn-primary">
+                  <i class="fas fa-plus"></i> Použít
+                </button>
+                <button class="btn btn-sm btn-secondary">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-ghost" style="color: var(--danger);">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- New Checklist Modal -->
+  <div class="modal-overlay" id="new-checklist-modal">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h4>
+          <i class="fas fa-plus" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+          Nový checklist
+        </h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('new-checklist-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Název checklistu *</label>
+          <input type="text" class="form-input" placeholder="např. Předání lodě" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Určení</label>
+          <select class="form-input">
+            <option>Pro kapitány</option>
+            <option>Pro účastníky</option>
+            <option>Pro všechny</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Popis (volitelný)</label>
+          <textarea class="form-input" rows="2" placeholder="Stručný popis checklistu..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('new-checklist-modal')">Zrušit</button>
+        <button class="btn btn-primary" onclick="closeModal('new-checklist-modal')">
+          <i class="fas fa-plus"></i>
+          Vytvořit a upravit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Checklist Modal -->
+  <div class="modal-overlay" id="edit-checklist-modal">
+    <div class="modal" style="max-width: 800px;">
+      <div class="modal-header">
+        <h4>
+          <i class="fas fa-edit" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+          Upravit checklist: Předání lodě
+        </h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('edit-checklist-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-xl);">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Název checklistu</label>
+            <input type="text" class="form-input" value="Předání lodě" />
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Určení</label>
+            <select class="form-input">
+              <option selected>Pro kapitány</option>
+              <option>Pro účastníky</option>
+              <option>Pro všechny</option>
+            </select>
+          </div>
+        </div>
+        
+        <div style="border-top: 1px solid var(--gray-100); padding-top: var(--space-lg);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+            <h5>Kategorie a položky</h5>
+            <button class="btn btn-sm btn-secondary">
+              <i class="fas fa-plus"></i> Přidat kategorii
+            </button>
+          </div>
+          
+          <!-- Category 1 -->
+          <div style="background: var(--gray-50); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+              <input type="text" class="form-input" value="Dokumenty a vybavení" style="font-weight: 600; max-width: 300px;" />
+              <div style="display: flex; gap: var(--space-sm);">
+                <button class="btn btn-sm btn-ghost"><i class="fas fa-plus"></i> Položka</button>
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Lodní dokumenty" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Záchranné vesty" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Hasicí přístroje" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Lékárnička" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Category 2 -->
+          <div style="background: var(--gray-50); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+              <input type="text" class="form-input" value="Motor a technické systémy" style="font-weight: 600; max-width: 300px;" />
+              <div style="display: flex; gap: var(--space-sm);">
+                <button class="btn btn-sm btn-ghost"><i class="fas fa-plus"></i> Položka</button>
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Start motoru" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Chlazení motoru" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: white; border-radius: var(--radius-sm);">
+                <i class="fas fa-grip-vertical" style="color: var(--gray-400); cursor: grab;"></i>
+                <input type="text" class="form-input" value="Baterie a dobíjení" style="flex: 1; padding: var(--space-xs) var(--space-sm);" />
+                <button class="btn btn-icon btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('edit-checklist-modal')">Zrušit</button>
+        <button class="btn btn-primary" onclick="closeModal('edit-checklist-modal')">
+          <i class="fas fa-save"></i>
+          Uložit změny
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Template Modal -->
+  <div class="modal-overlay" id="new-template-modal">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <h4>
+          <i class="fas fa-plus" style="color: var(--coral); margin-right: var(--space-sm);"></i>
+          Nový templát plavby
+        </h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('new-template-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted" style="margin-bottom: var(--space-lg);">
+          Vytvoříte nový templát vyplněním formuláře plavby. Templát si pak budete moci použít pro rychlé vytvoření nových plaveb.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Název templatu *</label>
+          <input type="text" class="form-input" placeholder="např. Chorvatsko - Flotila" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('new-template-modal')">Zrušit</button>
+        <a href="trip-form.html" class="btn btn-primary">
+          <i class="fas fa-arrow-right"></i>
+          Pokračovat na formulář
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role switcher for demo -->
+  <div style="position: fixed; bottom: 24px; right: 24px; background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: var(--space-md); display: flex; gap: var(--space-sm); z-index: 1000;">
+    <span style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem; color: var(--gray-500);">Demo:</span>
+    <a href="trip-public.html" class="btn btn-sm btn-ghost">Veřejné</a>
+    <a href="trip-participant.html" class="btn btn-sm btn-ghost">Účastník</a>
+    <a href="trip-captain.html" class="btn btn-sm btn-ghost">Kapitán</a>
+    <a href="trip-organizer.html" class="btn btn-sm btn-ghost">Organizátor</a>
+  </div>
+
+  <script>
+    function switchTab(tabName) {
+      document.querySelectorAll('.settings-nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === tabName) {
+          item.classList.add('active');
+        }
+      });
+      
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+    
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+  </script>
+</body>
+</html>
+

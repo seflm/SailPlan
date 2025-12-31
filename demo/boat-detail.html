@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bavaria 46 – Mořská Víla – SailPlan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .modal-overlay { 
+      position: fixed; inset: 0; background: rgba(10, 22, 40, 0.6); 
+      backdrop-filter: blur(4px); display: none; align-items: center; 
+      justify-content: center; z-index: 1000; 
+    }
+    .modal-overlay.active { display: flex; }
+    .modal { 
+      background: var(--white); border-radius: var(--radius-xl); 
+      box-shadow: var(--shadow-xl); max-width: 600px; width: 90%; 
+      max-height: 90vh; overflow: auto; animation: modalIn 0.3s ease; 
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header { 
+      padding: var(--space-xl); border-bottom: 1px solid var(--gray-100); 
+      display: flex; align-items: center; justify-content: space-between; 
+    }
+    .modal-body { padding: var(--space-xl); max-height: 60vh; overflow-y: auto; }
+    .modal-footer { 
+      padding: var(--space-lg) var(--space-xl); border-top: 1px solid var(--gray-100); 
+      display: flex; justify-content: flex-end; gap: var(--space-sm); 
+    }
+    .boat-hero {
+      background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise));
+      padding: var(--space-2xl) 0;
+      color: white;
+    }
+    .boat-hero-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .boat-specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+    .boat-spec {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      text-align: center;
+    }
+    .boat-spec-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .boat-spec-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+    .log-entry {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .log-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+    .log-entry-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+    }
+    .log-stat {
+      text-align: center;
+      padding: var(--space-sm);
+      background: var(--gray-50);
+      border-radius: var(--radius-md);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="dashboard.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-sailboat"></i>
+          </div>
+          SailPlan
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="dashboard.html#my-trips" class="nav-link">Mé plavby</a></li>
+            <li><a href="dashboard.html#organizing" class="nav-link active">Organizuji</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="btn btn-icon btn-ghost">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div class="profile-btn">
+            <div class="profile-avatar" style="background: linear-gradient(135deg, var(--coral), var(--coral-light));">JC</div>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i>
+                Můj profil
+              </a>
+              <a href="organizer-settings.html" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                Nastavení organizátora
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="index.html" class="dropdown-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Odhlásit se
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Boat Hero -->
+  <div class="boat-hero">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.7); margin-bottom: var(--space-lg);">
+        <a href="dashboard.html" style="color: inherit;"><i class="fas fa-home"></i></a>
+        <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <a href="trip-organizer.html" style="color: inherit;">Chorvatsko 2025</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <a href="trip-organizer.html#tab-lode" style="color: inherit;">Lodě</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <span style="color: white;">Mořská Víla</span>
+      </div>
+      
+      <div class="boat-hero-content">
+        <div>
+          <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: var(--space-xs);">Bavaria 46</h1>
+          <p style="font-size: 1.25rem; opacity: 0.9;">Mořská Víla</p>
+        </div>
+        <a href="trip-organizer.html" class="btn" style="background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(10px);">
+          <i class="fas fa-arrow-left"></i>
+          Zpět na plavbu
+        </a>
+      </div>
+      
+      <div class="boat-specs">
+        <div class="boat-spec">
+          <div class="boat-spec-value">14.27m</div>
+          <div class="boat-spec-label">Délka</div>
+        </div>
+        <div class="boat-spec">
+          <div class="boat-spec-value">2019</div>
+          <div class="boat-spec-label">Rok výroby</div>
+        </div>
+        <div class="boat-spec">
+          <div class="boat-spec-value">4</div>
+          <div class="boat-spec-label">Kajuty</div>
+        </div>
+        <div class="boat-spec">
+          <div class="boat-spec-value">6/8</div>
+          <div class="boat-spec-label">Obsazenost</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boat Tabs -->
+  <div class="trip-tabs">
+    <div class="container">
+      <div class="trip-tabs-inner">
+        <a href="#" class="trip-tab active" data-tab="posadka">
+          <i class="fas fa-users"></i>
+          Posádka
+        </a>
+        <a href="#" class="trip-tab" data-tab="crew-list">
+          <i class="fas fa-clipboard-list"></i>
+          Crew list
+        </a>
+        <a href="#" class="trip-tab" data-tab="checklisty">
+          <i class="fas fa-tasks"></i>
+          Checklisty
+        </a>
+        <a href="#" class="trip-tab" data-tab="lodni-denik">
+          <i class="fas fa-book"></i>
+          Lodní deník
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <main class="trip-content">
+    <div class="container">
+      <!-- TAB: Posádka -->
+      <div class="tab-content active" id="tab-posadka">
+        <div class="trip-layout">
+          <div class="main-content">
+            <div class="card animate-in">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-users" style="color: var(--turquoise);"></i>
+                  Posádka (6/8)
+                </h4>
+                <button class="btn btn-sm btn-primary" onclick="openModal('add-crew-modal')">
+                  <i class="fas fa-user-plus"></i>
+                  Přidat člena
+                </button>
+              </div>
+              
+              <div class="crew-list">
+                <!-- Captain -->
+                <div class="crew-member" style="background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2);">
+                  <div class="crew-avatar captain">PK</div>
+                  <div class="crew-info">
+                    <h5>Petr Kapitán</h5>
+                    <p>petr@email.cz • +420 777 123 456</p>
+                  </div>
+                  <span class="crew-badge">Kapitán</span>
+                  <div style="display: flex; gap: var(--space-xs);">
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-envelope"></i></button>
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-ellipsis-v"></i></button>
+                  </div>
+                </div>
+                
+                <!-- Crew members -->
+                <div class="crew-member">
+                  <div class="crew-avatar" style="background: linear-gradient(135deg, var(--coral), var(--coral-light));">MS</div>
+                  <div class="crew-info">
+                    <h5>Marek Šefl</h5>
+                    <p>marek@email.cz • +420 777 987 654</p>
+                  </div>
+                  <span class="status-pill success" style="font-size: 0.7rem;">Crew list OK</span>
+                  <div style="display: flex; gap: var(--space-xs);">
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-envelope"></i></button>
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-ellipsis-v"></i></button>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">JN</div>
+                  <div class="crew-info">
+                    <h5>Jana Nováková</h5>
+                    <p>jana@email.cz • +420 777 456 789</p>
+                  </div>
+                  <span class="status-pill success" style="font-size: 0.7rem;">Crew list OK</span>
+                  <div style="display: flex; gap: var(--space-xs);">
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-envelope"></i></button>
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-ellipsis-v"></i></button>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">TM</div>
+                  <div class="crew-info">
+                    <h5>Tomáš Malý</h5>
+                    <p>tomas@email.cz • +420 777 321 654</p>
+                  </div>
+                  <span class="status-pill success" style="font-size: 0.7rem;">Crew list OK</span>
+                  <div style="display: flex; gap: var(--space-xs);">
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-envelope"></i></button>
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-ellipsis-v"></i></button>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">EK</div>
+                  <div class="crew-info">
+                    <h5>Eva Králová</h5>
+                    <p>eva@email.cz • +420 777 654 987</p>
+                  </div>
+                  <span class="status-pill success" style="font-size: 0.7rem;">Crew list OK</span>
+                  <div style="display: flex; gap: var(--space-xs);">
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-envelope"></i></button>
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-ellipsis-v"></i></button>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">PV</div>
+                  <div class="crew-info">
+                    <h5>Pavel Veselý</h5>
+                    <p>pavel@email.cz • +420 777 789 123</p>
+                  </div>
+                  <span class="status-pill success" style="font-size: 0.7rem;">Crew list OK</span>
+                  <div style="display: flex; gap: var(--space-xs);">
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-envelope"></i></button>
+                    <button class="btn btn-sm btn-ghost"><i class="fas fa-ellipsis-v"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside>
+            <div class="sidebar-card animate-in">
+              <h4>
+                <i class="fas fa-chart-pie" style="color: var(--turquoise);"></i>
+                Stav posádky
+              </h4>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Obsazenost</span>
+                  <span class="font-semibold">6/8</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Crew list kompletní</span>
+                  <span class="font-semibold" style="color: var(--success);">6/6</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Zálohy zaplaceny</span>
+                  <span class="font-semibold" style="color: var(--success);">6/6</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="sidebar-card animate-in delay-1" style="margin-top: var(--space-lg);">
+              <h4>
+                <i class="fas fa-link" style="color: var(--ocean-light);"></i>
+                Rychlé akce
+              </h4>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-sm); margin-top: var(--space-md);">
+                <button class="btn btn-sm btn-secondary" style="width: 100%;">
+                  <i class="fas fa-envelope"></i>
+                  Napsat posádce
+                </button>
+                <button class="btn btn-sm btn-secondary" style="width: 100%;">
+                  <i class="fas fa-download"></i>
+                  Export crew listu
+                </button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- TAB: Crew list -->
+      <div class="tab-content" id="tab-crew-list">
+        <div class="card animate-in" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h4 class="card-title">
+              <i class="fas fa-clipboard-list" style="color: var(--turquoise);"></i>
+              Crew list – Mořská Víla
+            </h4>
+            <div style="display: flex; gap: var(--space-sm);">
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-download"></i>
+                Export PDF
+              </button>
+              <button class="btn btn-sm btn-primary">
+                <i class="fas fa-edit"></i>
+                Upravit
+              </button>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: var(--space-lg);">
+            <span class="status-pill success" style="font-size: 0.875rem;">Crew list kompletní – 6/6 účastníků</span>
+          </div>
+          
+          <div style="overflow-x: auto;">
+            <table class="participants-table">
+              <thead>
+                <tr>
+                  <th>Jméno</th>
+                  <th>Datum narození</th>
+                  <th>Občanství</th>
+                  <th>Č. dokladu</th>
+                  <th>Kontakt</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                      <div class="crew-avatar captain" style="width: 32px; height: 32px; font-size: 0.75rem;">PK</div>
+                      <span class="font-medium">Petr Kapitán</span>
+                    </div>
+                  </td>
+                  <td>15. 3. 1985</td>
+                  <td>CZ</td>
+                  <td>123456789</td>
+                  <td>
+                    <div class="text-sm">petr@email.cz</div>
+                    <div class="text-xs text-muted">+420 777 123 456</div>
+                  </td>
+                  <td><span class="status-pill captain" style="font-size: 0.7rem;">Kapitán</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                      <div class="crew-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background: linear-gradient(135deg, var(--coral), var(--coral-light));">MS</div>
+                      <span class="font-medium">Marek Šefl</span>
+                    </div>
+                  </td>
+                  <td>22. 8. 1990</td>
+                  <td>CZ</td>
+                  <td>987654321</td>
+                  <td>
+                    <div class="text-sm">marek@email.cz</div>
+                    <div class="text-xs text-muted">+420 777 987 654</div>
+                  </td>
+                  <td><span class="status-pill" style="font-size: 0.7rem; background: var(--gray-100);">Posádka</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                      <div class="crew-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">JN</div>
+                      <span class="font-medium">Jana Nováková</span>
+                    </div>
+                  </td>
+                  <td>5. 12. 1992</td>
+                  <td>CZ</td>
+                  <td>456789123</td>
+                  <td>
+                    <div class="text-sm">jana@email.cz</div>
+                    <div class="text-xs text-muted">+420 777 456 789</div>
+                  </td>
+                  <td><span class="status-pill" style="font-size: 0.7rem; background: var(--gray-100);">Kormidelník</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                      <div class="crew-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">TM</div>
+                      <span class="font-medium">Tomáš Malý</span>
+                    </div>
+                  </td>
+                  <td>18. 6. 1988</td>
+                  <td>CZ</td>
+                  <td>321654987</td>
+                  <td>
+                    <div class="text-sm">tomas@email.cz</div>
+                    <div class="text-xs text-muted">+420 777 321 654</div>
+                  </td>
+                  <td><span class="status-pill" style="font-size: 0.7rem; background: var(--gray-100);">Mastman</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                      <div class="crew-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">EK</div>
+                      <span class="font-medium">Eva Králová</span>
+                    </div>
+                  </td>
+                  <td>30. 1. 1995</td>
+                  <td>CZ</td>
+                  <td>654987321</td>
+                  <td>
+                    <div class="text-sm">eva@email.cz</div>
+                    <div class="text-xs text-muted">+420 777 654 987</div>
+                  </td>
+                  <td><span class="status-pill" style="font-size: 0.7rem; background: var(--gray-100);">Bowman</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                      <div class="crew-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">PV</div>
+                      <span class="font-medium">Pavel Veselý</span>
+                    </div>
+                  </td>
+                  <td>12. 9. 1991</td>
+                  <td>CZ</td>
+                  <td>789123456</td>
+                  <td>
+                    <div class="text-sm">pavel@email.cz</div>
+                    <div class="text-xs text-muted">+420 777 789 123</div>
+                  </td>
+                  <td><span class="status-pill" style="font-size: 0.7rem; background: var(--gray-100);">Posádka</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Checklisty -->
+      <div class="tab-content" id="tab-checklisty">
+        <div class="trip-layout">
+          <div class="main-content">
+            <div class="card animate-in">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-tasks" style="color: var(--turquoise);"></i>
+                  Checklisty lodě
+                </h4>
+              </div>
+              
+              <p class="text-muted" style="margin-bottom: var(--space-lg);">
+                Přehled checklistů vyplňovaných kapitánem této lodě.
+              </p>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+                <!-- Checklist: Předání lodě -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); background: var(--gray-50); border-radius: var(--radius-md); cursor: pointer;">
+                  <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <div style="width: 48px; height: 48px; background: rgba(249, 115, 22, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--coral); font-size: 1.25rem;">
+                      <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Předání lodě</div>
+                      <div class="text-sm text-muted">Kontrola stavu lodě při check-inu</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <span class="status-pill warning" style="font-size: 0.75rem;">0/24</span>
+                    <i class="fas fa-chevron-right" style="color: var(--gray-400);"></i>
+                  </div>
+                </div>
+                
+                <!-- Checklist: Vracení lodě -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); background: var(--gray-50); border-radius: var(--radius-md); cursor: pointer;">
+                  <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <div style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--turquoise); font-size: 1.25rem;">
+                      <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Vracení lodě</div>
+                      <div class="text-sm text-muted">Kontrola před odevzdáním</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <span class="status-pill" style="font-size: 0.75rem; background: var(--gray-100);">0/18</span>
+                    <i class="fas fa-chevron-right" style="color: var(--gray-400);"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside>
+            <div class="sidebar-card animate-in delay-1">
+              <h4>
+                <i class="fas fa-info-circle" style="color: var(--turquoise);"></i>
+                O checklistech
+              </h4>
+              <p class="text-muted" style="margin-top: var(--space-md);">
+                Checklisty vyplňuje kapitán lodě při check-inu a check-outu. Jako organizátor máte přístup k zobrazení vyplněných dat.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- TAB: Lodní deník -->
+      <div class="tab-content" id="tab-lodni-denik">
+        <div class="trip-layout">
+          <div class="main-content">
+            <div class="card animate-in" style="margin-bottom: var(--space-xl);">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-book" style="color: var(--turquoise);"></i>
+                  Lodní deník – Mořská Víla
+                </h4>
+                <button class="btn btn-sm btn-secondary">
+                  <i class="fas fa-download"></i>
+                  Export PDF
+                </button>
+              </div>
+              
+              <p class="text-muted" style="margin-bottom: var(--space-xl);">
+                Záznamy vyplňuje kapitán lodě. Jako organizátor máte přístup k jejich zobrazení.
+              </p>
+              
+              <!-- Log entries -->
+              <div class="log-entry">
+                <div class="log-entry-header">
+                  <div>
+                    <div class="font-medium">Den 2 – 16. července 2025</div>
+                    <div class="text-sm text-muted">Trasa: Brač → Hvar</div>
+                  </div>
+                </div>
+                <div class="log-entry-stats">
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Motohodiny</div>
+                    <div class="font-semibold">125.5</div>
+                  </div>
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Upluto celkem</div>
+                    <div class="font-semibold">28 NM</div>
+                  </div>
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Z toho na plachty</div>
+                    <div class="font-semibold">22 NM</div>
+                  </div>
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Palivo</div>
+                    <div class="font-semibold">85%</div>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--gray-100);">
+                  <div class="text-sm text-muted" style="margin-bottom: var(--space-xs);">Poznámka:</div>
+                  <div class="text-sm">Klidná plavba, většinu dne pod plachtami. Přístav v Hvaru plný, kotvili jsme v zátoce.</div>
+                </div>
+              </div>
+              
+              <div class="log-entry">
+                <div class="log-entry-header">
+                  <div>
+                    <div class="font-medium">Den 1 – 15. července 2025</div>
+                    <div class="text-sm text-muted">Trasa: Marina Kaštela → Brač</div>
+                  </div>
+                </div>
+                <div class="log-entry-stats">
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Motohodiny</div>
+                    <div class="font-semibold">123.2</div>
+                  </div>
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Upluto celkem</div>
+                    <div class="font-semibold">18 NM</div>
+                  </div>
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Z toho na plachty</div>
+                    <div class="font-semibold">12 NM</div>
+                  </div>
+                  <div class="log-stat">
+                    <div class="text-xs text-muted">Palivo</div>
+                    <div class="font-semibold">92%</div>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--gray-100);">
+                  <div class="text-sm text-muted" style="margin-bottom: var(--space-xs);">Poznámka:</div>
+                  <div class="text-sm">První den plavby, check-in proběhl hladce. Loď v perfektním stavu.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside>
+            <div class="sidebar-card animate-in">
+              <h4>
+                <i class="fas fa-chart-line" style="color: var(--turquoise);"></i>
+                Statistiky plavby
+              </h4>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Celkem upluto</span>
+                  <span class="font-semibold">46 NM</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Na plachty</span>
+                  <span class="font-semibold">34 NM (74%)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Spotřeba paliva</span>
+                  <span class="font-semibold">~15%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Motohodiny</span>
+                  <span class="font-semibold">+2.3 h</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Crew Modal -->
+  <div class="modal-overlay" id="add-crew-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h4>Přidat člena posádky</h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('add-crew-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-input" placeholder="email@example.com">
+          <p class="text-xs text-muted" style="margin-top: var(--space-xs);">Pozvánka bude odeslána na tento e-mail</p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-input">
+            <option value="crew">Člen posádky</option>
+            <option value="captain">Kapitán</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('add-crew-modal')">Zrušit</button>
+        <button class="btn btn-primary" onclick="closeModal('add-crew-modal')">
+          <i class="fas fa-paper-plane"></i>
+          Poslat pozvánku
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role switcher for demo -->
+  <div style="position: fixed; bottom: 24px; right: 24px; background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: var(--space-md); display: flex; gap: var(--space-sm); z-index: 1000;">
+    <span style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem; color: var(--gray-500);">Demo:</span>
+    <a href="trip-public.html" class="btn btn-sm btn-ghost">Veřejné</a>
+    <a href="trip-participant.html" class="btn btn-sm btn-ghost">Účastník</a>
+    <a href="trip-captain.html" class="btn btn-sm btn-ghost">Kapitán</a>
+    <a href="trip-organizer.html" class="btn btn-sm" style="background: linear-gradient(135deg, var(--coral), var(--coral-light)); color: white;">Organizátor</a>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    function switchTab(tabName) {
+      document.querySelectorAll('.trip-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.tab === tabName) {
+          tab.classList.add('active');
+        }
+      });
+      
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+    
+    document.querySelectorAll('.trip-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab(tab.dataset.tab);
+      });
+    });
+    
+    // Modal functions
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+  </script>
+</body>
+</html>
+

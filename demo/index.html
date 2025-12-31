@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SailPlan – Organizujte plavby snadno</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-sailboat"></i>
+          </div>
+          SailPlan
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="#features" class="nav-link">Funkce</a></li>
+            <li><a href="#how-it-works" class="nav-link">Jak to funguje</a></li>
+            <li><a href="#pricing" class="nav-link">Ceník</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <a href="dashboard.html" class="btn btn-ghost">Přihlásit se</a>
+          <a href="dashboard.html" class="btn btn-primary">Registrace</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <!-- Floating decorative elements -->
+    <div class="floating-element" style="font-size: 4rem; color: var(--turquoise);">
+      <i class="fas fa-anchor"></i>
+    </div>
+    <div class="floating-element" style="font-size: 3rem; color: var(--coral);">
+      <i class="fas fa-compass"></i>
+    </div>
+    <div class="floating-element" style="font-size: 3.5rem; color: var(--turquoise-light);">
+      <i class="fas fa-life-ring"></i>
+    </div>
+    
+    <div class="container">
+      <div class="hero-content animate-in">
+        <h1>Organizujte plavby <span>bez stresu</span></h1>
+        <p>Kompletní platforma pro správu jachtových plaveb. Od plánování přes rozdělení posádky až po předávání lodí – vše na jednom místě.</p>
+        <div class="hero-buttons">
+          <a href="dashboard.html" class="btn btn-coral btn-lg">
+            <i class="fas fa-rocket"></i>
+            Začít zdarma
+          </a>
+          <a href="trip-participant.html" class="btn btn-secondary btn-lg" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+            <i class="fas fa-play"></i>
+            Prohlédnout demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header animate-in">
+        <h2>Vše co potřebujete pro úspěšnou plavbu</h2>
+        <p>SailPlan nabízí kompletní sadu nástrojů pro organizátory, kapitány i účastníky plaveb.</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="card feature-card animate-in delay-1">
+          <div class="feature-icon">⛵</div>
+          <h4>Správa flotily</h4>
+          <p>Organizujte plavby s jednou nebo více loděmi. Přiřazujte účastníky, sledujte kapacity a spravujte posádky.</p>
+        </div>
+        
+        <div class="card feature-card animate-in delay-2">
+          <div class="feature-icon">📋</div>
+          <h4>Chytré checklisty</h4>
+          <p>Vytvořte si vlastní checklisty pro předávání lodí, balení zavazadel nebo cokoliv jiného. Vše přehledně na jednom místě.</p>
+        </div>
+        
+        <div class="card feature-card animate-in delay-3">
+          <div class="feature-icon">👥</div>
+          <h4>Crew listy</h4>
+          <p>Sbírejte důležité údaje od účastníků automaticky. Definujte jaké informace potřebujete od posádky i kapitánů.</p>
+        </div>
+        
+        <div class="card feature-card animate-in delay-4">
+          <div class="feature-icon">💳</div>
+          <h4>Sledování plateb</h4>
+          <p>Mějte přehled o zálohách a platbách. Připomínky termínů a jasný přehled kdo co zaplatil.</p>
+        </div>
+        
+        <div class="card feature-card animate-in delay-1">
+          <div class="feature-icon">🗺️</div>
+          <h4>Trasy a lokace</h4>
+          <p>Sdílejte informace o místě startu, trase i cíli plavby. Včetně tipů na dopravu a praktických informací.</p>
+        </div>
+        
+        <div class="card feature-card animate-in delay-2">
+          <div class="feature-icon">⏱️</div>
+          <h4>Časová osa</h4>
+          <p>Hlavní timeline s důležitými termíny. Od zaplacení zálohy přes vyplnění crew listu až po den odjezdu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" style="padding: var(--space-3xl) 0; background: white;">
+    <div class="container">
+      <div class="section-header">
+        <h2>Tři pohledy, jeden systém</h2>
+        <p>Každý uživatel vidí to, co potřebuje. Ať už jste organizátor, kapitán nebo účastník.</p>
+      </div>
+      
+      <div class="features-grid" style="margin-top: var(--space-2xl);">
+        <a href="trip-organizer.html" class="card" style="text-decoration: none; border: 2px solid transparent; transition: all 0.3s;">
+          <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, var(--coral), var(--coral-light)); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0;">Organizátor</h4>
+              <span class="text-muted text-sm">Plná kontrola</span>
+            </div>
+          </div>
+          <p class="text-muted">Vytvářejte plavby, přiřazujte účastníky do lodí, sledujte platby a crew listy. Kompletní přehled o všech lodích a posádkách.</p>
+          <div style="margin-top: var(--space-lg); color: var(--coral); font-weight: 500;">
+            Zobrazit demo <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+        
+        <a href="trip-captain.html" class="card" style="text-decoration: none; border: 2px solid transparent; transition: all 0.3s;">
+          <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, var(--turquoise), var(--ocean-light)); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+              <i class="fas fa-ship"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0;">Kapitán</h4>
+              <span class="text-muted text-sm">Vedení lodě</span>
+            </div>
+          </div>
+          <p class="text-muted">Přístup ke crew listu vaší lodě, checklisty pro předání a vracení lodě. Všechny informace o vaší posádce.</p>
+          <div style="margin-top: var(--space-lg); color: var(--turquoise); font-weight: 500;">
+            Zobrazit demo <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+        
+        <a href="trip-participant.html" class="card" style="text-decoration: none; border: 2px solid transparent; transition: all 0.3s;">
+          <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, var(--ocean-mid), var(--ocean-light)); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0;">Účastník</h4>
+              <span class="text-muted text-sm">Posádka</span>
+            </div>
+          </div>
+          <p class="text-muted">Vyplňte crew list, sledujte termíny, zjistěte do které lodě patříte a kdo je vaše posádka. Vše přehledně na jednom místě.</p>
+          <div style="margin-top: var(--space-lg); color: var(--ocean-light); font-weight: 500;">
+            Zobrazit demo <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="features">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <h2>Jednoduchý ceník</h2>
+        <p>Aktuálně je SailPlan zcela zdarma. Do budoucna plánujeme prémiové funkce.</p>
+      </div>
+      
+      <div class="card" style="text-align: center; padding: var(--space-3xl); border: 2px solid var(--turquoise);">
+        <div style="display: inline-block; background: var(--success-light); color: var(--success); padding: 4px 16px; border-radius: var(--radius-full); font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-lg);">
+          Aktuálně dostupné
+        </div>
+        <h3 style="font-size: 2.5rem; margin-bottom: var(--space-sm);">Zdarma</h3>
+        <p class="text-muted" style="margin-bottom: var(--space-xl);">Všechny funkce bez omezení</p>
+        
+        <ul style="list-style: none; text-align: left; max-width: 300px; margin: 0 auto var(--space-xl);">
+          <li style="padding: var(--space-sm) 0; display: flex; align-items: center; gap: var(--space-sm);">
+            <i class="fas fa-check" style="color: var(--success);"></i>
+            Neomezený počet plaveb
+          </li>
+          <li style="padding: var(--space-sm) 0; display: flex; align-items: center; gap: var(--space-sm);">
+            <i class="fas fa-check" style="color: var(--success);"></i>
+            Neomezený počet účastníků
+          </li>
+          <li style="padding: var(--space-sm) 0; display: flex; align-items: center; gap: var(--space-sm);">
+            <i class="fas fa-check" style="color: var(--success);"></i>
+            Vlastní checklisty a templaty
+          </li>
+          <li style="padding: var(--space-sm) 0; display: flex; align-items: center; gap: var(--space-sm);">
+            <i class="fas fa-check" style="color: var(--success);"></i>
+            Crew listy a správa posádky
+          </li>
+          <li style="padding: var(--space-sm) 0; display: flex; align-items: center; gap: var(--space-sm);">
+            <i class="fas fa-check" style="color: var(--success);"></i>
+            Sledování plateb
+          </li>
+        </ul>
+        
+        <a href="dashboard.html" class="btn btn-primary btn-lg">
+          <i class="fas fa-rocket"></i>
+          Začít používat
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section style="background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid)); padding: var(--space-3xl) 0; text-align: center;">
+    <div class="container">
+      <h2 style="color: white; margin-bottom: var(--space-md);">Připraveni vyplout?</h2>
+      <p style="color: var(--gray-400); margin-bottom: var(--space-xl); max-width: 500px; margin-left: auto; margin-right: auto;">
+        Zaregistrujte se zdarma a začněte organizovat své plavby profesionálně.
+      </p>
+      <a href="dashboard.html" class="btn btn-coral btn-lg">
+        <i class="fas fa-sailboat"></i>
+        Vytvořit účet zdarma
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-sailboat"></i>
+            </div>
+            SailPlan
+          </a>
+          <p>Moderní platforma pro organizaci jachtových plaveb. Vytvořeno s láskou pro námořníky.</p>
+        </div>
+        
+        <div class="footer-links">
+          <h5>Produkt</h5>
+          <ul>
+            <li><a href="#features">Funkce</a></li>
+            <li><a href="#pricing">Ceník</a></li>
+            <li><a href="trip-participant.html">Demo</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h5>Podpora</h5>
+          <ul>
+            <li><a href="#">Nápověda</a></li>
+            <li><a href="#">Kontakt</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h5>Právní</h5>
+          <ul>
+            <li><a href="#">Podmínky použití</a></li>
+            <li><a href="#">Ochrana soukromí</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 SailPlan. Všechna práva vyhrazena.</p>
+        <div style="display: flex; gap: var(--space-md);">
+          <a href="#" style="color: var(--gray-400);"><i class="fab fa-facebook"></i></a>
+          <a href="#" style="color: var(--gray-400);"><i class="fab fa-instagram"></i></a>
+          <a href="#" style="color: var(--gray-400);"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

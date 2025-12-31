@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chorvatsko 2025 – SailPlan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .modal-overlay { display: none; }
+    .modal-overlay.active { display: flex; opacity: 1; visibility: visible; }
+    .contact-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-md);
+    }
+    .contact-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .contact-actions {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .info-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      border: 1px solid var(--gray-100);
+      margin-bottom: var(--space-md);
+      transition: all 0.2s;
+    }
+    .info-card:hover {
+      border-color: var(--turquoise);
+      box-shadow: var(--shadow-md);
+    }
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .info-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .checklist-event {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      border: 1px solid var(--gray-100);
+      margin-bottom: var(--space-md);
+    }
+    .checklist-event.completed {
+      border-color: var(--success);
+      background: var(--success-light);
+    }
+    .checklist-event.in-progress {
+      border-color: var(--warning);
+      background: var(--warning-light);
+    }
+    .checklist-event-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .checklist-event-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .checklist-event.completed .checklist-event-checkbox {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+    .role-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 500;
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+    .role-tag.captain {
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--turquoise);
+    }
+    .role-tag.organizer {
+      background: rgba(249, 115, 22, 0.1);
+      color: var(--coral);
+    }
+    .role-tag.crew {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--ocean-light);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="dashboard.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-sailboat"></i>
+          </div>
+          SailPlan
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="dashboard.html#my-trips" class="nav-link active">Mé plavby</a></li>
+            <li><a href="dashboard.html#organizing" class="nav-link">Organizuji</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="btn btn-icon btn-ghost">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div class="profile-btn">
+            <div class="profile-avatar">MS</div>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i>
+                Můj profil
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                Nastavení
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="index.html" class="dropdown-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Odhlásit se
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Trip Header -->
+  <div class="trip-header">
+    <div class="container">
+      <div class="trip-header-content">
+        <div class="breadcrumb">
+          <a href="dashboard.html"><i class="fas fa-home"></i></a>
+          <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+          <a href="#">Mé plavby</a>
+          <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+          <span>Chorvatsko 2025</span>
+        </div>
+        
+        <div class="trip-title-row">
+          <div>
+            <h1 class="trip-title">Chorvatsko 2025 – Flotila</h1>
+            <span class="role-badge participant">
+              <i class="fas fa-user"></i>
+              Účastník
+            </span>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.875rem; color: var(--gray-400); margin-bottom: 4px;">Organizuje</div>
+            <div style="font-weight: 600;">Jachting Club Praha</div>
+          </div>
+        </div>
+        
+        <div class="trip-header-meta">
+          <div class="trip-header-meta-item">
+            <i class="fas fa-calendar"></i>
+            <span>15. – 22. července 2025</span>
+          </div>
+          <div class="trip-header-meta-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Marina Kaštela, Split</span>
+          </div>
+          <div class="trip-header-meta-item">
+            <i class="fas fa-ship"></i>
+            <span>3 lodě</span>
+          </div>
+          <div class="trip-header-meta-item">
+            <i class="fas fa-users"></i>
+            <span>18 účastníků</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trip Tabs -->
+  <div class="trip-tabs">
+    <div class="container">
+      <div class="trip-tabs-inner">
+        <a href="#" class="trip-tab active" data-tab="prehled">
+          <i class="fas fa-info-circle"></i>
+          Přehled
+        </a>
+        <a href="#" class="trip-tab" data-tab="pred-plavbou">
+          <i class="fas fa-flag-checkered"></i>
+          Před plavbou
+        </a>
+        <a href="#" class="trip-tab" data-tab="moje-lod">
+          <i class="fas fa-ship"></i>
+          Moje loď
+        </a>
+        <a href="#" class="trip-tab" data-tab="checklisty">
+          <i class="fas fa-tasks"></i>
+          Checklisty
+        </a>
+        <a href="#" class="trip-tab" data-tab="crew-list">
+          <i class="fas fa-clipboard-list"></i>
+          Crew list
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trip Content -->
+  <main class="trip-content">
+    <div class="container">
+      <!-- TAB: Přehled -->
+      <div class="tab-content active" id="tab-prehled">
+        <div class="trip-layout">
+          <!-- Main Content -->
+          <div class="main-content">
+            <!-- Karta: Informace o plavbě -->
+            <div class="card animate-in" style="margin-bottom: var(--space-xl);">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-info-circle" style="color: var(--turquoise);"></i>
+                  Informace o plavbě
+                </h4>
+              </div>
+              <div style="color: var(--gray-600); line-height: 1.8;">
+                <p style="margin-bottom: var(--space-md);">
+                  Vítejte na naší tradiční letní flotilové plavbě Chorvatskem! Letos se vydáme ze Splitu směr střední Dalmácie s návštěvou ostrovů Brač, Hvar, Vis a dalších.
+                </p>
+                <p style="margin-bottom: var(--space-md);">
+                  Plavba je vhodná pro všechny úrovně zkušeností – od úplných začátečníků po pokročilé jachtaře. Každá loď má zkušeného kapitána a můžete se naučit základy jachtingu nebo si jen užít krásné moře.
+                </p>
+                <p>
+                  Flotila se bude držet pohromadě a každý večer kotvíme společně. Plánované zastávky zahrnují Bol na Braču (slavná pláž Zlatní Rat), město Hvar, a ostrov Vis s návštěvou Modré jeskyně.
+                </p>
+              </div>
+              
+              <!-- Důležité termíny -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--gray-100);">
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                  <div style="width: 40px; height: 40px; background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--turquoise);">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm text-muted">Check-in</div>
+                    <div class="font-medium">15. 7. 2025, 17:00</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                  <div style="width: 40px; height: 40px; background: rgba(251, 113, 133, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--coral);">
+                    <i class="fas fa-calendar-times"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm text-muted">Check-out</div>
+                    <div class="font-medium">22. 7. 2025, 9:00</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Cena a platby -->
+              <div style="background: var(--gray-50); border-radius: var(--radius-md); padding: var(--space-lg); margin-top: var(--space-lg);">
+                <div class="font-medium" style="margin-bottom: var(--space-md); color: var(--ocean-deep);">
+                  <i class="fas fa-tag" style="color: var(--coral); margin-right: var(--space-sm);"></i>
+                  Cena: 12 000 Kč
+                </div>
+                <div style="display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                  <div class="text-sm" style="display: flex; justify-content: space-between;">
+                    <span class="text-muted">Záloha (do 1. 5.):</span>
+                    <span class="font-medium">5 000 Kč</span>
+                  </div>
+                  <div class="text-sm" style="display: flex; justify-content: space-between;">
+                    <span class="text-muted">Doplatek (do 1. 7.):</span>
+                    <span class="font-medium">7 000 Kč</span>
+                  </div>
+                </div>
+                <div style="padding-top: var(--space-md); border-top: 1px dashed var(--gray-200);">
+                  <div class="text-sm font-medium" style="margin-bottom: var(--space-xs);">V ceně zahrnuto:</div>
+                  <ul class="text-sm text-muted" style="margin: 0; padding-left: var(--space-lg);">
+                    <li>Místo na lodi (kajuta sdílená s 1 osobou)</li>
+                    <li>Pojištění odpovědnosti</li>
+                    <li>Základní vybavení lodě</li>
+                  </ul>
+                </div>
+                <div style="margin-top: var(--space-md);">
+                  <div class="text-sm font-medium" style="margin-bottom: var(--space-xs);">Není v ceně:</div>
+                  <ul class="text-sm text-muted" style="margin: 0; padding-left: var(--space-lg);">
+                    <li>Doprava do mariny</li>
+                    <li>Strava a přístavní poplatky (lodní pokladna cca 150 €)</li>
+                    <li>Palivo (podle spotřeby)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Karta: Lokalita -->
+            <div class="card animate-in delay-1" style="margin-bottom: var(--space-xl);">
+              <h4 class="card-title" style="margin-bottom: var(--space-lg);">
+                <i class="fas fa-map-marked-alt" style="color: var(--coral);"></i>
+                Lokalita
+              </h4>
+              
+              <div class="map-placeholder">
+                <i class="fas fa-map"></i>
+              </div>
+              
+              <div class="location-info">
+                <div class="location-item">
+                  <div class="location-icon">
+                    <i class="fas fa-anchor"></i>
+                  </div>
+                  <div class="location-text">
+                    <h5>Místo startu</h5>
+                    <p>Marina Kaštela, Resnik bb, 21217 Kaštel Štafilić, Chorvatsko</p>
+                    <p class="text-sm text-muted" style="margin-top: var(--space-xs);">Check-in: 15. července 2025, 17:00</p>
+                  </div>
+                </div>
+                
+                <div class="location-item">
+                  <div class="location-icon">
+                    <i class="fas fa-flag-checkered"></i>
+                  </div>
+                  <div class="location-text">
+                    <h5>Cíl plavby</h5>
+                    <p>Marina Kaštela, Split (návrat na místo startu)</p>
+                  </div>
+                </div>
+                
+                <div class="location-item">
+                  <div class="location-icon">
+                    <i class="fas fa-car"></i>
+                  </div>
+                  <div class="location-text">
+                    <h5>Doprava</h5>
+                    <p>Nejbližší letiště Split Airport (SPU) – 5 km. Parkování přímo v maríně.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Místa k navštívení -->
+              <div style="margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--gray-100);">
+                <h5 style="margin-bottom: var(--space-lg);">
+                  <i class="fas fa-map-pin" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+                  Místa, která navštívíme
+                </h5>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-md);">
+                  <div style="background: var(--gray-50); border-radius: var(--radius-md); overflow: hidden;">
+                    <div style="height: 100px; background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise)); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                      <i class="fas fa-island-tropical"></i>
+                    </div>
+                    <div style="padding: var(--space-md);">
+                      <div class="font-medium">Ostrov Brač</div>
+                      <div class="text-sm text-muted">Bol, Zlatý roh</div>
+                    </div>
+                  </div>
+                  <div style="background: var(--gray-50); border-radius: var(--radius-md); overflow: hidden;">
+                    <div style="height: 100px; background: linear-gradient(135deg, var(--coral), var(--coral-light)); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                      <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <div style="padding: var(--space-md);">
+                      <div class="font-medium">Ostrov Hvar</div>
+                      <div class="text-sm text-muted">Hvar, Stari Grad</div>
+                    </div>
+                  </div>
+                  <div style="background: var(--gray-50); border-radius: var(--radius-md); overflow: hidden;">
+                    <div style="height: 100px; background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid)); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                      <i class="fas fa-water"></i>
+                    </div>
+                    <div style="padding: var(--space-md);">
+                      <div class="font-medium">Ostrov Vis</div>
+                      <div class="text-sm text-muted">Vis, Komiža</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Karta: Lodě -->
+            <div class="card animate-in delay-2">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-ship" style="color: var(--turquoise);"></i>
+                  Lodě ve flotile
+                </h4>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-lg);">
+                <!-- Vaše loď -->
+                <div style="background: rgba(6, 182, 212, 0.05); border: 2px solid var(--turquoise); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;" onclick="switchTab('moje-lod')">
+                  <div style="height: 120px; background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise)); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 3rem; position: relative;">
+                    <i class="fas fa-sailboat"></i>
+                    <span class="status-pill info" style="font-size: 0.7rem; position: absolute; top: var(--space-sm); right: var(--space-sm);">Vaše loď</span>
+                  </div>
+                  <div style="padding: var(--space-md);">
+                    <div class="font-semibold" style="margin-bottom: var(--space-xs);">Mořská Víla</div>
+                    <div class="text-sm text-muted" style="margin-bottom: var(--space-sm);">Bavaria 46 • 4 kajuty</div>
+                    <div class="text-sm"><i class="fas fa-users" style="margin-right: 4px; color: var(--gray-400);"></i> 6/8 osob</div>
+                  </div>
+                </div>
+                
+                <!-- Ostatní lodě -->
+                <div style="background: var(--gray-50); border-radius: var(--radius-lg); overflow: hidden;">
+                  <div style="height: 120px; background: linear-gradient(135deg, var(--coral), var(--coral-light)); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 3rem;">
+                    <i class="fas fa-sailboat"></i>
+                  </div>
+                  <div style="padding: var(--space-md);">
+                    <div class="font-semibold" style="margin-bottom: var(--space-xs);">Bílá Perla</div>
+                    <div class="text-sm text-muted" style="margin-bottom: var(--space-sm);">Jeanneau 54 • 5 kajut</div>
+                    <div class="text-sm"><i class="fas fa-users" style="margin-right: 4px; color: var(--gray-400);"></i> 7/10 osob</div>
+                  </div>
+                </div>
+                
+                <div style="background: var(--gray-50); border-radius: var(--radius-lg); overflow: hidden;">
+                  <div style="height: 120px; background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid)); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 3rem;">
+                    <i class="fas fa-sailboat"></i>
+                  </div>
+                  <div style="padding: var(--space-md);">
+                    <div class="font-semibold" style="margin-bottom: var(--space-xs);">Modrý Sen</div>
+                    <div class="text-sm text-muted" style="margin-bottom: var(--space-sm);">Hanse 458 • 4 kajuty</div>
+                    <div class="text-sm"><i class="fas fa-users" style="margin-right: 4px; color: var(--gray-400);"></i> 5/8 osob</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside>
+            <!-- Kontakty -->
+            <div class="sidebar-card animate-in">
+              <h4>
+                <i class="fas fa-address-book" style="color: var(--turquoise);"></i>
+                Kontakty
+              </h4>
+              
+              <!-- Kapitán -->
+              <div class="contact-card" style="margin-top: var(--space-md);">
+                <div class="contact-card-header">
+                  <div class="crew-avatar captain">PK</div>
+                  <div>
+                    <div class="font-medium">Petr Kapitán</div>
+                    <div class="text-sm text-muted">Kapitán vaší lodě</div>
+                  </div>
+                </div>
+                <div class="contact-actions">
+                  <a href="tel:+420777123456" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-phone"></i> Volat
+                  </a>
+                  <a href="mailto:petr@email.cz" class="btn btn-sm btn-ghost">
+                    <i class="fas fa-envelope"></i>
+                  </a>
+                </div>
+              </div>
+              
+              <!-- Organizátor -->
+              <div class="contact-card">
+                <div class="contact-card-header">
+                  <div class="crew-avatar" style="background: linear-gradient(135deg, var(--coral), var(--coral-light));">JC</div>
+                  <div>
+                    <div class="font-medium">Jachting Club Praha</div>
+                    <div class="text-sm text-muted">Organizátor plavby</div>
+                </div>
+                </div>
+                <div class="contact-actions">
+                  <a href="tel:+420777000111" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-phone"></i> Volat
+                  </a>
+                  <a href="mailto:info@jachtingclub.cz" class="btn btn-sm btn-ghost">
+                    <i class="fas fa-envelope"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- TAB: Před plavbou (hlavní checklist) -->
+      <div class="tab-content" id="tab-pred-plavbou">
+        <div class="trip-layout">
+          <div class="main-content">
+            <div class="card animate-in">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-flag-checkered" style="color: var(--coral);"></i>
+                  Co je potřeba splnit před plavbou
+                </h4>
+                <span class="status-pill warning">2 nesplněné</span>
+              </div>
+              
+              <p class="text-muted" style="margin-bottom: var(--space-xl);">
+                Tyto události je potřeba splnit před odjezdem na plavbu. Některé mají stanovený termín.
+              </p>
+              
+              <!-- Event 1: Záloha (completed) -->
+              <div class="checklist-event completed">
+                <div class="checklist-event-header">
+                  <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+                    <div class="checklist-event-checkbox">
+                      <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium" style="margin-bottom: var(--space-xs);">Zaplacení zálohy</div>
+                      <div class="text-sm text-muted">Záloha 5 000 Kč na účet organizátora</div>
+                      <div style="margin-top: var(--space-sm);">
+                        <span class="role-tag crew"><i class="fas fa-users"></i> Všichni účastníci</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span class="status-pill success" style="font-size: 0.75rem;">
+                      <i class="fas fa-check"></i> Splněno
+                    </span>
+                    <div class="text-xs text-muted" style="margin-top: var(--space-xs);">do 31. 5. 2025</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Event 2: Crewlist (completed) -->
+              <div class="checklist-event completed">
+                <div class="checklist-event-header">
+                  <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+                    <div class="checklist-event-checkbox">
+                      <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium" style="margin-bottom: var(--space-xs);">Vyplnění crew listu</div>
+                      <div class="text-sm text-muted">Vyplňte své osobní údaje pro potřeby čarteru</div>
+                      <div style="margin-top: var(--space-sm);">
+                        <span class="role-tag crew"><i class="fas fa-users"></i> Všichni účastníci</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span class="status-pill success" style="font-size: 0.75rem;">
+                      <i class="fas fa-check"></i> Splněno
+                    </span>
+                    <div class="text-xs text-muted" style="margin-top: var(--space-xs);">do 15. 6. 2025</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Event 3: Doplatek (in progress) -->
+              <div class="checklist-event in-progress" onclick="toggleEventCheck(this)">
+                <div class="checklist-event-header">
+                  <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+                    <div class="checklist-event-checkbox"></div>
+                    <div>
+                      <div class="font-medium" style="margin-bottom: var(--space-xs);">Doplatek</div>
+                      <div class="text-sm text-muted">Zbývající částka 7 000 Kč na účet organizátora</div>
+                      <div style="margin-top: var(--space-sm);">
+                        <span class="role-tag crew"><i class="fas fa-users"></i> Všichni účastníci</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span class="status-pill warning" style="font-size: 0.75rem;">
+                      <i class="fas fa-clock"></i> 3 dny
+                    </span>
+                    <div class="text-xs text-muted" style="margin-top: var(--space-xs);">do 1. 7. 2025</div>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid rgba(0,0,0,0.1);">
+                  <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); switchTab('platby');">
+                    <i class="fas fa-credit-card"></i> Zobrazit platební údaje
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Event 4: Check-in (pending, not checkable) -->
+              <div class="checklist-event">
+                <div class="checklist-event-header">
+                  <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+                    <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--gray-200); display: flex; align-items: center; justify-content: center; color: var(--gray-400); font-size: 0.75rem;">
+                      <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium" style="margin-bottom: var(--space-xs);">Check-in a předání lodě</div>
+                      <div class="text-sm text-muted">Sraz v maríně, převzetí lodí od charterové společnosti</div>
+                      <div style="margin-top: var(--space-sm);">
+                        <span class="role-tag"><i class="fas fa-info-circle"></i> Informační</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span class="status-pill" style="font-size: 0.75rem; background: var(--gray-100);">
+                      Čeká
+                    </span>
+                    <div class="text-xs text-muted" style="margin-top: var(--space-xs);">15. 7. 2025, 17:00</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside>
+            <!-- Platební údaje -->
+            <div class="sidebar-card animate-in" id="platby">
+              <h4>
+                <i class="fas fa-wallet" style="color: var(--coral);"></i>
+                Platební údaje
+              </h4>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-lg);">
+                <div>
+                  <div class="text-xs text-muted">Číslo účtu</div>
+                  <div class="font-semibold">1234567890/0100</div>
+                </div>
+                <div>
+                  <div class="text-xs text-muted">Variabilní symbol</div>
+                  <div class="font-semibold">202507</div>
+                </div>
+                <div>
+                  <div class="text-xs text-muted">Zpráva pro příjemce</div>
+                  <div class="font-semibold">Marek Šefl - Chorvatsko</div>
+                </div>
+              </div>
+              
+              <div style="margin-top: var(--space-lg); padding: var(--space-md); background: var(--warning-light); border-radius: var(--radius-md);">
+                <div class="text-sm font-medium" style="color: var(--warning);">
+                  <i class="fas fa-exclamation-triangle"></i> Zbývá doplatit: 7 000 Kč
+                </div>
+                <div class="text-xs text-muted" style="margin-top: var(--space-xs);">Splatnost: 1. 7. 2025</div>
+              </div>
+            </div>
+            
+            <!-- Přehled plateb -->
+            <div class="sidebar-card animate-in delay-1">
+              <h4>
+                <i class="fas fa-receipt" style="color: var(--turquoise);"></i>
+                Vaše platby
+              </h4>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Celková cena</span>
+                  <span class="font-semibold">12 000 Kč</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Zaplaceno</span>
+                  <span class="font-semibold text-success">5 000 Kč</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="text-muted">Zbývá</span>
+                  <span class="font-semibold text-warning">7 000 Kč</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- TAB: Moje loď -->
+      <div class="tab-content" id="tab-moje-lod">
+        <div class="trip-layout">
+          <div class="main-content">
+            <!-- Boat Details -->
+            <div class="boat-card animate-in" style="margin-bottom: var(--space-xl);">
+              <div class="boat-card-header" style="padding: var(--space-2xl);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h4 style="font-size: 1.75rem;">Bavaria 46</h4>
+                    <p style="font-size: 1.125rem;">Mořská Víla</p>
+                  </div>
+                  <span class="status-pill info" style="font-size: 0.875rem;">Vaše loď</span>
+                </div>
+              </div>
+              <div class="boat-card-content" style="padding: var(--space-xl);">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); margin-bottom: var(--space-xl);">
+                <div>
+                  <div class="text-xs text-muted">Délka</div>
+                    <div class="font-semibold" style="font-size: 1.25rem;">14.27 m</div>
+                </div>
+                <div>
+                  <div class="text-xs text-muted">Rok výroby</div>
+                    <div class="font-semibold" style="font-size: 1.25rem;">2019</div>
+                </div>
+                <div>
+                  <div class="text-xs text-muted">Kajuty</div>
+                    <div class="font-semibold" style="font-size: 1.25rem;">4</div>
+                </div>
+                <div>
+                  <div class="text-xs text-muted">Kapacita</div>
+                    <div class="font-semibold" style="font-size: 1.25rem;">8 osob</div>
+                  </div>
+                </div>
+                </div>
+              </div>
+              
+            <!-- Crew on this boat -->
+            <div class="card animate-in delay-1">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-users" style="color: var(--turquoise);"></i>
+                Posádka (6/8)
+                </h4>
+              </div>
+              
+              <div class="crew-list">
+                <div class="crew-member">
+                  <div class="crew-avatar captain">PK</div>
+                  <div class="crew-info">
+                    <h5>Petr Kapitán</h5>
+                    <p>Kapitán</p>
+                  </div>
+                  <span class="crew-badge">Kapitán</span>
+                </div>
+                
+                <div class="crew-member" style="background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2);">
+                  <div class="crew-avatar" style="background: linear-gradient(135deg, var(--coral), var(--coral-light));">MS</div>
+                  <div class="crew-info">
+                    <h5>Marek Šefl</h5>
+                    <p>To jste vy</p>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">JN</div>
+                  <div class="crew-info">
+                    <h5>Jana Nováková</h5>
+                    <p>Posádka</p>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">TM</div>
+                  <div class="crew-info">
+                    <h5>Tomáš Malý</h5>
+                    <p>Posádka</p>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">EK</div>
+                  <div class="crew-info">
+                    <h5>Eva Králová</h5>
+                    <p>Posádka</p>
+                  </div>
+                </div>
+                
+                <div class="crew-member">
+                  <div class="crew-avatar">PV</div>
+                  <div class="crew-info">
+                    <h5>Pavel Veselý</h5>
+                    <p>Posádka</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside>
+            <!-- Captain Contact on Boat Tab -->
+            <div class="sidebar-card animate-in delay-1">
+            <h4>
+                <i class="fas fa-headset" style="color: var(--turquoise);"></i>
+                Kontakt na kapitána
+            </h4>
+            
+              <div style="display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-lg); margin-bottom: var(--space-lg);">
+                <div class="crew-avatar captain">PK</div>
+                <div>
+                  <div class="font-medium">Petr Kapitán</div>
+                  <div class="text-sm text-muted">Kapitán</div>
+                </div>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                <a href="tel:+420777123456" class="btn btn-secondary btn-sm">
+                  <i class="fas fa-phone"></i>
+                  +420 777 123 456
+                </a>
+                <a href="mailto:petr@email.cz" class="btn btn-secondary btn-sm">
+                  <i class="fas fa-envelope"></i>
+                  petr@email.cz
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- TAB: Checklisty -->
+      <div class="tab-content" id="tab-checklisty">
+        <div class="trip-layout">
+          <div class="main-content">
+            <!-- Available Checklists -->
+            <div class="card animate-in">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-clipboard-list" style="color: var(--turquoise);"></i>
+                  Dostupné checklisty
+                </h4>
+              </div>
+              
+              <p class="text-muted" style="margin-bottom: var(--space-lg);">
+                Tyto checklisty vám přidělil organizátor. Kliknutím je otevřete a můžete je vyplňovat.
+              </p>
+              
+              <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+                <!-- Checklist 1 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); background: var(--gray-50); border-radius: var(--radius-md); cursor: pointer;" onclick="openModal('checklist-baleni-modal')">
+                  <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <div style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--turquoise); font-size: 1.25rem;">
+                      <i class="fas fa-suitcase"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Co sebou na plavbu</div>
+                      <div class="text-sm text-muted">Osobní checklist pro účastníky</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <span class="status-pill warning" style="font-size: 0.75rem;">8/11</span>
+                    <i class="fas fa-chevron-right" style="color: var(--gray-400);"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside>
+            <div class="sidebar-card animate-in delay-1">
+              <h4>
+                <i class="fas fa-info-circle" style="color: var(--turquoise);"></i>
+                Tip
+              </h4>
+              <p class="text-muted" style="margin-top: var(--space-md);">
+                Kliknutím na checklist ho otevřete. Položky můžete označovat jako splněné a váš postup se automaticky ukládá.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- TAB: Crew list -->
+      <div class="tab-content" id="tab-crew-list">
+        <div class="trip-layout">
+          <div class="main-content">
+            <div class="card animate-in">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-clipboard-list" style="color: var(--turquoise);"></i>
+                  Vyplnění crew listu
+                </h4>
+                <span class="status-pill success">
+                  <i class="fas fa-check"></i> Kompletní
+                </span>
+              </div>
+              
+              <p class="text-muted" style="margin-bottom: var(--space-xl);">
+                Tyto údaje jsou použity pro potřeby čarteru a případných kontrol. Můžete je kdykoliv upravit.
+              </p>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);">
+                <div class="form-group">
+                  <label class="form-label">Jméno a příjmení</label>
+                  <input type="text" class="form-input" value="Marek Šefl" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Datum narození</label>
+                  <input type="date" class="form-input" value="1990-08-22" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Státní občanství</label>
+                  <input type="text" class="form-input" value="Česká republika" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Číslo dokladu</label>
+                  <input type="text" class="form-input" value="987654321" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-input" value="marek@email.cz" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Telefon</label>
+                  <input type="tel" class="form-input" value="+420 777 987 654" />
+                </div>
+              </div>
+              
+              <div style="margin-top: var(--space-lg); display: flex; gap: var(--space-md);">
+                <button class="btn btn-primary">
+                  <i class="fas fa-save"></i>
+                  Uložit změny
+              </button>
+            </div>
+          </div>
+          </div>
+
+          <aside>
+            <div class="sidebar-card animate-in delay-1">
+              <h4>
+                <i class="fas fa-info-circle" style="color: var(--turquoise);"></i>
+                Informace
+              </h4>
+              <p class="text-muted" style="margin-top: var(--space-md);">
+                Crew list je potřeba vyplnit před check-inem. Údaje slouží charterové společnosti a případným kontrolám.
+              </p>
+            </div>
+        </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modals -->
+  
+  <!-- Info Detail Modal -->
+  <div class="modal-overlay" id="info-detail-modal">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h4>
+          <i class="fas fa-info-circle" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+          Informace o plavbě
+        </h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('info-detail-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+        <h5 style="margin-bottom: var(--space-md);">O plavbě</h5>
+        <p style="margin-bottom: var(--space-lg); color: var(--gray-600); line-height: 1.8;">
+          Vítejte na naší tradiční letní flotilové plavbě Chorvatskem! Letos se vydáme ze Splitu směr střední Dalmácie s návštěvou ostrovů Brač, Hvar, Vis a dalších.
+        </p>
+        <p style="margin-bottom: var(--space-lg); color: var(--gray-600); line-height: 1.8;">
+          Plavba je vhodná pro všechny úrovně zkušeností – od úplných začátečníků po zkušené jachtaře. Kapitáni jsou zkušení a pomohou vám s čímkoliv budete potřebovat.
+        </p>
+        <p style="margin-bottom: var(--space-xl); color: var(--gray-600); line-height: 1.8;">
+          Nezapomeňte si včas vyplnit crew list a zaplatit doplatek. Těšíme se na vás!
+        </p>
+        
+        <h5 style="margin-bottom: var(--space-md);">Cena a platby</h5>
+        <div style="background: var(--gray-50); border-radius: var(--radius-md); padding: var(--space-lg);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-sm);">
+            <span>Celková cena:</span>
+            <strong>12 000 Kč</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-sm);">
+            <span>Záloha:</span>
+            <span>5 000 Kč (do 31. 5.)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-md);">
+            <span>Doplatek:</span>
+            <span>7 000 Kč (do 1. 7.)</span>
+          </div>
+          <div class="text-sm text-muted">
+            V ceně není zahrnuta doprava na místo startu a lodní pokladna (~100€/osoba).
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('info-detail-modal')">Zavřít</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist Modal -->
+  <div class="modal-overlay" id="checklist-baleni-modal">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h4>
+          <i class="fas fa-suitcase" style="color: var(--turquoise); margin-right: var(--space-sm);"></i>
+          Co sebou na plavbu
+        </h4>
+        <button class="btn btn-icon btn-ghost" onclick="closeModal('checklist-baleni-modal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+        <div class="checklist-progress" style="margin-bottom: var(--space-lg);">
+          <span>8/11 splněno</span>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" style="width: 73%;"></div>
+          </div>
+        </div>
+        
+        <div class="checklist-category">
+          <div class="checklist-category-title">Dokumenty</div>
+          
+          <div class="checklist-item checked">
+            <div style="display: flex; gap: var(--space-md); width: 100%;">
+              <div class="checklist-checkbox" onclick="toggleCheck(this.closest('.checklist-item'))">
+                <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+              </div>
+              <div class="checklist-text" style="flex: 1;">
+                <h5>Občanský průkaz nebo pas</h5>
+                <p>Platný minimálně 6 měsíců</p>
+                <div style="margin-top: var(--space-sm);">
+                  <button class="btn btn-xs btn-ghost" onclick="toggleNotes(this)" style="font-size: 0.75rem;">
+                    <i class="fas fa-sticky-note"></i> Přidat poznámku
+                  </button>
+                  <div class="checklist-notes" style="display: none; margin-top: var(--space-sm);">
+                    <textarea class="form-input" rows="2" placeholder="Poznámka k této položce..." style="font-size: 0.875rem;"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="checklist-item checked" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox">
+              <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+            </div>
+            <div class="checklist-text">
+              <h5>Cestovní pojištění</h5>
+              <p>Doporučujeme včetně vodních sportů</p>
+            </div>
+          </div>
+          
+          <div class="checklist-item">
+            <div style="display: flex; gap: var(--space-md); width: 100%;">
+              <div class="checklist-checkbox" onclick="toggleCheck(this.closest('.checklist-item'))"></div>
+              <div class="checklist-text" style="flex: 1;">
+                <h5>Kopie dokumentů</h5>
+                <p>Elektronická nebo papírová kopie</p>
+                <div style="margin-top: var(--space-sm);">
+                  <button class="btn btn-xs btn-ghost" onclick="toggleNotes(this)" style="font-size: 0.75rem;">
+                    <i class="fas fa-sticky-note"></i> Přidat poznámku
+                  </button>
+                  <div class="checklist-notes" style="display: none; margin-top: var(--space-sm);">
+                    <textarea class="form-input" rows="2" placeholder="Poznámka k této položce..." style="font-size: 0.875rem;"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="checklist-category">
+          <div class="checklist-category-title">Oblečení</div>
+          
+          <div class="checklist-item checked" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox">
+              <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+            </div>
+            <div class="checklist-text">
+              <h5>Plavky (2-3 kusy)</h5>
+            </div>
+          </div>
+          
+          <div class="checklist-item checked" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox">
+              <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+            </div>
+            <div class="checklist-text">
+              <h5>Nepromokavá bunda</h5>
+              <p>Pro případ deště nebo větru</p>
+            </div>
+          </div>
+          
+          <div class="checklist-item checked" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox">
+              <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+            </div>
+            <div class="checklist-text">
+              <h5>Boty s bílou podrážkou</h5>
+              <p>Palubní obuv nebo tenisky</p>
+            </div>
+          </div>
+          
+          <div class="checklist-item checked" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox">
+              <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+            </div>
+            <div class="checklist-text">
+              <h5>Čepice a sluneční brýle</h5>
+            </div>
+          </div>
+        </div>
+        
+        <div class="checklist-category">
+          <div class="checklist-category-title">Vybavení</div>
+          
+          <div class="checklist-item checked" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox">
+              <i class="fas fa-check" style="font-size: 0.75rem;"></i>
+            </div>
+            <div class="checklist-text">
+              <h5>Opalovací krém SPF 50+</h5>
+            </div>
+          </div>
+          
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">
+              <h5>Léky a lékárnička</h5>
+              <p>Vlastní léky + základní potřeby</p>
+            </div>
+          </div>
+          
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">
+              <h5>Potápěčská maska a šnorchl</h5>
+              <p>Volitelné, ale doporučené</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('checklist-baleni-modal')">Zavřít</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role switcher for demo -->
+  <div style="position: fixed; bottom: 24px; right: 24px; background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: var(--space-md); display: flex; gap: var(--space-sm); z-index: 1000;">
+    <span style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem; color: var(--gray-500);">Demo:</span>
+    <a href="trip-public.html" class="btn btn-sm btn-ghost">Veřejné</a>
+    <a href="trip-participant.html" class="btn btn-sm" style="background: var(--ocean-mid); color: white;">Účastník</a>
+    <a href="trip-captain.html" class="btn btn-sm btn-ghost">Kapitán</a>
+    <a href="trip-organizer.html" class="btn btn-sm btn-ghost">Organizátor</a>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    function switchTab(tabName) {
+      // Update tab buttons
+      document.querySelectorAll('.trip-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.tab === tabName) {
+          tab.classList.add('active');
+        }
+      });
+      
+      // Update tab content
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+    
+    // Initialize tab click handlers
+    document.querySelectorAll('.trip-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab(tab.dataset.tab);
+      });
+    });
+    
+    // Modal functions
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+    
+    // Toggle checklist item
+    function toggleCheck(element) {
+      element.classList.toggle('checked');
+      const checkbox = element.querySelector('.checklist-checkbox');
+      if (element.classList.contains('checked')) {
+        checkbox.innerHTML = '<i class="fas fa-check" style="font-size: 0.75rem;"></i>';
+      } else {
+        checkbox.innerHTML = '';
+      }
+    }
+    
+    // Toggle notes field
+    function toggleNotes(button) {
+      const notesDiv = button.nextElementSibling;
+      if (notesDiv.style.display === 'none' || !notesDiv.style.display) {
+        notesDiv.style.display = 'block';
+        button.innerHTML = '<i class="fas fa-sticky-note"></i> Skrýt poznámku';
+      } else {
+        notesDiv.style.display = 'none';
+        button.innerHTML = '<i class="fas fa-sticky-note"></i> Přidat poznámku';
+      }
+    }
+    
+    // Toggle event check
+    function toggleEventCheck(element) {
+      if (element.classList.contains('in-progress')) {
+        element.classList.remove('in-progress');
+        element.classList.add('completed');
+        const checkbox = element.querySelector('.checklist-event-checkbox');
+        checkbox.innerHTML = '<i class="fas fa-check" style="font-size: 0.75rem;"></i>';
+      }
+    }
+  </script>
+</body>
+</html>
