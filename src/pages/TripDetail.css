@@ -185,6 +185,8 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
   padding: var(--space-xl);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .card-header {
@@ -543,6 +545,9 @@
   
   .trip-layout {
     grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   
   .trip-layout aside {
@@ -551,6 +556,9 @@
   
   .card {
     padding: var(--space-md);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .card-header {
@@ -570,15 +578,65 @@
   .container {
     padding-left: var(--space-md);
     padding-right: var(--space-md);
+    max-width: 100%;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
   }
   
-  /* Grid adjustments for mobile */
-  .trip-layout .main-content > div[style*="grid"] {
+  /* Ensure all cards and content fit within viewport */
+  .trip-content {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  
+  /* Fix for cards with fixed widths */
+  .sidebar-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Override ALL inline grid styles for mobile - force single column */
+  .main-content > div[style*="grid"],
+  .main-content > div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Stats grid - force 2 columns max on mobile (smaller screens can be 1) */
+  .main-content > div[style*="repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* Boat cards grid - single column on mobile */
+  .main-content > div[style*="repeat(auto-fill"],
+  .main-content > div[style*="repeat(auto-fit"] {
     grid-template-columns: 1fr !important;
   }
   
-  /* Stats grid */
-  div[style*="gridTemplateColumns"][style*="repeat(4"] {
-    grid-template-columns: repeat(2, 1fr) !important;
+  /* Ensure all inline styled divs respect viewport */
+  .main-content > div {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Fix for any nested grids */
+  .main-content .card > div[style*="grid"],
+  .main-content .card > div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }

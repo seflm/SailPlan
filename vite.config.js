@@ -7,6 +7,10 @@ export default defineConfig({
   server: {
     port: 6533,
     open: true
-  }
+  },
+  build: {
+    outDir: 'public'
+  },
+  publicDir: 'static'
 })
 

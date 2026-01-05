@@ -12,6 +12,23 @@
   max-width: 1000px;
 }
 
+@media (max-width: 768px) {
+  .onboarding-page {
+    padding: 0;
+    align-items: flex-start;
+  }
+  
+  .onboarding-container {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .logo {
+    margin-bottom: var(--space-lg);
+    padding: 0 var(--space-md);
+  }
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -42,6 +59,15 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   padding: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .onboarding-card {
+    border-radius: 0;
+    box-shadow: none;
+    padding: var(--space-lg) var(--space-md);
+    min-height: 100vh;
+  }
 }
 
 .onboarding-card h1 {
@@ -119,6 +145,8 @@
 @media (max-width: 768px) {
   .form-sections-container {
     grid-template-columns: 1fr;
+    max-width: 100%;
+    margin: 0;
   }
 }
 
