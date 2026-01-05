@@ -1,0 +1,6 @@
+/* Dashboard uses styles from index.css */
+/* Additional dashboard-specific styles if needed */
+
+.dashboard-grid aside .sidebar-card:first-child {
+  margin-top: calc(var(--space-lg) + 1.5rem + var(--space-lg));
+}

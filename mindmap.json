@@ -102,7 +102,7 @@
     },
     {
       "id": "node-1766969689565-0.3273251670635664",
-      "content": "Jestli jednotlivé role uvidí informace o ostatních lodích (posádka, checklisty, info o lodi apod. záleží na nastavení plavby organizátorem.",
+      "content": "Jestli jednotlivé role uvidí informace o ostatních lodích (posádka, checklisty, info o lodi apod. záleží na nastavení plavby organizátorem. Crewlist všech lodí uvidí pouze organizátor.",
       "type": "THOUGHT"
     },
     {
@@ -112,17 +112,12 @@
     },
     {
       "id": "nqg9cvglx5",
-      "content": "Hlavní rozhrání plavby - bude obsahovat (vše zde je definováno organizátorem při zakládání plavby ve formuláři plavby)",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqg9vfn2xd",
-      "content": "Informace o plavbě poskytnuté organizátorem",
+      "content": "Stránka plavby (základ, ze kterého se odvíjí všechny verze) (vše na této stránce je definováno organizátorem při zakládání plavby ve formuláři plavby, kromě lodí, které přidává až na stránce lodě).",
       "type": "THOUGHT"
     },
     {
       "id": "nqga9ff0ma",
-      "content": "Hlavní timeline/checklist (oddělený od systému checklistů a nastavitelný přímo ve formuláři plavby). Bude sloužit jako checklist a časová osa toho co se musí stihnout před plavbou, například platba zálohy, vyplnění crewlistu. Každý z bodů bude mít volitelné i nejpozdější datum splnění. ",
+      "content": "Navíc záložka hlavního checklistu \"Před plavbou\" (oddělený od systému checklistů a nastavitelný přímo ve formuláři plavby). Bude sloužit jako checklist a časová osa toho co se musí stihnout před plavbou, například platba zálohy, vyplnění crewlistu. Každý z bodů bude mít volitelné i nejpozdější datum splnění a bude volitelně checkable. Organizátor bude mít možnost nastavit pro jaké role jsou jednotlivé body(eventy) určeny.",
       "type": "THOUGHT"
     },
     {
@@ -136,23 +131,8 @@
       "type": "THOUGHT"
     },
     {
-      "id": "nqgi3dvct2",
-      "content": "Informace o platbách a zálohách",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqgmsvpokh",
-      "content": "Informace o místě startu a volitelně i informace o cestě a cíli plavby. Ideálně i včetně malé mapy.",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqgns3k3kx",
-      "content": "Informace o přepravě do místa startu",
-      "type": "THOUGHT"
-    },
-    {
       "id": "nqgoucxwbh",
-      "content": "Vyplnění crewlistu. Organizátor definguje jaké údaje jsou potřeba. A jaké údaje navíc jsou potřeba pro roli kapitána.",
+      "content": "Navíc záložka vyplnění crewlistu. Účastníci na této stránce vyplní potřebné údaje. Organizátor definguje jaké údaje jsou potřeba. A jaké údaje navíc jsou potřeba pro roli kapitána.",
       "type": "THOUGHT"
     },
     {
@@ -162,42 +142,17 @@
     },
     {
       "id": "nqgses168u",
-      "content": "Informace o počtu lidí a počtu volných míst, počtu lodí v plavbě.",
+      "content": "Karta(sekce) informace bude zobrazovat obecné informace o plavbě v dolní části informacea o ceně a podmínkách platby. Celá tato sekce bude mít možnost zobrazit více informací. Při kliku na tuto možnost se objeví modal s úplnými informacemi (stejná verze jako kdyby byl uživatel už přihlášený k plavbě). Organizátor ve formuláři plavby pro tento účel vyplňuje informace o plavbě pro zájemce a účastnící se zvlášť.",
       "type": "THOUGHT"
     },
     {
       "id": "nqgt8adt9r",
-      "content": "Sekce lodě bude zobrazovat informace o všech lodích v plavbě. ",
+      "content": "Karta(sekce) lodě bude zobrazovat informace o všech lodích v plavbě. ",
       "type": "THOUGHT"
     },
     {
       "id": "nqgxiof4bb",
-      "content": "Rozhraní plavby (verze organizátora). Organizátoe bude mít navíc možnosti:",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqgyiu2a8y",
-      "content": "Přiřazovat účastníky do lodí",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqgyxkxwo5",
-      "content": "Měnit účastníkům role",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqgzaepmvz",
-      "content": "Vidět a vyplňovat checklisty lodí",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqh0zajkc2",
-      "content": "Vidět stav hlavního checklistu všech účastníků a vyplňovat ho.",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqh25eaxfx",
-      "content": "Vidět stav vyplnění crewlistu, a zobrazit crewlist pro jednotlivé lodě. (ať už vyplněný, částěčně vyplněný, nebo úplne vyplněný, vždy k němu bude mít přístup.)",
+      "content": "Stránka plavby (verze organizátora). ",
       "type": "THOUGHT"
     },
     {
@@ -207,7 +162,7 @@
     },
     {
       "id": "nqh7ojte0q",
-      "content": "Features",
+      "content": "Účel a funkce aplikace obecně",
       "type": "THOUGHT"
     },
     {
@@ -228,11 +183,6 @@
     {
       "id": "nqh8q7080x",
       "content": "Předávání lodí integrovaným checklistem",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nqh951mirg",
-      "content": "Organizátor si může odškrtávat od koho dostal zaplacenou definovanou zálohu v aplikaci. (Záloh může být více). Ale aplikace sama o sobě není připravena na tracking financí.",
       "type": "THOUGHT"
     },
     {
@@ -271,16 +221,6 @@
       "type": "THOUGHT"
     },
     {
-      "id": "nqk7oh75rl",
-      "content": "Lodní deníky - každý kapitán každý edn plavby vyplní lodní deník. Informace z něho pak budou k dispozici kapitánovi a oragnizátorům v aplikace a k exportu.",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nr3r3twvst",
-      "content": "Zvát účastníky sdílením odkazu (s ID) a PINu. Nebo pomocí emailu je zvát přímo.",
-      "type": "THOUGHT"
-    },
-    {
       "id": "nr3tm6sb5u",
       "content": "Další věci co brát v potaz",
       "type": "THOUGHT"
@@ -301,23 +241,13 @@
       "type": "THOUGHT"
     },
     {
-      "id": "nr4fypl2n8",
-      "content": "Rozhraní plavby (uživatel, který si plavbu zobrzil ale ještě neklikl na tlačítko zůčastnit se). ",
-      "type": "THOUGHT"
-    },
-    {
-      "id": "nr4i6xo67m",
-      "content": "Nebude obsahovat téměř žádná data o ostatních účastnících kromě jejich křestního jména, role, a přiřazení do lodi.",
-      "type": "THOUGHT"
-    },
-    {
       "id": "nr4o8cqsom",
-      "content": "Pokud je uživatel již přiřazený organizátorem do konkrétní lodi a na konkrétní pozici, bude mu zobrazeno více informací o jeho konkrétní lodi, jako detailní složení posádky.",
+      "content": "Pokud je uživatel již přiřazený organizátorem do konkrétní lodi a na konkrétní pozici, bude mu zobrazeno více informací o jeho konkrétní lodi.",
       "type": "THOUGHT"
     },
     {
       "id": "nr4q6alz16",
-      "content": "Pokud uživatel nebude přiřazený organizátorem, bude zde poznámka, že nebyl přiřazen do konkrétní lodi, a bude mu umožněno zvolit preferovanou loď. Tuto preferenci pak uvidí organizátor v přehledu přiřazení.",
+      "content": "Pokud uživatel nebude přiřazený organizátorem, bude zde poznámka, že nebyl přiřazen do konkrétní lodi, a bude mu umožněno zvolit preferovanou loď (modal). Tuto preferenci pak uvidí organizátor v seznamu účastníků.",
       "type": "THOUGHT"
     },
     {
@@ -372,7 +302,7 @@
     },
     {
       "id": "nsphzd12fh",
-      "content": "Každý event v checklistu bude mít nadpis, popis, a bude volitelně checkable",
+      "content": "Každý event v checklistu bude mít nadpis, popis, a bude volitelně checkable. Zároveň u každého eventu bude možnost zvolit pro jaké role je tato událost určena (kapitáni, orgnizátoři, nebo členové posádky (účastnící)).",
       "type": "THOUGHT"
     },
     {
@@ -392,7 +322,157 @@
     },
     {
       "id": "nspraw3llf",
-      "content": "Crewlist posádka vyplnňuje před odjezdem pokud je to v nastavení plavby (formuláři) povolena. Organizátor definuje jaké informace potřebuje od každého účastníka. + Je možné definovat že od různých rolí potřebuje různé informace. Například od kapitána bude potřebovat číslo jeho licence. Crewlist bude v hlavním checklistu pokud je povolen crewlist a pokud je přidán co hlavního checklistu.",
+      "content": "Crewlist posádka vyplnňuje před odjezdem pokud je to v nastavení plavby (formuláři) povolena. Organizátor definuje jaké informace potřebuje od každého účastníka. + Je možné definovat že od různých rolí potřebuje různé informace. Například od kapitána bude potřebovat číslo jeho licence. Crewlist bude v hlavním checklistu pokud je povolen crewlist a pokud je přidán co hlavního checklistu. Hlavní odpovědnost vyplnění checklistu má ten jemuž údaje patří. Nikdo by neměl vyplňovat údaje za jiné i když tam ta možnost v případě organizátora bude.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nucosvyi01",
+      "content": "Ukládání dokumentů",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nucoy8826r",
+      "content": "Každá plavba bude mít sekci dokumentů, kam můžou organizátoři nahrávat libovolné dokumenty a soubory. Můžou je také stahovat.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuct0syjad",
+      "content": "Crewlist se vyplňuje 1 pro každou loď, a je možné jej stáhnout v PDF formátu pro každou loď zvlášť.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nucuw8e3jm",
+      "content": "Vyplňuje ho buď kapitán pro svoji loď, nebo organizátor pro libovolnou loď. Stejně tak je možné exportovat celý lodní deník (vždy pro každou loď zvlášť) do PDF. Zpětně je možné záznamy i editovat.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nucwzyma2n",
+      "content": "Do deníku se vyplňují koncové motohodiny, kolik se za den uplulo, a kolik z toho na plachty, a kde všude loď byla. Dále je možné přidat dodatečné informace do poznámky.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nud9aj6mgl",
+      "content": "Karta(sekce) lokalita bude zobrazovat informace o místě startu, volitelně i místě cíle, a seznam míst, na které se loď během plavby podívá včetně možnosti přidat fotku. Bude zobrazovat i obecné (další) informace definované organizátorem.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nudjhujtwr",
+      "content": "Stránka plavby (verze účatníka/člena posádky):",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nudlh0po5i",
+      "content": "Karta lodě",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuep0yldbi",
+      "content": "Stránka plavby (verze kapitána):",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nueraht2i2",
+      "content": "Záložka Crewlist, kde kapitán uvidí všechny členy své posádky a údaje co do crewlistu vyplnili ve své záložce vyplnění crewlistu. Kapitán bude moci editovat tento crewlist a vyplnit i své údaje. Dále bude mít možnost crewlist exportovat do PDF. ",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuev912jk1",
+      "content": "Proklik na záložku Moje loď",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuevnyfmt8",
+      "content": "Navíc záložka moje loď (pokud byla účastníkovi již přiřazena). V této záložce budou kompletní informace o lodi a seznam posádky včetně podrolí.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuextl1xke",
+      "content": "Záložka Moje loď téměř identická jako záložka moje loď účastníka, ale s rozdílem, že  kapitán bude moci měnit podrole posádky.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuez5gem3s",
+      "content": "Navíc záložka Checklisty, kde se obrazí seznam dostupných checlistů, pokud nějaké organizátor účastníkům přiřadil.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuf0ccmsq6",
+      "content": "Záložka Checklisty, kde se obrazí seznam dostupných checlistů, pokud nějaké organizátor kapitánům přiřadil.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuf9uyfukv",
+      "content": "Karta(sekce) Kontakt, kde bude kontakt na organizátora.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufakh4dfc",
+      "content": "Karta Kontakt bude mít navíc kontakt na kapitána pokud byla účastníkovi již přiřazena loď, a té lodi byl přiřazený kapitán.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufh2ly5kw",
+      "content": "Karta lodě",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufh6cscs2",
+      "content": "Proklik na záložku Moje loď",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufhy0fuyh",
+      "content": "Navíc záložka lodní deník, kde kapitán bude moci přidávat záznamy (určena pro 1 záznam na den, ale půjde to libovolně).",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufmcprag9",
+      "content": "Navíc záložka lodě, kde budou všechny lodě plavby. U každé lodi bude možnost:",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufo43804u",
+      "content": "Zobrazit crewlist, kde jej bude možnost editovat, a exportovat ho, měla by to být stejný typ stránky, co vidí kapitán pro svoji loď.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufpazc74d",
+      "content": "Zobrazit checklisty lodě, pokud v nastavení organizátor lodím nějaké checklisty přiřadil.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufqe7z17d",
+      "content": "Zobrazit stránku lodě, kde organizátor bude vidět celou posádku a bude moci editovat podrole. Stejná stránka jako vidí kapitán v záložce Moje loď.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufro4yyp5",
+      "content": "Navíc záložka účastnící, kde organizátor uvidí všechny účastníky, bude je moci přiřazovat lodím, a měnit jejich roli.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nuft2c88ys",
+      "content": "Možnost otevřít stránku s detailem účastníka, kde organizátor uvidí stav jeho hlavního checklistu a bude ho moci editovat (zaklikávat checkable body), dále uvidí údaje, které účastník vyplnil do crewlistu, a všechny další informace jako do jaké lodi byl přiřazen apod.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufwq7etxf",
+      "content": "Přidávat, editovat, a odebírat lodě.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufxly8onw",
+      "content": "Možnost zobrazit konkrétní checklist a upravovat ho.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nufy6et2xc",
+      "content": "Možnost pozvat účastníka sdílením odkazu (vč. ID) a PINu. Nebo pomocí emailu je zvát přímo.",
+      "type": "THOUGHT"
+    },
+    {
+      "id": "nug5mfcepw",
+      "content": "Záložka Před plavbou, kde organizátor uvidí nadefinovaný hlavní checklist pro plavbu a u každého eventu uvidí  kdo jej vše již splnil a kdo ne.",
       "type": "THOUGHT"
     }
   ],
@@ -490,36 +570,12 @@
       "to": "nqg9cvglx5"
     },
     {
-      "from": "nqg9cvglx5",
-      "to": "nqg9vfn2xd"
-    },
-    {
-      "from": "nqg9cvglx5",
-      "to": "nqga9ff0ma"
-    },
-    {
       "from": "node-1766969471410-0.7878141147919971",
       "to": "nqgddx66yb"
     },
     {
       "from": "node-1766969471410-0.7878141147919971",
       "to": "nqgfakfd2u"
-    },
-    {
-      "from": "nqg9cvglx5",
-      "to": "nqgi3dvct2"
-    },
-    {
-      "from": "nqg9cvglx5",
-      "to": "nqgmsvpokh"
-    },
-    {
-      "from": "nqg9cvglx5",
-      "to": "nqgns3k3kx"
-    },
-    {
-      "from": "nqg9cvglx5",
-      "to": "nqgoucxwbh"
     },
     {
       "from": "node-1766967605220-0.2603948943687461",
@@ -536,26 +592,6 @@
     {
       "from": "node-1766967307078-0.3623849917461668",
       "to": "nqgxiof4bb"
-    },
-    {
-      "from": "nqgxiof4bb",
-      "to": "nqgyiu2a8y"
-    },
-    {
-      "from": "nqgxiof4bb",
-      "to": "nqgyxkxwo5"
-    },
-    {
-      "from": "nqgxiof4bb",
-      "to": "nqgzaepmvz"
-    },
-    {
-      "from": "nqgxiof4bb",
-      "to": "nqh0zajkc2"
-    },
-    {
-      "from": "nqgxiof4bb",
-      "to": "nqh25eaxfx"
     },
     {
       "from": "node-1766969677693-0.8787854762254786",
@@ -580,10 +616,6 @@
     {
       "from": "nqh7ojte0q",
       "to": "nqh8q7080x"
-    },
-    {
-      "from": "nqh7ojte0q",
-      "to": "nqh951mirg"
     },
     {
       "from": "nqh7ojte0q",
@@ -614,18 +646,6 @@
       "to": "nqhxweqjd8"
     },
     {
-      "from": "nqh7ojte0q",
-      "to": "nqjhhet6zo"
-    },
-    {
-      "from": "nqh7ojte0q",
-      "to": "nqk7oh75rl"
-    },
-    {
-      "from": "nqgxiof4bb",
-      "to": "nr3r3twvst"
-    },
-    {
       "from": "node-1766966921888-0.1594877504061757",
       "to": "nr3tm6sb5u"
     },
@@ -640,22 +660,6 @@
     {
       "from": "nqhxpy7rd2",
       "to": "nr3xja7l54"
-    },
-    {
-      "from": "node-1766967307078-0.3623849917461668",
-      "to": "nr4fypl2n8"
-    },
-    {
-      "from": "nr4fypl2n8",
-      "to": "nr4i6xo67m"
-    },
-    {
-      "from": "nqgt8adt9r",
-      "to": "nr4o8cqsom"
-    },
-    {
-      "from": "nqgt8adt9r",
-      "to": "nr4q6alz16"
     },
     {
       "from": "nspdtxqybo",
@@ -716,6 +720,162 @@
     {
       "from": "nspdylb7l6",
       "to": "nspraw3llf"
+    },
+    {
+      "from": "nspdtxqybo",
+      "to": "nucosvyi01"
+    },
+    {
+      "from": "nucosvyi01",
+      "to": "nucoy8826r"
+    },
+    {
+      "from": "nspdylb7l6",
+      "to": "nuct0syjad"
+    },
+    {
+      "from": "nspe87fj72",
+      "to": "nucuw8e3jm"
+    },
+    {
+      "from": "nucuw8e3jm",
+      "to": "nucwzyma2n"
+    },
+    {
+      "from": "nqg9cvglx5",
+      "to": "nud9aj6mgl"
+    },
+    {
+      "from": "node-1766967307078-0.3623849917461668",
+      "to": "nudjhujtwr"
+    },
+    {
+      "from": "nudjhujtwr",
+      "to": "nudlh0po5i"
+    },
+    {
+      "from": "nudlh0po5i",
+      "to": "nr4o8cqsom"
+    },
+    {
+      "from": "nudlh0po5i",
+      "to": "nr4q6alz16"
+    },
+    {
+      "from": "nudjhujtwr",
+      "to": "nqgoucxwbh"
+    },
+    {
+      "from": "nudjhujtwr",
+      "to": "nqga9ff0ma"
+    },
+    {
+      "from": "node-1766967307078-0.3623849917461668",
+      "to": "nuep0yldbi"
+    },
+    {
+      "from": "nuep0yldbi",
+      "to": "nueraht2i2"
+    },
+    {
+      "from": "nudlh0po5i",
+      "to": "nuev912jk1"
+    },
+    {
+      "from": "nudjhujtwr",
+      "to": "nuevnyfmt8"
+    },
+    {
+      "from": "nuep0yldbi",
+      "to": "nuextl1xke"
+    },
+    {
+      "from": "nudjhujtwr",
+      "to": "nuez5gem3s"
+    },
+    {
+      "from": "nuep0yldbi",
+      "to": "nuf0ccmsq6"
+    },
+    {
+      "from": "node-1766967307078-0.3623849917461668",
+      "to": "nuf9uyfukv"
+    },
+    {
+      "from": "nudjhujtwr",
+      "to": "nufakh4dfc"
+    },
+    {
+      "from": "nuep0yldbi",
+      "to": "nqga9ff0ma"
+    },
+    {
+      "from": "nuep0yldbi",
+      "to": "nufh2ly5kw"
+    },
+    {
+      "from": "nufh2ly5kw",
+      "to": "nufh6cscs2"
+    },
+    {
+      "from": "nuep0yldbi",
+      "to": "nufhy0fuyh"
+    },
+    {
+      "from": "nufhy0fuyh",
+      "to": "nspe87fj72"
+    },
+    {
+      "from": "nqgxiof4bb",
+      "to": "nufmcprag9"
+    },
+    {
+      "from": "nufmcprag9",
+      "to": "nufo43804u"
+    },
+    {
+      "from": "nufo43804u",
+      "to": "nueraht2i2"
+    },
+    {
+      "from": "nufmcprag9",
+      "to": "nufpazc74d"
+    },
+    {
+      "from": "nufmcprag9",
+      "to": "nufqe7z17d"
+    },
+    {
+      "from": "nufqe7z17d",
+      "to": "nuextl1xke"
+    },
+    {
+      "from": "nqgxiof4bb",
+      "to": "nufro4yyp5"
+    },
+    {
+      "from": "nufro4yyp5",
+      "to": "nuft2c88ys"
+    },
+    {
+      "from": "nufmcprag9",
+      "to": "nufwq7etxf"
+    },
+    {
+      "from": "nufpazc74d",
+      "to": "nufxly8onw"
+    },
+    {
+      "from": "nufro4yyp5",
+      "to": "nufy6et2xc"
+    },
+    {
+      "from": "nqgxiof4bb",
+      "to": "nug5mfcepw"
+    },
+    {
+      "from": "nspdtxqybo",
+      "to": "nqjhhet6zo"
     }
   ]
 }

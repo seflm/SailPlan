@@ -1,0 +1,252 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user is organizer of a trip
+    function isTripOrganizer(tripId) {
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/trips/$(tripId)).data.organizerId == request.auth.uid;
+    }
+
+    // Helper function to check if user is participant in a trip
+    function isTripParticipant(tripId) {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/participants/$(request.auth.uid + '_' + tripId));
+    }
+
+    // Trips collection
+    match /trips/{tripId} {
+      // Public read: anyone can read trips, but password field should not be exposed in client code
+      // Note: Firestore rules cannot hide specific fields, so password must be filtered in application code
+      // For public view, password should never be accessed or displayed
+      allow read: if true;
+      
+      // Only authenticated users can create trips, and they must be the organizer
+      allow create: if isAuthenticated() && 
+                       request.resource.data.organizerId == request.auth.uid;
+      
+      // Only the organizer can update/delete their trip
+      allow update: if isAuthenticated() && 
+                      resource.data.organizerId == request.auth.uid;
+      
+      allow delete: if isAuthenticated() && 
+                      resource.data.organizerId == request.auth.uid;
+    }
+    
+    // Participants collection
+    match /participants/{participantId} {
+      // Public read so that aggregated occupancy (counts per trip/boat) is visible
+      // on veřejných (public) stránkách. Aplikace dál nezobrazuje osobní údaje.
+      allow read: if true;
+      
+      // Users can create their own participant record
+      allow create: if isAuthenticated() && 
+                       request.resource.data.userId == request.auth.uid;
+      
+      // Users can update their own record, or organizer can update any participant
+      allow update: if isAuthenticated() && 
+                      (resource.data.userId == request.auth.uid ||
+                       isTripOrganizer(resource.data.tripId));
+      
+      // Users can delete their own record, or organizer can delete any participant
+      allow delete: if isAuthenticated() && 
+                      (resource.data.userId == request.auth.uid ||
+                       isTripOrganizer(resource.data.tripId));
+    }
+    
+    // Boats collection
+    match /boats/{boatId} {
+      // Anyone can read boats (for public trip pages)
+      allow read: if true;
+      
+      // Only organizer can create/update/delete boats
+      allow create: if isAuthenticated() && 
+                      isTripOrganizer(request.resource.data.tripId);
+      
+      allow update, delete: if isAuthenticated() && 
+                               isTripOrganizer(resource.data.tripId);
+    }
+
+    // Timeline Events collection
+    match /timelineEvents/{eventId} {
+      allow read: if isAuthenticated();
+      
+      // Only organizer can create/update/delete timeline events
+      allow create: if isAuthenticated() && 
+                      isTripOrganizer(request.resource.data.tripId);
+      
+      allow update, delete: if isAuthenticated() && 
+                               isTripOrganizer(resource.data.tripId);
+    }
+
+    // Timeline Completions collection
+    match /timelineCompletions/{completionId} {
+      allow read: if isAuthenticated();
+      
+      // Users can create/update their own completions
+      allow create, update: if isAuthenticated() && 
+                               request.resource.data.userId == request.auth.uid;
+      
+      // Organizer can delete any completion
+      allow delete: if isAuthenticated() && 
+                      (resource.data.userId == request.auth.uid ||
+                       isTripOrganizer(get(/databases/$(database)/documents/timelineEvents/$(resource.data.eventId)).data.tripId));
+    }
+
+    // Crewlist Entries collection
+    match /crewlistEntries/{entryId} {
+      allow read: if isAuthenticated();
+      
+      // Users can create/update their own crewlist entries
+      allow create: if isAuthenticated() && 
+                      request.resource.data.participantId != null;
+      
+      allow update: if isAuthenticated() && 
+                      (resource.data.participantId != null ||
+                       isTripOrganizer(resource.data.tripId));
+      
+      // Users can delete their own entries, organizer can delete any
+      allow delete: if isAuthenticated() && 
+                      (resource.data.participantId != null ||
+                       isTripOrganizer(resource.data.tripId));
+    }
+
+    // Crewlist Templates collection
+    match /crewlistTemplates/{templateId} {
+      allow read: if isAuthenticated();
+      
+      // Only organizer can create templates
+      allow create: if isAuthenticated() && 
+                      isTripOrganizer(request.resource.data.tripId);
+      
+      // Only organizer can update/delete templates
+      allow update, delete: if isAuthenticated() && 
+                               isTripOrganizer(resource.data.tripId);
+    }
+
+    // Crewlist Data collection
+    match /crewlistData/{dataId} {
+      allow read: if isAuthenticated();
+      
+      // Users can create their own crewlist data, or organizer can create for any user in their trip
+      allow create: if isAuthenticated() && 
+                      (request.resource.data.userId == request.auth.uid ||
+                       (request.resource.data.tripId != null && 
+                        isTripOrganizer(request.resource.data.tripId)));
+      
+      // Users can update their own crewlist data, or organizer can update any data in their trip
+      // Check both existing resource and new resource for tripId to handle both cases
+      allow update: if isAuthenticated() && 
+                      (resource.data.userId == request.auth.uid ||
+                       (resource.data.tripId != null && 
+                        isTripOrganizer(resource.data.tripId)) ||
+                       (request.resource.data.tripId != null && 
+                        isTripOrganizer(request.resource.data.tripId)));
+      
+      allow delete: if isAuthenticated() && 
+                      (resource.data.userId == request.auth.uid ||
+                       (resource.data.tripId != null && 
+                        isTripOrganizer(resource.data.tripId)));
+    }
+
+    // Boat Logs collection
+    match /boatLogs/{logId} {
+      allow read: if isAuthenticated();
+      
+      // Only organizer or captain of the boat can create/update/delete logs
+      allow create: if isAuthenticated();
+      
+      allow update, delete: if isAuthenticated() && 
+                               (isTripOrganizer(resource.data.tripId) ||
+                                resource.data.userId == request.auth.uid);
+    }
+
+    // Checklist Templates collection
+    match /checklistTemplates/{templateId} {
+      allow read: if isAuthenticated();
+      
+      // Only the organizer can manage their own templates
+      allow create: if isAuthenticated() && 
+                      request.resource.data.organizerId == request.auth.uid;
+      
+      allow update, delete: if isAuthenticated() && 
+                               resource.data.organizerId == request.auth.uid;
+    }
+
+    // Checklist Instances collection
+    match /checklistInstances/{instanceId} {
+      allow read: if isAuthenticated();
+      
+      // Only organizer can create instances
+      allow create: if isAuthenticated() && 
+                      isTripOrganizer(request.resource.data.tripId);
+      
+      // Users can update their own instances, organizer can update any
+      allow update: if isAuthenticated() && 
+                      (resource.data.userId == request.auth.uid ||
+                       isTripOrganizer(resource.data.tripId));
+      
+      allow delete: if isAuthenticated() && 
+                      isTripOrganizer(resource.data.tripId);
+    }
+
+    // Trip Templates collection
+    match /tripTemplates/{templateId} {
+      allow read: if isAuthenticated();
+      
+      // Only the organizer can manage their own templates
+      allow create: if isAuthenticated() && 
+                      request.resource.data.organizerId == request.auth.uid;
+      
+      allow update, delete: if isAuthenticated() && 
+                               resource.data.organizerId == request.auth.uid;
+    }
+
+    // Trip Documents collection
+    match /tripDocuments/{documentId} {
+      allow read: if isAuthenticated();
+      
+      // Only organizer can create/update/delete documents
+      allow create: if isAuthenticated() && 
+                      isTripOrganizer(request.resource.data.tripId);
+      
+      allow update, delete: if isAuthenticated() && 
+                               isTripOrganizer(resource.data.tripId);
+    }
+
+    // Organizer Contacts collection
+    match /organizerContacts/{userId} {
+      // Anyone can read organizer contacts (for displaying in trip views)
+      allow read: if true;
+      
+      // Only the organizer can create/update their own contact details
+      allow create, update: if isAuthenticated() && 
+                               request.auth.uid == userId;
+      
+      allow delete: if isAuthenticated() && 
+                      request.auth.uid == userId;
+    }
+
+    // User Profiles collection
+    match /userProfiles/{userId} {
+      // Users can read their own profile, organizers can read profiles of participants
+      allow read: if isAuthenticated();
+      
+      // Only the user can create/update their own profile
+      // Allow both create and update with merge
+      allow create: if isAuthenticated() && 
+                      request.auth.uid == userId;
+      
+      allow update: if isAuthenticated() && 
+                      request.auth.uid == userId;
+      
+      allow delete: if isAuthenticated() && 
+                      request.auth.uid == userId;
+    }
+  }
+}

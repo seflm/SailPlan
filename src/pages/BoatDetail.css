@@ -1,0 +1,131 @@
+.boat-detail {
+  width: 100%;
+}
+
+.boat-hero {
+  background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise));
+  padding: var(--space-2xl) 0;
+  color: white;
+}
+
+.boat-hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-xl);
+}
+
+.boat-specs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.boat-spec {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.boat-spec-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.boat-spec-label {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-top: 2px;
+  color: white;
+}
+
+.crew-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.crew-member {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-100);
+}
+
+.crew-info {
+  flex: 1;
+}
+
+.crew-info h5 {
+  margin: 0 0 var(--space-xs) 0;
+  font-size: 1rem;
+  color: var(--ocean-deep);
+}
+
+.crew-info p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.crew-badge {
+  padding: 4px 12px;
+  background: var(--turquoise);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.log-entry {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.log-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.log-entry-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.log-stat {
+  text-align: center;
+  padding: var(--space-sm);
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+}
+
+.log-stat .font-semibold {
+  font-size: 1.125rem;
+  color: var(--ocean-deep);
+}
+
+@media (max-width: 768px) {
+  .boat-specs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .log-entry-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .boat-hero-content {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+}

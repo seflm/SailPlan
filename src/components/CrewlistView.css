@@ -1,0 +1,58 @@
+.crewlist-view {
+  width: 100%;
+}
+
+.crewlist-table-container {
+  overflow-x: auto;
+  margin-top: var(--space-md);
+}
+
+.crewlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.crewlist-table thead {
+  background: var(--gray-50);
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.crewlist-table th {
+  padding: var(--space-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--ocean-deep);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crewlist-table td {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+}
+
+.crewlist-table tbody tr:hover {
+  background: var(--gray-50);
+}
+
+.crewlist-table tbody tr.editing-row {
+  background: rgba(6, 182, 212, 0.05);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.crewlist-table .participant-name {
+  font-weight: 500;
+  color: var(--ocean-deep);
+}
+
+.crewlist-loading,
+.crewlist-empty {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--gray-500);
+}
+
+

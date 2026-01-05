@@ -1,0 +1,523 @@
+/* ===== Trip Detail Page ===== */
+.trip-header {
+  background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid));
+  padding: var(--space-2xl) 0;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.trip-header::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+
+.trip-header-content {
+  position: relative;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.breadcrumb a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--white);
+}
+
+.breadcrumb i.fa-chevron-right {
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+.trip-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.trip-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: var(--space-sm);
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  color: var(--white);
+}
+
+.role-badge.organizer {
+  background: rgba(249, 115, 22, 0.3);
+  color: var(--coral-light);
+}
+
+.role-badge.captain {
+  background: rgba(6, 182, 212, 0.3);
+  color: var(--turquoise-light);
+}
+
+.role-badge.participant {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+
+.trip-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+}
+
+.trip-header-meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.trip-header-meta-item i {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== Trip Tabs ===== */
+.trip-tabs {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-100);
+  position: sticky;
+  top: 72px;
+  z-index: 50;
+}
+
+.trip-tabs-inner {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  padding: var(--space-sm) 0;
+}
+
+.trip-tab {
+  padding: var(--space-md) var(--space-lg);
+  font-weight: 500;
+  color: var(--gray-500);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.trip-tab:hover {
+  color: var(--ocean-deep);
+  background: var(--gray-50);
+}
+
+.trip-tab.active {
+  color: var(--turquoise);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.trip-tab i {
+  font-size: 0.875rem;
+}
+
+/* ===== Trip Content ===== */
+.trip-content {
+  padding: var(--space-xl) 0;
+  background: var(--foam);
+  min-height: calc(100vh - 200px);
+}
+
+.trip-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: var(--space-xl);
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ocean-deep);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.card-title i {
+  font-size: 1.125rem;
+}
+
+/* ===== Admin Panel ===== */
+.admin-panel {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(249, 115, 22, 0.1));
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.admin-panel-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  color: var(--coral);
+  font-weight: 600;
+}
+
+/* ===== Sidebar ===== */
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.sidebar-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-md) 0;
+  color: var(--ocean-deep);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sidebar-card h4 i {
+  font-size: 1rem;
+}
+
+/* ===== Location ===== */
+.map-placeholder {
+  height: 180px;
+  background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise));
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 3rem;
+  opacity: 0.6;
+}
+
+.location-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.location-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.location-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--foam);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--turquoise);
+  flex-shrink: 0;
+}
+
+.location-text h5 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: var(--ocean-deep);
+}
+
+.location-text p {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+}
+
+/* ===== Checklist Events ===== */
+.checklist-event {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--gray-100);
+  margin-bottom: var(--space-md);
+}
+
+.checklist-event.completed {
+  border-color: var(--success);
+  background: var(--success-light);
+}
+
+.checklist-event.in-progress {
+  border-color: var(--warning);
+  background: var(--warning-light);
+}
+
+.checklist-event-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.checklist-event-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.checklist-event.completed .checklist-event-checkbox {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.checklist-event-checkbox.completed {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.checklist-event-checkbox:hover {
+  border-color: var(--turquoise);
+}
+
+.checklist-event.completed {
+  border-color: var(--success);
+  background: var(--success-light);
+}
+
+/* ===== Timeline Events ===== */
+.timeline-event {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--gray-100);
+  margin-bottom: var(--space-md);
+}
+
+.timeline-event-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.event-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.75rem;
+}
+
+.event-status .count {
+  padding: 2px 8px;
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+}
+
+.event-status .count.completed {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+/* ===== Contact Cards ===== */
+.contact-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-md);
+}
+
+.contact-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.contact-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.crew-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--gray-300), var(--gray-400));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.crew-avatar.captain {
+  background: linear-gradient(135deg, var(--turquoise), var(--ocean-light));
+}
+
+/* ===== Role Tags ===== */
+.role-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.role-tag.captain {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--turquoise);
+}
+
+.role-tag.organizer {
+  background: rgba(249, 115, 22, 0.1);
+  color: var(--coral);
+}
+
+.role-tag.crew {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--ocean-light);
+}
+
+/* ===== Status Pills ===== */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.status-pill.success {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.status-pill.warning {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.status-pill.danger {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.status-pill.info {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--turquoise);
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--turquoise), var(--ocean-light));
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .trip-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .trip-title {
+    font-size: 1.75rem;
+  }
+  
+  .trip-header-meta {
+    gap: var(--space-md);
+  }
+  
+  .trip-tabs-inner {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

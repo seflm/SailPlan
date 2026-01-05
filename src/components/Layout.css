@@ -1,0 +1,11 @@
+/* Layout uses styles from index.css */
+/* Additional layout-specific styles if needed */
+
+.dashboard {
+  min-height: 100vh;
+  background: var(--foam);
+}
+
+.dashboard-content {
+  padding: var(--space-xl) 0;
+}
