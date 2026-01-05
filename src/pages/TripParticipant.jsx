@@ -10,6 +10,7 @@ import { organizerService } from '../services/organizerService'
 import { userService } from '../services/userService'
 import { loadUserProfiles, getUserInitials } from '../utils/userDisplay'
 import { getUserTripRoles, getRoleLabel } from '../utils/permissions'
+import useMediaQuery from '../hooks/useMediaQuery'
 import CrewlistForm from '../components/CrewlistForm'
 import TripInfoCard from '../components/TripInfoCard'
 import TripLocationCard from '../components/TripLocationCard'
@@ -17,11 +18,14 @@ import UsefulLinksCard from '../components/UsefulLinksCard'
 import ContactsCard from '../components/ContactsCard'
 import BoatCard from '../components/BoatCard'
 import BeforeTripTab from '../components/BeforeTripTab'
+import ScrollableTabs from '../components/ScrollableTabs'
+import TripTabsBottomDrawer from '../components/TripTabsBottomDrawer'
 import './TripDetail.css'
 
 export default function TripParticipant() {
   const { tripId } = useParams()
   const { user } = useAuthState()
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [trip, setTrip] = useState(null)
   const [participant, setParticipant] = useState(null)
   const [boat, setBoat] = useState(null)
@@ -35,6 +39,14 @@ export default function TripParticipant() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('prehled')
   const [activeChecklist, setActiveChecklist] = useState(null)
+
+  const tripTabs = [
+    { id: 'prehled', label: 'Přehled', icon: <i className="fas fa-info-circle"></i> },
+    { id: 'pred-plavbou', label: 'Před plavbou', icon: <i className="fas fa-flag-checkered"></i> },
+    { id: 'moje-lod', label: 'Moje loď', icon: <i className="fas fa-ship"></i> },
+    { id: 'crew-list', label: 'Crew list', icon: <i className="fas fa-clipboard-list"></i> },
+    { id: 'checklisty', label: 'Checklisty', icon: <i className="fas fa-tasks"></i> },
+  ]
 
   useEffect(() => {
     if (tripId && user) {
@@ -387,47 +399,55 @@ export default function TripParticipant() {
       </div>
 
       {/* Trip Tabs */}
-      <div className="trip-tabs">
-        <div className="container">
-          <div className="trip-tabs-inner">
-            <button
-              className={`trip-tab ${activeTab === 'prehled' ? 'active' : ''}`}
-              onClick={() => setActiveTab('prehled')}
-            >
-              <i className="fas fa-info-circle"></i>
-              Přehled
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'pred-plavbou' ? 'active' : ''}`}
-              onClick={() => setActiveTab('pred-plavbou')}
-            >
-              <i className="fas fa-flag-checkered"></i>
-              Před plavbou
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'moje-lod' ? 'active' : ''}`}
-              onClick={() => setActiveTab('moje-lod')}
-            >
-              <i className="fas fa-ship"></i>
-              Moje loď
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'crew-list' ? 'active' : ''}`}
-              onClick={() => setActiveTab('crew-list')}
-            >
-              <i className="fas fa-clipboard-list"></i>
-              Crew list
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'checklisty' ? 'active' : ''}`}
-              onClick={() => setActiveTab('checklisty')}
-            >
-              <i className="fas fa-tasks"></i>
-              Checklisty
-            </button>
+      {isMobile ? (
+        <TripTabsBottomDrawer
+          tabs={tripTabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      ) : (
+        <div className="trip-tabs">
+          <div className="container">
+            <div className="trip-tabs-inner">
+              <button
+                className={`trip-tab ${activeTab === 'prehled' ? 'active' : ''}`}
+                onClick={() => setActiveTab('prehled')}
+              >
+                <i className="fas fa-info-circle"></i>
+                Přehled
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'pred-plavbou' ? 'active' : ''}`}
+                onClick={() => setActiveTab('pred-plavbou')}
+              >
+                <i className="fas fa-flag-checkered"></i>
+                Před plavbou
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'moje-lod' ? 'active' : ''}`}
+                onClick={() => setActiveTab('moje-lod')}
+              >
+                <i className="fas fa-ship"></i>
+                Moje loď
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'crew-list' ? 'active' : ''}`}
+                onClick={() => setActiveTab('crew-list')}
+              >
+                <i className="fas fa-clipboard-list"></i>
+                Crew list
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'checklisty' ? 'active' : ''}`}
+                onClick={() => setActiveTab('checklisty')}
+              >
+                <i className="fas fa-tasks"></i>
+                Checklisty
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Trip Content */}
       <main className="trip-content">

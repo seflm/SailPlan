@@ -1,0 +1,102 @@
+.scrollable-tabs-container {
+  position: relative;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  z-index: 10;
+}
+
+.scrollable-tabs {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.scrollable-tabs::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.scrollable-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+  flex-shrink: 0;
+  min-height: 44px; /* Touch target */
+}
+
+.scrollable-tab:hover {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.scrollable-tab.active {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--turquoise);
+  font-weight: 600;
+}
+
+.scrollable-tab-icon {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrollable-tab-label {
+  display: flex;
+  align-items: center;
+}
+
+/* Scroll indicators */
+.scrollable-tabs-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s;
+}
+
+.scrollable-tabs-indicator-left {
+  left: 0;
+  background: linear-gradient(to right, var(--white), transparent);
+  opacity: 0;
+}
+
+.scrollable-tabs-indicator-right {
+  right: 0;
+  background: linear-gradient(to left, var(--white), transparent);
+}
+
+/* Show indicators when scrollable */
+.scrollable-tabs-container:has(.scrollable-tabs:not(:hover)) .scrollable-tabs-indicator-left {
+  opacity: 0;
+}
+
+.scrollable-tabs-container:has(.scrollable-tabs:hover) .scrollable-tabs-indicator-left {
+  opacity: 1;
+}
+
+/* Desktop: hide scrollable tabs, show regular tabs */
+@media (min-width: 769px) {
+  .scrollable-tabs-container {
+    display: none;
+  }
+}
+

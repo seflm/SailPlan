@@ -4,3 +4,31 @@
 .dashboard-grid aside .sidebar-card:first-child {
   margin-top: calc(var(--space-lg) + 1.5rem + var(--space-lg));
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dashboard-grid aside {
+    margin-top: var(--space-lg);
+  }
+
+  .dashboard-grid aside .sidebar-card:first-child {
+    margin-top: 0;
+  }
+
+  .welcome-banner {
+    padding: var(--space-lg) !important;
+  }
+
+  .welcome-stats {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .trip-card {
+    margin-bottom: var(--space-lg);
+  }
+}

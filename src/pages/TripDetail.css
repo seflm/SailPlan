@@ -160,6 +160,13 @@
   min-height: calc(100vh - 200px);
 }
 
+/* Mobile: Add padding for TripTabsBottomDrawer (56px) + BottomNav (64px) = 120px */
+@media (max-width: 768px) {
+  .trip-content {
+    padding-bottom: calc(var(--space-xl) + 120px);
+  }
+}
+
 .trip-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
@@ -512,12 +519,66 @@
     font-size: 1.75rem;
   }
   
-  .trip-header-meta {
-    gap: var(--space-md);
+  .trip-header {
+    padding: var(--space-lg) 0;
   }
   
-  .trip-tabs-inner {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  .trip-header-meta {
+    gap: var(--space-md);
+    flex-direction: column;
+  }
+  
+  .trip-header-meta-item {
+    font-size: 0.875rem;
+  }
+  
+  .trip-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .trip-tabs {
+    display: none; /* Hide desktop tabs, use ScrollableTabs instead */
+  }
+  
+  .trip-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .trip-layout aside {
+    margin-top: var(--space-lg);
+  }
+  
+  .card {
+    padding: var(--space-md);
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .admin-panel {
+    padding: var(--space-md);
+  }
+  
+  .trip-header-content {
+    padding: 0 var(--space-md);
+  }
+  
+  .container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+  
+  /* Grid adjustments for mobile */
+  .trip-layout .main-content > div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Stats grid */
+  div[style*="gridTemplateColumns"][style*="repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }

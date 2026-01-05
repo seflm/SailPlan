@@ -4,11 +4,13 @@ import { useAuthState } from '../hooks/useAuthState'
 import { tripService } from '../services/tripService'
 import { participantService } from '../services/participantService'
 import { boatService } from '../services/boatService'
+import useMediaQuery from '../hooks/useMediaQuery'
 import JoinTripModal from '../components/JoinTripModal'
 import './Dashboard.css'
 
 export default function Dashboard() {
   const { user } = useAuthState()
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [upcomingTrip, setUpcomingTrip] = useState(null)
   const [tripStats, setTripStats] = useState({
     boatCount: 0,

@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { boatLogService } from '../services/boatLogService'
+import useMediaQuery from '../hooks/useMediaQuery'
+import BottomDrawer from './BottomDrawer'
 
 export default function LogEntryModal({ tripId, boatId, entry, onClose, onSave }) {
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [formData, setFormData] = useState({
     date: entry?.date?.toDate 
       ? entry.date.toDate().toISOString().split('T')[0] 
@@ -55,27 +58,8 @@ export default function LogEntryModal({ tripId, boatId, entry, onClose, onSave }
     }
   }
 
-  const modalContent = (
-    <div 
-      className="modal-overlay active" 
-      onClick={onClose}
-    >
-      <div 
-        className="modal" 
-        onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: '600px' }}
-      >
-        <div className="modal-header">
-          <h4>
-            <i className="fas fa-book" style={{ color: 'var(--turquoise)', marginRight: 'var(--space-sm)' }}></i>
-            {entry ? 'Upravit záznam' : 'Nový záznam v deníku'}
-          </h4>
-          <button className="btn btn-icon btn-ghost" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <div className="modal-body">
+  const formContent = (
+    <form onSubmit={handleSubmit}>
             {error && (
               <div style={{ 
                 padding: 'var(--space-md)', 
@@ -110,7 +94,12 @@ export default function LogEntryModal({ tripId, boatId, entry, onClose, onSave }
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', 
+              gap: 'var(--space-md)', 
+              marginBottom: 'var(--space-md)' 
+            }}>
               <div className="form-group">
                 <label className="form-label">Koncové motohodiny</label>
                 <input
@@ -169,16 +158,67 @@ export default function LogEntryModal({ tripId, boatId, entry, onClose, onSave }
                 placeholder="Poznámky k dnešní plavbě..."
               />
             </div>
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-ghost" onClick={onClose}>
+
+          <div style={{ 
+            display: 'flex', 
+            gap: 'var(--space-sm)', 
+            marginTop: 'var(--space-lg)',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: isMobile ? 'stretch' : 'flex-end'
+          }}>
+            <button 
+              type="button" 
+              className="btn btn-ghost" 
+              onClick={onClose}
+              style={{ flex: isMobile ? '1' : '0 0 auto' }}
+            >
               Zrušit
             </button>
-            <button type="submit" className="btn btn-primary" disabled={saving}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={saving}
+              style={{ flex: isMobile ? '1' : '0 0 auto' }}
+            >
               {saving ? 'Ukládání...' : (entry ? 'Uložit změny' : 'Uložit záznam')}
             </button>
           </div>
         </form>
+  )
+
+  if (isMobile) {
+    return (
+      <BottomDrawer 
+        isOpen={true} 
+        onClose={onClose} 
+        title={entry ? 'Upravit záznam' : 'Nový záznam v deníku'}
+        maxHeight={80}
+      >
+        {formContent}
+      </BottomDrawer>
+    )
+  }
+
+  const modalContent = (
+    <div 
+      className="modal-overlay active" 
+      onClick={onClose}
+    >
+      <div 
+        className="modal" 
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxWidth: '600px' }}
+      >
+        <div className="modal-header">
+          <h4>
+            <i className="fas fa-book" style={{ color: 'var(--turquoise)', marginRight: 'var(--space-sm)' }}></i>
+            {entry ? 'Upravit záznam' : 'Nový záznam v deníku'}
+          </h4>
+          <button className="btn btn-icon btn-ghost" onClick={onClose}>
+            <i className="fas fa-times"></i>
+          </button>
+        </div>
+        {formContent}
       </div>
     </div>
   )

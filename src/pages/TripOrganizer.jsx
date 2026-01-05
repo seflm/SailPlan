@@ -10,6 +10,7 @@ import { checklistService } from '../services/checklistService'
 import { crewlistService } from '../services/crewlistService'
 import { canEditTrip, canManageParticipants, canManageBoats, canManageDocuments, canManageTimelineEvents, getUserTripRoles, getRoleLabel } from '../utils/permissions'
 import { loadUserProfiles } from '../utils/userDisplay'
+import useMediaQuery from '../hooks/useMediaQuery'
 import AddParticipantModal from '../components/AddParticipantModal'
 import CrewlistView from '../components/CrewlistView'
 import ChecklistView from '../components/ChecklistView'
@@ -18,12 +19,16 @@ import TripLocationCard from '../components/TripLocationCard'
 import UsefulLinksCard from '../components/UsefulLinksCard'
 import BoatCard from '../components/BoatCard'
 import BeforeTripTab from '../components/BeforeTripTab'
+import ScrollableTabs from '../components/ScrollableTabs'
+import TripTabsBottomDrawer from '../components/TripTabsBottomDrawer'
+import BottomDrawer from '../components/BottomDrawer'
 import './TripDetail.css'
 
 export default function TripOrganizer() {
   const { tripId } = useParams()
   const navigate = useNavigate()
   const { user } = useAuthState()
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [trip, setTrip] = useState(null)
   const [participants, setParticipants] = useState([])
   const [boats, setBoats] = useState([])
@@ -40,6 +45,16 @@ export default function TripOrganizer() {
   const [showTimelineModal, setShowTimelineModal] = useState(false)
   const [editingEvent, setEditingEvent] = useState(null)
   const [activeChecklist, setActiveChecklist] = useState(null)
+
+  const tripTabs = [
+    { id: 'prehled', label: 'Přehled', icon: <i className="fas fa-info-circle"></i> },
+    { id: 'pred-plavbou', label: 'Před plavbou', icon: <i className="fas fa-flag-checkered"></i> },
+    { id: 'lode', label: 'Lodě', icon: <i className="fas fa-ship"></i> },
+    { id: 'ucastnici', label: 'Účastníci', icon: <i className="fas fa-users"></i> },
+    { id: 'crew-listy', label: 'Crew listy', icon: <i className="fas fa-clipboard-list"></i> },
+    { id: 'checklisty', label: 'Checklisty', icon: <i className="fas fa-tasks"></i> },
+    { id: 'dokumenty', label: 'Dokumenty', icon: <i className="fas fa-file-alt"></i> },
+  ]
 
   useEffect(() => {
     if (tripId && user) {
@@ -522,61 +537,69 @@ export default function TripOrganizer() {
       </div>
 
       {/* Trip Tabs */}
-      <div className="trip-tabs">
-        <div className="container">
-          <div className="trip-tabs-inner">
-            <button
-              className={`trip-tab ${activeTab === 'prehled' ? 'active' : ''}`}
-              onClick={() => setActiveTab('prehled')}
-            >
-              <i className="fas fa-info-circle"></i>
-              Přehled
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'pred-plavbou' ? 'active' : ''}`}
-              onClick={() => setActiveTab('pred-plavbou')}
-            >
-              <i className="fas fa-flag-checkered"></i>
-              Před plavbou
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'lode' ? 'active' : ''}`}
-              onClick={() => setActiveTab('lode')}
-            >
-              <i className="fas fa-ship"></i>
-              Lodě
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'ucastnici' ? 'active' : ''}`}
-              onClick={() => setActiveTab('ucastnici')}
-            >
-              <i className="fas fa-users"></i>
-              Účastníci
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'crew-listy' ? 'active' : ''}`}
-              onClick={() => setActiveTab('crew-listy')}
-            >
-              <i className="fas fa-clipboard-list"></i>
-              Crew listy
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'checklisty' ? 'active' : ''}`}
-              onClick={() => setActiveTab('checklisty')}
-            >
-              <i className="fas fa-tasks"></i>
-              Checklisty
-            </button>
-            <button
-              className={`trip-tab ${activeTab === 'dokumenty' ? 'active' : ''}`}
-              onClick={() => setActiveTab('dokumenty')}
-            >
-              <i className="fas fa-file-alt"></i>
-              Dokumenty
-            </button>
+      {isMobile ? (
+        <TripTabsBottomDrawer
+          tabs={tripTabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      ) : (
+        <div className="trip-tabs">
+          <div className="container">
+            <div className="trip-tabs-inner">
+              <button
+                className={`trip-tab ${activeTab === 'prehled' ? 'active' : ''}`}
+                onClick={() => setActiveTab('prehled')}
+              >
+                <i className="fas fa-info-circle"></i>
+                Přehled
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'pred-plavbou' ? 'active' : ''}`}
+                onClick={() => setActiveTab('pred-plavbou')}
+              >
+                <i className="fas fa-flag-checkered"></i>
+                Před plavbou
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'lode' ? 'active' : ''}`}
+                onClick={() => setActiveTab('lode')}
+              >
+                <i className="fas fa-ship"></i>
+                Lodě
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'ucastnici' ? 'active' : ''}`}
+                onClick={() => setActiveTab('ucastnici')}
+              >
+                <i className="fas fa-users"></i>
+                Účastníci
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'crew-listy' ? 'active' : ''}`}
+                onClick={() => setActiveTab('crew-listy')}
+              >
+                <i className="fas fa-clipboard-list"></i>
+                Crew listy
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'checklisty' ? 'active' : ''}`}
+                onClick={() => setActiveTab('checklisty')}
+              >
+                <i className="fas fa-tasks"></i>
+                Checklisty
+              </button>
+              <button
+                className={`trip-tab ${activeTab === 'dokumenty' ? 'active' : ''}`}
+                onClick={() => setActiveTab('dokumenty')}
+              >
+                <i className="fas fa-file-alt"></i>
+                Dokumenty
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Trip Content */}
       <main className="trip-content">
@@ -1659,6 +1682,7 @@ export default function TripOrganizer() {
 
 // Timeline Event Management Modal
 function TimelineEventModal({ tripId, event, events, onClose, onSuccess }) {
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [formData, setFormData] = useState({
     name: event?.name || '',
     description: event?.description || '',
@@ -1719,6 +1743,143 @@ function TimelineEventModal({ tripId, event, events, onClose, onSuccess }) {
     }))
   }
 
+  const formContent = (
+    <form onSubmit={handleSubmit}>
+      {error && (
+        <div style={{ padding: 'var(--space-md)', background: 'var(--danger-light)', color: 'var(--danger)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
+          {error}
+        </div>
+      )}
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Název *</label>
+        <input
+          type="text"
+          className="form-input"
+          value={formData.name}
+          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+          required
+        />
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Popis</label>
+        <textarea
+          className="form-input"
+          rows={3}
+          value={formData.description}
+          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+        />
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Typ</label>
+        <select
+          className="form-input"
+          value={formData.type}
+          onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
+        >
+          <option value="custom">Vlastní</option>
+          <option value="crewlist">Crewlist</option>
+          <option value="payment">Platba</option>
+        </select>
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Datum a čas (volitelně)</label>
+        <input
+          type="datetime-local"
+          className="form-input"
+          value={formData.date}
+          onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
+        />
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Pro role</label>
+        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+          {['organizer', 'captain', 'participant'].map(role => (
+            <button
+              key={role}
+              type="button"
+              className={`btn btn-sm ${formData.roles.includes(role) ? 'btn-primary' : 'btn-ghost'}`}
+              onClick={() => toggleRole(role)}
+            >
+              {role === 'organizer' ? 'Organizátoři' : role === 'captain' ? 'Kapitáni' : 'Účastníci'}
+            </button>
+          ))}
+        </div>
+        <p className="text-xs text-muted" style={{ marginTop: 'var(--space-xs)' }}>
+          Pokud není vybrána žádná role, událost se zobrazí všem.
+        </p>
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+          <input
+            type="checkbox"
+            checked={formData.checkable}
+            onChange={(e) => setFormData(prev => ({ ...prev, checkable: e.target.checked }))}
+          />
+          <span>Účastníci mohou označit jako splněno</span>
+        </label>
+      </div>
+
+      <div style={{ 
+            display: 'flex', 
+            gap: 'var(--space-sm)', 
+            marginTop: 'var(--space-lg)',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: isMobile ? 'stretch' : 'space-between',
+            alignItems: isMobile ? 'stretch' : 'center'
+          }}>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flex: isMobile ? '1' : '0 0 auto' }}>
+              {event && (
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={handleDelete}
+                  style={{ color: 'var(--danger)', flex: isMobile ? '1' : '0 0 auto' }}
+                >
+                  <i className="fas fa-trash"></i> Smazat
+                </button>
+              )}
+            </div>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flex: isMobile ? '1' : '0 0 auto', flexDirection: isMobile ? 'column' : 'row' }}>
+              <button 
+                type="button" 
+                className="btn btn-ghost" 
+                onClick={onClose}
+                style={{ flex: isMobile ? '1' : '0 0 auto' }}
+              >
+                Zrušit
+              </button>
+              <button 
+                type="submit" 
+                className="btn btn-primary" 
+                disabled={saving}
+                style={{ flex: isMobile ? '1' : '0 0 auto' }}
+              >
+                {saving ? 'Ukládání...' : (event ? 'Uložit změny' : 'Vytvořit událost')}
+              </button>
+            </div>
+      </div>
+    </form>
+  )
+
+  if (isMobile) {
+    return (
+      <BottomDrawer 
+        isOpen={true} 
+        onClose={onClose} 
+        title={event ? 'Upravit událost' : 'Nová událost'}
+        maxHeight={80}
+      >
+        {formContent}
+      </BottomDrawer>
+    )
+  }
+
   return (
     <div className="modal-overlay" onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(10, 22, 40, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{ background: 'var(--white)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-xl)', maxWidth: 600, width: '90%', maxHeight: '90vh', overflow: 'auto' }}>
@@ -1728,109 +1889,7 @@ function TimelineEventModal({ tripId, event, events, onClose, onSuccess }) {
             <i className="fas fa-times"></i>
           </button>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="modal-body" style={{ padding: 'var(--space-xl)' }}>
-            {error && (
-              <div style={{ padding: 'var(--space-md)', background: 'var(--danger-light)', color: 'var(--danger)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
-                {error}
-              </div>
-            )}
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Název *</label>
-              <input
-                type="text"
-                className="form-input"
-                value={formData.name}
-                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                required
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Popis</label>
-              <textarea
-                className="form-input"
-                rows={3}
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Typ</label>
-              <select
-                className="form-input"
-                value={formData.type}
-                onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
-              >
-                <option value="custom">Vlastní</option>
-                <option value="crewlist">Crewlist</option>
-                <option value="payment">Platba</option>
-              </select>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Datum a čas (volitelně)</label>
-              <input
-                type="datetime-local"
-                className="form-input"
-                value={formData.date}
-                onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Pro role</label>
-              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
-                {['organizer', 'captain', 'participant'].map(role => (
-                  <button
-                    key={role}
-                    type="button"
-                    className={`btn btn-sm ${formData.roles.includes(role) ? 'btn-primary' : 'btn-ghost'}`}
-                    onClick={() => toggleRole(role)}
-                  >
-                    {role === 'organizer' ? 'Organizátoři' : role === 'captain' ? 'Kapitáni' : 'Účastníci'}
-                  </button>
-                ))}
-              </div>
-              <p className="text-xs text-muted" style={{ marginTop: 'var(--space-xs)' }}>
-                Pokud není vybrána žádná role, událost se zobrazí všem.
-              </p>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                <input
-                  type="checkbox"
-                  checked={formData.checkable}
-                  onChange={(e) => setFormData(prev => ({ ...prev, checkable: e.target.checked }))}
-                />
-                <span>Účastníci mohou označit jako splněno</span>
-              </label>
-            </div>
-          </div>
-          <div className="modal-footer" style={{ padding: 'var(--space-lg) var(--space-xl)', borderTop: '1px solid var(--gray-100)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-sm)' }}>
-            <div>
-              {event && (
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={handleDelete}
-                  style={{ color: 'var(--danger)' }}
-                >
-                  <i className="fas fa-trash"></i> Smazat
-                </button>
-              )}
-            </div>
-            <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
-              <button type="button" className="btn btn-ghost" onClick={onClose}>Zrušit</button>
-              <button type="submit" className="btn btn-primary" disabled={saving}>
-                {saving ? 'Ukládání...' : (event ? 'Uložit změny' : 'Vytvořit událost')}
-              </button>
-            </div>
-          </div>
-        </form>
+        {formContent}
       </div>
     </div>
   )
@@ -1838,6 +1897,7 @@ function TimelineEventModal({ tripId, event, events, onClose, onSuccess }) {
 
 // Document Upload Modal Component
 function DocumentUploadModal({ tripId, userId, onClose, onSuccess }) {
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [file, setFile] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
@@ -1881,6 +1941,107 @@ function DocumentUploadModal({ tripId, userId, onClose, onSuccess }) {
     }
   }
 
+  const formContent = (
+    <form onSubmit={handleSubmit}>
+      {error && (
+        <div style={{ padding: 'var(--space-md)', background: 'var(--danger-light)', color: 'var(--danger)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
+          {error}
+        </div>
+      )}
+      
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Soubor *</label>
+        <input
+          type="file"
+          className="form-input"
+          onChange={handleFileChange}
+          required
+        />
+        {file && (
+          <div className="text-sm text-muted" style={{ marginTop: 'var(--space-xs)' }}>
+            {file.name} ({(file.size / (1024 * 1024)).toFixed(1)} MB)
+          </div>
+        )}
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Název *</label>
+        <input
+          type="text"
+          className="form-input"
+          value={formData.name}
+          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+          placeholder="Název dokumentu"
+          required
+        />
+      </div>
+
+      <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
+        <label className="form-label">Popis</label>
+        <textarea
+          className="form-input"
+          rows={3}
+          value={formData.description}
+          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+          placeholder="Popis dokumentu..."
+        />
+      </div>
+
+      <div className="form-group">
+        <label className="form-label">Kategorie</label>
+        <select
+          className="form-input"
+          value={formData.category}
+          onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+        >
+          <option value="other">Ostatní</option>
+          <option value="itinerary">Itinerář</option>
+          <option value="rules">Pravidla</option>
+          <option value="map">Mapa</option>
+          <option value="weather">Předpověď počasí</option>
+        </select>
+      </div>
+
+      <div style={{ 
+        display: 'flex', 
+        gap: 'var(--space-sm)', 
+        marginTop: 'var(--space-lg)',
+        flexDirection: isMobile ? 'column' : 'row',
+        justifyContent: isMobile ? 'stretch' : 'flex-end'
+      }}>
+        <button 
+          type="button" 
+          className="btn btn-ghost" 
+          onClick={onClose}
+          style={{ flex: isMobile ? '1' : '0 0 auto' }}
+        >
+          Zrušit
+        </button>
+        <button 
+          type="submit" 
+          className="btn btn-primary" 
+          disabled={uploading || !file}
+          style={{ flex: isMobile ? '1' : '0 0 auto' }}
+        >
+          {uploading ? 'Nahrávání...' : 'Nahrát dokument'}
+        </button>
+      </div>
+        </form>
+  )
+
+  if (isMobile) {
+    return (
+      <BottomDrawer 
+        isOpen={true} 
+        onClose={onClose} 
+        title="Přidat dokument"
+        maxHeight={80}
+      >
+        {formContent}
+      </BottomDrawer>
+    )
+  }
+
   return (
     <div className="modal-overlay" onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(10, 22, 40, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{ background: 'var(--white)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-xl)', maxWidth: 600, width: '90%', maxHeight: '90vh', overflow: 'auto' }}>
@@ -1893,74 +2054,7 @@ function DocumentUploadModal({ tripId, userId, onClose, onSuccess }) {
             <i className="fas fa-times"></i>
           </button>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="modal-body" style={{ padding: 'var(--space-xl)' }}>
-            {error && (
-              <div style={{ padding: 'var(--space-md)', background: 'var(--danger-light)', color: 'var(--danger)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
-                {error}
-              </div>
-            )}
-            
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Soubor *</label>
-              <input
-                type="file"
-                className="form-input"
-                onChange={handleFileChange}
-                required
-              />
-              {file && (
-                <div className="text-sm text-muted" style={{ marginTop: 'var(--space-xs)' }}>
-                  {file.name} ({(file.size / (1024 * 1024)).toFixed(1)} MB)
-                </div>
-              )}
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Název *</label>
-              <input
-                type="text"
-                className="form-input"
-                value={formData.name}
-                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                placeholder="Název dokumentu"
-                required
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 'var(--space-md)' }}>
-              <label className="form-label">Popis</label>
-              <textarea
-                className="form-input"
-                rows={3}
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                placeholder="Popis dokumentu..."
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Kategorie</label>
-              <select
-                className="form-input"
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-              >
-                <option value="other">Ostatní</option>
-                <option value="itinerary">Itinerář</option>
-                <option value="rules">Pravidla</option>
-                <option value="map">Mapa</option>
-                <option value="weather">Předpověď počasí</option>
-              </select>
-            </div>
-          </div>
-          <div className="modal-footer" style={{ padding: 'var(--space-lg) var(--space-xl)', borderTop: '1px solid var(--gray-100)', display: 'flex', justifyContent: 'flex-end', gap: 'var(--space-sm)' }}>
-            <button type="button" className="btn btn-ghost" onClick={onClose}>Zrušit</button>
-            <button type="submit" className="btn btn-primary" disabled={uploading || !file}>
-              {uploading ? 'Nahrávání...' : 'Nahrát dokument'}
-            </button>
-          </div>
-        </form>
+        {formContent}
       </div>
     </div>
   )
