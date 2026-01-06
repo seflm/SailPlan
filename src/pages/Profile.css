@@ -22,7 +22,7 @@
 
 .form-input {
   width: 100%;
-  padding: var(--space-sm) var(--space-md);
+  padding: 12px;
   border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
   font-size: 1rem;
@@ -40,6 +40,37 @@
   color: var(--gray-500);
   margin-top: var(--space-xs);
   margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .trip-title-row {
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+  
+  .trip-title {
+    font-size: 1.75rem;
+  }
+  
+  .form-input {
+    font-size: 1rem;
+    padding: 12px;
+  }
+  
+  .card {
+    padding: var(--space-md);
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
 }
 
 

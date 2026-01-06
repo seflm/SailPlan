@@ -35,6 +35,45 @@
 .bottom-drawer-content {
   font-size: 0.875rem;
   padding-right: 0.5rem;
+  position: relative;
+}
+
+/* Scroll indicator - fade at bottom */
+.bottom-drawer-content.scrollable::after {
+  content: '';
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, var(--white));
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+  margin-top: -30px;
+}
+
+/* Scroll indicator - arrow at bottom */
+.bottom-drawer-scroll-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gray-400);
+  font-size: 0.875rem;
+  pointer-events: none;
+  z-index: 2;
+  animation: bounce 2s infinite;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
 }
 
 /* Scrollbar styling */
@@ -55,4 +94,6 @@
 .bottom-drawer-content::-webkit-scrollbar-thumb:hover {
   background: var(--gray-400);
 }
+
+/* Drawer animation is handled via inline styles */
 

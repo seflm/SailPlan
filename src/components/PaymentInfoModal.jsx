@@ -5,7 +5,8 @@ import BottomDrawer from './BottomDrawer'
 export default function PaymentInfoModal({ isOpen, onClose, paymentInfo }) {
   const isMobile = useMediaQuery('(max-width: 768px)')
   
-  if (!isOpen) return null
+  // Pro mobil musíme komponentu nechat v DOM i během zavírací animace
+  if (!isOpen && !isMobile) return null
 
   const content = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
@@ -52,16 +53,18 @@ export default function PaymentInfoModal({ isOpen, onClose, paymentInfo }) {
           Informace o platbách nejsou k dispozici.
         </p>
       )}
-      <div style={{ marginTop: 'var(--space-md)' }}>
-        <button 
-          type="button" 
-          className="btn btn-primary" 
-          onClick={onClose}
-          style={{ width: '100%' }}
-        >
-          Zavřít
-        </button>
-      </div>
+      {!isMobile && (
+        <div style={{ marginTop: 'var(--space-md)' }}>
+          <button 
+            type="button" 
+            className="btn btn-primary" 
+            onClick={onClose}
+            style={{ width: '100%' }}
+          >
+            Zavřít
+          </button>
+        </div>
+      )}
     </div>
   )
 

@@ -549,7 +549,7 @@ export default function TripForm() {
 
       {/* Form Content */}
       <main className="trip-content">
-        <div className="container" style={{ maxWidth: '1000px' }}>
+        <div className="container">
           <form id="trip-form" onSubmit={handleSubmit}>
             {/* Basic Info Section */}
             <div className="form-section animate-in">
@@ -1200,7 +1200,7 @@ function CrewlistFieldsEditor({ title, fields, onFieldsChange, newItemIds, setNe
               onDelete={() => removeField(index)}
               deleteLabel="Smazat pole"
             >
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
+              <div className="crewlist-field-grid" style={{ gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label className="form-label" style={{ fontSize: '0.75rem' }}>Název pole *</label>
                   <input

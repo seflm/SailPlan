@@ -295,9 +295,8 @@
   }
   
   .header-inner {
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 72px;
+    flex-wrap: nowrap;
+    height: 72px;
     padding: var(--space-sm) 0;
   }
   
@@ -307,11 +306,11 @@
   }
   
   .header-actions {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--space-sm);
-    width: 100%;
+    width: auto;
     justify-content: flex-end;
-    margin-top: var(--space-xs);
+    margin-top: 0;
   }
   
   .header-actions .btn {

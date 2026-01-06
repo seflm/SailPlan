@@ -17,7 +17,6 @@ export default function Dashboard() {
     participantCount: 0
   })
   const [stats, setStats] = useState({
-    total: 0,
     upcoming: 0,
     completed: 0
   })
@@ -78,7 +77,6 @@ export default function Dashboard() {
     let upcoming = null
     let upcomingCount = 0
     let completedCount = 0
-    const total = allTrips.length
 
     allTrips.forEach(trip => {
       const startDate = toDate(trip.startDate)
@@ -103,7 +101,7 @@ export default function Dashboard() {
     })
 
     setUpcomingTrip(upcoming)
-    setStats({ total, upcoming: upcomingCount, completed: completedCount })
+    setStats({ upcoming: upcomingCount, completed: completedCount })
 
     // Load boat and participant counts for upcoming trip
     if (upcoming) {
@@ -216,10 +214,6 @@ export default function Dashboard() {
             )}
           </div>
           <div className="welcome-stats" style={{ display: 'flex', gap: 'var(--space-xl)', flexWrap: 'wrap' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{stats.total}</div>
-              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Celkem plaveb</div>
-            </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{stats.upcoming}</div>
               <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Nadcházející</div>

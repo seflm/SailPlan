@@ -225,14 +225,16 @@ export default function AddParticipantModal({ tripId, onClose, onSuccess }) {
             {addingOrganizer ? 'Přidávání...' : 'Přidat sebe jako účastníka'}
           </button>
         )}
-        <button 
-          type="button" 
-          className="btn btn-primary"
-          onClick={onClose}
-          style={{ flex: isMobile ? '1 1 100%' : '0 0 auto' }}
-        >
-          Zavřít
-        </button>
+        {!isMobile && (
+          <button 
+            type="button" 
+            className="btn btn-primary"
+            onClick={onClose}
+            style={{ flex: '0 0 auto' }}
+          >
+            Zavřít
+          </button>
+        )}
       </div>
     </>
   )
@@ -268,7 +270,7 @@ export default function AddParticipantModal({ tripId, onClose, onSuccess }) {
 
   if (isMobile) {
     return (
-      <BottomDrawer isOpen={true} onClose={onClose} title="Pozvat účastníky" maxHeight={90}>
+      <BottomDrawer isOpen={true} onClose={onClose} title="Pozvat účastníky" maxHeight={80}>
         {modalContent}
       </BottomDrawer>
     )

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import PaymentInfoModal from './PaymentInfoModal'
+import './TripInfoCard.css'
 
 export default function TripInfoCard({ trip, tripId, showEditButton = false, viewType = 'participant', onShowMore = null }) {
   const [showPaymentModal, setShowPaymentModal] = useState(false)
@@ -97,18 +98,19 @@ export default function TripInfoCard({ trip, tripId, showEditButton = false, vie
       
       {/* Cena a platby */}
       {trip.price && (
-        <div style={{ 
+        <div className="trip-price-section" style={{ 
           background: 'var(--gray-50)', 
           border: '1px solid var(--gray-200)',
           borderRadius: 'var(--radius-md)', 
           padding: 'var(--space-lg)', 
           marginTop: 'var(--space-lg)' 
         }}>
-          <div style={{ 
+          <div className="trip-price-header" style={{ 
             display: 'flex', 
             alignItems: 'center', 
             gap: 'var(--space-md)',
-            marginBottom: trip.priceNote ? 'var(--space-sm)' : 0
+            marginBottom: trip.priceNote ? 'var(--space-sm)' : 0,
+            flexWrap: 'wrap'
           }}>
             <div style={{ 
               width: '36px', 
@@ -124,7 +126,7 @@ export default function TripInfoCard({ trip, tripId, showEditButton = false, vie
             }}>
               <i className="fas fa-tag"></i>
             </div>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
               <div className="text-sm text-muted" style={{ marginBottom: '2px' }}>Cena</div>
               <div className="font-semibold" style={{ fontSize: '1.125rem', color: 'var(--coral)' }}>
                 {trip.price}
@@ -132,12 +134,12 @@ export default function TripInfoCard({ trip, tripId, showEditButton = false, vie
             </div>
             {viewType !== 'public' && trip.paymentInfo && (
               <button
-                className="btn btn-sm btn-secondary"
+                className="btn btn-sm btn-secondary trip-payment-button"
                 onClick={() => setShowPaymentModal(true)}
                 style={{ flexShrink: 0 }}
               >
                 <i className="fas fa-money-bill-wave"></i>
-                Informace o platbách
+                <span className="trip-payment-button-text">Informace o platbách</span>
               </button>
             )}
           </div>

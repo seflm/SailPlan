@@ -12,7 +12,7 @@
   max-width: 400px;
 }
 
-.logo {
+.login-container .logo {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -20,7 +20,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--ocean-deep);
-  margin-bottom: var(--space-2xl);
+  margin: 0 auto var(--space-xl) auto;
   justify-content: center;
 }
 
@@ -71,7 +71,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: 0px;
 }
 
 .form-group {

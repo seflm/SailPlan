@@ -39,7 +39,7 @@
 }
 
 .form-input {
-  padding: var(--space-md);
+  padding: 12px;
   border: 2px solid var(--gray-200);
   border-radius: var(--radius-md);
   font-size: 0.9375rem;

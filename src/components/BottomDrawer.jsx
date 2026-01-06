@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import './BottomDrawer.css';
 
@@ -15,6 +15,8 @@ const BottomDrawer = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isScrollable, setIsScrollable] = useState(false);
+  const contentRef = useRef(null);
   const animationDuration = 300;
 
   useEffect(() => {
@@ -50,7 +52,42 @@ const BottomDrawer = ({
     };
   }, [isMounted]);
 
-  if (typeof document === 'undefined' || !isMounted) {
+  // Check if content is scrollable and if user is at bottom
+  useEffect(() => {
+    const checkScrollable = () => {
+      if (contentRef.current) {
+        const { scrollHeight, clientHeight, scrollTop } = contentRef.current;
+        const isScrollableContent = scrollHeight > clientHeight;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
+        setIsScrollable(isScrollableContent && !isAtBottom);
+      }
+    };
+
+    if (isMounted && isAnimating) {
+      // Check after a short delay to ensure content is rendered
+      setTimeout(checkScrollable, 100);
+      window.addEventListener('resize', checkScrollable);
+      
+      if (contentRef.current) {
+        contentRef.current.addEventListener('scroll', checkScrollable);
+      }
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkScrollable);
+      if (contentRef.current) {
+        contentRef.current.removeEventListener('scroll', checkScrollable);
+      }
+    };
+  }, [isMounted, isAnimating]);
+
+  if (typeof document === 'undefined') {
+    return null;
+  }
+  
+  // Don't render if not mounted
+  // But keep rendering during closing animation (isMounted but !isAnimating)
+  if (!isMounted) {
     return null;
   }
 
@@ -59,9 +96,11 @@ const BottomDrawer = ({
     inset: '0px',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     backdropFilter: 'blur(4px)',
-    zIndex: 40,
+    zIndex: 100,
     transition: `opacity ${animationDuration}ms ease-in-out`,
     opacity: isAnimating ? 1 : 0,
+    pointerEvents: isAnimating ? 'auto' : 'none',
+    touchAction: 'none', // Prevent scrolling through backdrop
   };
 
   const drawerStyle = {
@@ -69,7 +108,7 @@ const BottomDrawer = ({
     bottom: '0px',
     left: '0px',
     right: '0px',
-    zIndex: 50,
+    zIndex: 110,
     width: '100%',
     maxWidth: '48rem',
     marginLeft: 'auto',
@@ -81,9 +120,14 @@ const BottomDrawer = ({
     borderTopRightRadius: '1.5rem',
     boxShadow: '0 -10px 15px -3px rgb(0 0 0 / 0.1), 0 -4px 6px -4px rgb(0 0 0 / 0.1)',
     overflow: 'hidden',
-    transition: `transform ${animationDuration}ms ease-in-out`,
-    transform: isAnimating ? 'translateY(0)' : 'translateY(100%)',
+    maxHeight: '90vh',
+    display: 'flex',
+    flexDirection: 'column',
+    willChange: 'transform',
   };
+  
+  // Determine animation class
+  const animationClass = isAnimating ? 'opening' : 'closing';
 
   return createPortal(
     <>
@@ -99,6 +143,7 @@ const BottomDrawer = ({
         aria-modal="true"
         aria-labelledby="drawer-title"
         onClick={(e) => e.stopPropagation()}
+        className={`bottom-drawer-wrapper ${animationClass}`}
       >
         <div className="bottom-drawer-header">
           <h2 id="drawer-title" className="bottom-drawer-title">
@@ -114,10 +159,22 @@ const BottomDrawer = ({
         </div>
         
         <div 
-          className="bottom-drawer-content"
-          style={{ maxHeight: `${maxHeight}vh`, overflowY: 'auto' }}
+          ref={contentRef}
+          className={`bottom-drawer-content ${isScrollable ? 'scrollable' : ''}`}
+          style={{ 
+            maxHeight: `${Math.min(maxHeight, 90)}vh`, 
+            overflowY: 'auto',
+            flex: 1,
+            minHeight: 0,
+            position: 'relative'
+          }}
         >
           {children}
+          {isScrollable && (
+            <div className="bottom-drawer-scroll-indicator">
+              <i className="fas fa-chevron-down"></i>
+            </div>
+          )}
         </div>
       </div>
     </>,

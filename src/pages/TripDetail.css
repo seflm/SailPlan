@@ -103,6 +103,17 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
+@media (max-width: 768px) {
+  .trip-header-meta {
+    gap: var(--space-md);
+    row-gap: var(--space-sm);
+  }
+  
+  .trip-header-meta-item {
+    font-size: 0.875rem;
+  }
+}
+
 .trip-header-meta-item i {
   color: rgba(255, 255, 255, 0.9);
 }
@@ -527,7 +538,7 @@
   
   .trip-header-meta {
     gap: var(--space-md);
-    flex-direction: column;
+    row-gap: var(--space-sm);
   }
   
   .trip-header-meta-item {

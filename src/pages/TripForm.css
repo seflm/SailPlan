@@ -84,6 +84,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
 }
 
 .form-section-title h3 {
@@ -101,7 +102,7 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm) var(--space-md);
+  gap: 0px !important;
 }
 
 .form-grid .form-group.full-width {
@@ -125,7 +126,7 @@
 
 .form-input {
   width: 100%;
-  padding: 0.375rem 0.625rem;
+  padding: 12px;
   border: 2px solid var(--gray-200);
   border-radius: var(--radius-md);
   font-size: 0.9375rem;
@@ -264,6 +265,14 @@
 }
 
 @media (max-width: 768px) {
+  .trip-header {
+    padding: var(--space-lg) 0 !important;
+  }
+  
+  .trip-header-content {
+    padding: 0 var(--space-md);
+  }
+  
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -271,9 +280,112 @@
   .trip-title-row {
     flex-direction: column;
     gap: var(--space-md);
+    align-items: flex-start;
+  }
+  
+  .trip-title-row > div:last-child {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .trip-title-row > div:last-child button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .trip-title {
+    font-size: 1.75rem;
+  }
+  
+  .container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
   }
   
   .sticky-actions {
+    position: relative;
+    bottom: auto;
     flex-direction: column-reverse;
+    margin-top: var(--space-lg);
+  }
+  
+  .sticky-actions button {
+    width: 100%;
+  }
+  
+  .form-section {
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .trip-content .container {
+    max-width: 100%;
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+    box-sizing: border-box;
+  }
+  
+  .form-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .collapsable-item {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .collapsable-item-content {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Fix for crewlist fields grid */
+  .crewlist-field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 120px;
+  }
+  
+  @media (max-width: 768px) {
+    .crewlist-field-grid {
+      grid-template-columns: 1fr !important;
+    }
+    
+    .crewlist-field-grid .form-group:last-child {
+      grid-column: 1;
+    }
+    
+    .crewlist-field-grid .form-group:last-child > div {
+      padding-top: 0 !important;
+    }
+  }
+  
+  /* Ensure inputs don't overflow */
+  .form-input {
+    font-size: 1rem;
+    padding: 12px;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Location section specific fixes */
+  .form-section > .form-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Trip stops inputs */
+  .collapsable-item-content input,
+  .collapsable-item-content textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }

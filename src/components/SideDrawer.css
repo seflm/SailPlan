@@ -178,6 +178,11 @@
   border-top: 1px solid var(--gray-200);
 }
 
+.side-drawer-footer .side-drawer-user {
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-md);
+}
+
 .side-drawer-divider {
   height: 1px;
   background: var(--gray-200);

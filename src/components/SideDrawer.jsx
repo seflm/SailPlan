@@ -29,27 +29,36 @@ const SideDrawer = ({
     }
   }, [currentUser]);
 
+  // Řízení lifecycle a scroll lock
   useEffect(() => {
     let openTimer;
     let closeTimer;
 
     if (isOpen) {
       setIsMounted(true);
+      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+      document.body.style.setProperty('overflow', 'hidden', 'important');
+      
       openTimer = setTimeout(() => {
         setIsAnimating(true);
-      }, 50); 
+      }, 50);
     } else {
       setIsAnimating(false);
+      
       closeTimer = setTimeout(() => {
         setIsMounted(false);
+        document.documentElement.style.removeProperty('overflow');
+        document.body.style.removeProperty('overflow');
       }, animationDuration);
     }
 
     return () => {
       clearTimeout(openTimer);
       clearTimeout(closeTimer);
+      document.documentElement.style.removeProperty('overflow');
+      document.body.style.removeProperty('overflow');
     };
-  }, [isOpen]);
+  }, [isOpen, animationDuration]);
 
   if (!isMounted) {
     return null;
@@ -85,7 +94,7 @@ const SideDrawer = ({
         className={`side-drawer-backdrop ${backdropTransition}`}
         onClick={onClose}
         aria-hidden="true"
-      ></div>
+      />
       <div
         className={`side-drawer ${drawerTransition}`}
         role="dialog"
@@ -102,16 +111,6 @@ const SideDrawer = ({
             <i className="fas fa-times"></i>
           </button>
         </div>
-        
-        {currentUser && (
-          <div className="side-drawer-user">
-            <div className="side-drawer-avatar">{userInitials}</div>
-            <div className="side-drawer-user-info">
-              <div className="side-drawer-user-name">{currentUser.displayName || 'Uživatel'}</div>
-              <div className="side-drawer-user-email">{currentUser.email}</div>
-            </div>
-          </div>
-        )}
         
         <nav className="side-drawer-nav">
           {navItems.map(item => {
@@ -139,6 +138,15 @@ const SideDrawer = ({
             <span>Nastavení organizátora</span>
           </button>
           <div className="side-drawer-divider"></div>
+          {currentUser && (
+            <div className="side-drawer-user">
+              <div className="side-drawer-avatar">{userInitials}</div>
+              <div className="side-drawer-user-info">
+                <div className="side-drawer-user-name">{currentUser.displayName || 'Uživatel'}</div>
+                <div className="side-drawer-user-email">{currentUser.email}</div>
+              </div>
+            </div>
+          )}
           <button onClick={handleSignOut} className="side-drawer-nav-item">
             <i className="fas fa-sign-out-alt"></i>
             <span>Odhlásit se</span>
@@ -150,4 +158,3 @@ const SideDrawer = ({
 };
 
 export default SideDrawer;
-

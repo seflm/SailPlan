@@ -403,36 +403,38 @@ export default function Onboarding() {
                 
                 {!isGoogleAuth && (
                   <>
-                    <div className="form-group">
-                      <label className="form-label">Heslo *</label>
-                      <input
-                        type="password"
-                        className={`form-input ${errors.password ? 'error' : ''}`}
-                        value={formData.password}
-                        onChange={(e) => handleInputChange('password', e.target.value)}
-                        placeholder="••••••••"
-                        required
-                        minLength={6}
-                      />
-                      {errors.password && (
-                        <p className="form-error">{errors.password}</p>
-                      )}
-                    </div>
-                    
-                    <div className="form-group">
-                      <label className="form-label">Potvrzení hesla *</label>
-                      <input
-                        type="password"
-                        className={`form-input ${errors.passwordConfirm ? 'error' : ''}`}
-                        value={formData.passwordConfirm}
-                        onChange={(e) => handleInputChange('passwordConfirm', e.target.value)}
-                        placeholder="••••••••"
-                        required
-                        minLength={6}
-                      />
-                      {errors.passwordConfirm && (
-                        <p className="form-error">{errors.passwordConfirm}</p>
-                      )}
+                    <div className="password-fields-group">
+                      <div className="form-group">
+                        <label className="form-label">Heslo *</label>
+                        <input
+                          type="password"
+                          className={`form-input ${errors.password ? 'error' : ''}`}
+                          value={formData.password}
+                          onChange={(e) => handleInputChange('password', e.target.value)}
+                          placeholder="••••••••"
+                          required
+                          minLength={6}
+                        />
+                        {errors.password && (
+                          <p className="form-error">{errors.password}</p>
+                        )}
+                      </div>
+                      
+                      <div className="form-group">
+                        <label className="form-label">Potvrzení hesla *</label>
+                        <input
+                          type="password"
+                          className={`form-input ${errors.passwordConfirm ? 'error' : ''}`}
+                          value={formData.passwordConfirm}
+                          onChange={(e) => handleInputChange('passwordConfirm', e.target.value)}
+                          placeholder="••••••••"
+                          required
+                          minLength={6}
+                        />
+                        {errors.passwordConfirm && (
+                          <p className="form-error">{errors.passwordConfirm}</p>
+                        )}
+                      </div>
                     </div>
                   </>
                 )}

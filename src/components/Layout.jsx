@@ -68,7 +68,9 @@ export default function Layout() {
                   <i className="fas fa-bars"></i>
                 </button>
                 <Link to="/dashboard" className="logo">
-                  <div className="logo-icon">⛵</div>
+                  <div className="logo-icon">
+                    <i className="fas fa-sailboat"></i>
+                  </div>
                   SailPlan
                 </Link>
                 <Link to="/profile" className="profile-btn-mobile">
