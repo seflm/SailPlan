@@ -4,8 +4,8 @@
   left: 0;
   right: 0;
   background: var(--white);
-  border-top: 2px solid var(--gray-200);
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  border-top: 2px solid var(--gray-300);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15), 0 -2px 8px rgba(0, 0, 0, 0.1);
   z-index: 25; /* Below modals (z-50), above content */
   display: flex;
   align-items: center;
@@ -26,6 +26,8 @@
   padding: var(--space-sm) var(--space-md);
   height: 100%;
   align-items: center;
+  background: var(--white);
+  position: relative;
 }
 
 .trip-tabs-scroll-container::-webkit-scrollbar {
