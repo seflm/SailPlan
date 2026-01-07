@@ -371,7 +371,7 @@ export default function TripParticipant() {
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '4px' }}>Organizuje</div>
+                <div style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '0' }}>Organizuje</div>
                 <div style={{ fontWeight: 600, color: 'var(--white)' }}>{organizerContacts?.name || 'Organizátor'}</div>
               </div>
             </div>

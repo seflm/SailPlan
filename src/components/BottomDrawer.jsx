@@ -17,6 +17,10 @@ const BottomDrawer = ({
   const [isAnimating, setIsAnimating] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
   const contentRef = useRef(null);
+  const scrollPositionRef = useRef(0);
+  const isBodyLockedRef = useRef(false);
+  const prevBodyPaddingRightRef = useRef('');
+  const prevHtmlOverflowRef = useRef('');
   const animationDuration = 300;
 
   useEffect(() => {
@@ -41,14 +45,57 @@ const BottomDrawer = ({
     };
   }, [isOpen]);
 
+  // Lock body scroll without visual jump; when unlocking, disable smooth scroll temporarily
   useEffect(() => {
+    const restoreScroll = () => {
+      if (!isBodyLockedRef.current) return;
+      const previousScrollY = scrollPositionRef.current;
+      const html = document.documentElement;
+      const prevBehavior = html.style.scrollBehavior;
+      // force instant scroll restore
+      html.style.scrollBehavior = 'auto';
+
+      html.style.overflow = prevHtmlOverflowRef.current || '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      document.body.style.overscrollBehavior = '';
+      document.body.style.paddingRight = prevBodyPaddingRightRef.current || '';
+
+      window.scrollTo(0, previousScrollY);
+      isBodyLockedRef.current = false;
+
+      // restore original scroll-behavior on next frame
+      requestAnimationFrame(() => {
+        html.style.scrollBehavior = prevBehavior || '';
+      });
+    };
+
     if (isMounted) {
+      // Avoid double-locking
+      if (isBodyLockedRef.current) return;
+      // Remember current position and lock scroll
+      scrollPositionRef.current = window.scrollY || document.documentElement.scrollTop || 0;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      prevBodyPaddingRightRef.current = document.body.style.paddingRight;
+      prevHtmlOverflowRef.current = document.documentElement.style.overflow;
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPositionRef.current}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
+      document.body.style.overscrollBehavior = 'none';
+      isBodyLockedRef.current = true;
     } else {
-      document.body.style.overflow = 'unset';
+      restoreScroll();
     }
+
     return () => {
-      document.body.style.overflow = 'unset';
+      restoreScroll();
     };
   }, [isMounted]);
 
@@ -100,7 +147,7 @@ const BottomDrawer = ({
     transition: `opacity ${animationDuration}ms ease-in-out`,
     opacity: isAnimating ? 1 : 0,
     pointerEvents: isAnimating ? 'auto' : 'none',
-    touchAction: 'none', // Prevent scrolling through backdrop
+    touchAction: 'none',
   };
 
   const drawerStyle = {
@@ -124,6 +171,9 @@ const BottomDrawer = ({
     display: 'flex',
     flexDirection: 'column',
     willChange: 'transform',
+    transition: `transform ${animationDuration}ms ease-in-out`,
+    transform: isAnimating ? 'translateY(0)' : 'translateY(100%)',
+    overscrollBehavior: 'contain',
   };
   
   // Determine animation class
@@ -166,7 +216,9 @@ const BottomDrawer = ({
             overflowY: 'auto',
             flex: 1,
             minHeight: 0,
-            position: 'relative'
+            position: 'relative',
+            overscrollBehavior: 'contain',
+            WebkitOverflowScrolling: 'touch',
           }}
         >
           {children}

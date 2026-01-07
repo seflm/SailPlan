@@ -277,14 +277,10 @@ button {
 /* ===== Cards ===== */
 .card {
   background: var(--white);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
   padding: var(--space-xl);
-  transition: all var(--transition-normal);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-lg);
+  transition: none;
 }
 
 .card-glass {

@@ -23,7 +23,7 @@
 .header-mobile {
   position: sticky;
   top: 0;
-  z-index: 30;
+  z-index: 120; /* Above bottom drawer (z-index: 110) to stay visible */
   background: var(--white);
   box-shadow: var(--shadow-sm);
 }
