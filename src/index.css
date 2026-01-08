@@ -630,7 +630,8 @@ button {
 }
 
 .dashboard-content {
-  padding: var(--space-xl) 0;
+  padding-top: 0;
+  padding-bottom: var(--space-xl);
 }
 
 .dashboard-grid {
@@ -1615,7 +1616,23 @@ button {
   gap: var(--space-sm);
 }
 
+.modal > form {
+  padding: var(--space-xl);
+}
+
 /* ===== Form Elements ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .form-group {
   margin-bottom: var(--space-lg);
 }

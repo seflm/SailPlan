@@ -45,7 +45,7 @@ export default function TripPublic() {
         const { password, ...publicTripData } = tripResult.data
         setTrip(publicTripData)
         
-        // Load organizer contact details
+        // Load organizer contact details (public-safe)
         if (publicTripData.organizerId) {
           const { data: contacts } = await organizerService.getContactDetails(publicTripData.organizerId)
           if (contacts) {
@@ -228,8 +228,8 @@ export default function TripPublic() {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="trip-header-content">
             <div className="trip-title-row">
-              <div>
-                <h1 className="trip-title">{trip.name || 'Bez názvu'}</h1>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
+                <h1 className="trip-title" style={{ marginBottom: 0 }}>{trip.name || 'Bez názvu'}</h1>
                 <span className="role-badge" style={{ background: availableSpots > 0 ? 'linear-gradient(135deg, var(--success), #059669)' : 'var(--gray-500)' }}>
                   <i className="fas fa-door-open"></i>
                   {availableSpots > 0 ? `Volná místa: ${availableSpots}` : 'Plno'}
@@ -237,7 +237,12 @@ export default function TripPublic() {
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '4px' }}>Organizuje</div>
-                <div style={{ fontWeight: 600, color: 'var(--white)' }}>Organizátor</div>
+                <div style={{ fontWeight: 600, color: 'var(--white)' }}>
+                  {organizerContacts?.name 
+                    || organizerContacts?.fullName 
+                    || organizerContacts?.displayName 
+                    || 'Organizátor'}
+                </div>
               </div>
             </div>
             
@@ -262,15 +267,6 @@ export default function TripPublic() {
                 <div className="trip-header-meta-item">
                   <i className="fas fa-ship"></i>
                   <span>{boats.length} {boats.length === 1 ? 'loď' : boats.length < 5 ? 'lodě' : 'lodí'}</span>
-                </div>
-                <div className="trip-header-meta-item">
-                  <i className="fas fa-users"></i>
-                  <span>
-                    {participants.length > 0 
-                      ? `${participants.length} ${participants.length === 1 ? 'účastník' : participants.length < 5 ? 'účastníci' : 'účastníků'}`
-                      : 'Zatím žádní účastníci'
-                    }
-                  </span>
                 </div>
               </div>
               <button 

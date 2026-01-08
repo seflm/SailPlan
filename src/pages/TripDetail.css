@@ -143,7 +143,8 @@
   .trip-title-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-md);
+    gap: 0;
+    margin-bottom: 0;
   }
   
   .trip-title-row > div:first-child {
@@ -155,20 +156,49 @@
     text-align: left !important;
   }
   
-  .trip-title-row > div:last-child[style*="text-align: right"],
-  .trip-title-row > div:last-child[style*="textAlign: right"] {
+  /* Text content (no buttons) - no gap */
+  .trip-title-row > div:last-child:not(:has(button)):not(:has(.btn)) {
+    gap: 0 !important;
+  }
+  
+  .trip-title-row > div:last-child[style*="text-align: right"]:not(:has(button)):not(:has(.btn)),
+  .trip-title-row > div:last-child[style*="textAlign: right"]:not(:has(button)):not(:has(.btn)) {
     text-align: left !important;
+    gap: 0 !important;
   }
   
   .trip-title-row > div:last-child > div {
     text-align: left !important;
+    margin-bottom: 0 !important;
   }
   
-  /* Buttons in trip-title-row (TripOrganizer) - stack vertically on mobile */
-  .trip-title-row > div:last-child[style*="display: flex"] {
+  .trip-title-row > div:last-child > div:last-child {
+    margin-top: 0 !important;
+  }
+  
+  /* Buttons in trip-title-row (TripOrganizer) - stack vertically on mobile, keep gap */
+  .trip-title-row > div:last-child[style*="display: flex"] button,
+  .trip-title-row > div:last-child[style*="display:flex"] button,
+  .trip-title-row > div:last-child[style*="display: flex"] .btn,
+  .trip-title-row > div:last-child[style*="display:flex"] .btn {
+    /* Buttons exist - parent should keep gap */
+  }
+  
+  /* When div contains buttons, keep gap and stack vertically */
+  .trip-title-row > div:last-child[style*="display: flex"]:has(button),
+  .trip-title-row > div:last-child[style*="display:flex"]:has(button),
+  .trip-title-row > div:last-child[style*="display: flex"]:has(.btn),
+  .trip-title-row > div:last-child[style*="display:flex"]:has(.btn) {
     flex-direction: column !important;
     gap: var(--space-sm) !important;
     width: 100%;
+  }
+  
+  /* Text-only content (no buttons) - no gap */
+  /* Default: gap is already 0 from line 157, but ensure it for flex containers without buttons */
+  .trip-title-row > div:last-child[style*="display: flex"]:not(:has(button)):not(:has(.btn)),
+  .trip-title-row > div:last-child[style*="display:flex"]:not(:has(button)):not(:has(.btn)) {
+    gap: 0 !important;
   }
   
   .trip-title-row > div:last-child button,
@@ -183,11 +213,17 @@
     line-height: 1.2;
   }
   
+  .trip-title-row > div:first-child > div[style*="display: flex"] .trip-title,
+  .trip-title-row > div:first-child > div[style*="display:flex"] .trip-title {
+    margin-bottom: 0;
+  }
+  
   .trip-title-row > div:first-child > div[style*="display: flex"],
   .trip-title-row > div:first-child > div[style*="display:flex"] {
     flex-wrap: wrap;
     gap: var(--space-xs);
-    margin-top: var(--space-sm);
+    margin-top: 0;
+    align-items: center;
   }
   
   .role-badge {
@@ -198,15 +234,24 @@
   .trip-header-meta {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: var(--space-sm) !important;
+    gap: 0 !important;
     width: 100% !important;
     justify-content: flex-start !important;
   }
   
-  .trip-header-meta > div[style*="display: flex"] {
+  .trip-header-meta[style*="display: flex"],
+  .trip-header-meta[style*="display:flex"] {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: var(--space-sm) !important;
+    gap: 0 !important;
+    justify-content: flex-start !important;
+  }
+  
+  .trip-header-meta > div[style*="display: flex"],
+  .trip-header-meta > div[style*="display:flex"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
     width: 100% !important;
   }
   
@@ -238,6 +283,53 @@
 
 .trip-header-meta-item i {
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* Settings button in trip header */
+.trip-header-settings-btn {
+  position: absolute;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.trip-header-settings-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.05);
+}
+
+.trip-header-settings-btn:active {
+  transform: scale(0.95);
+}
+
+.trip-header-settings-btn i {
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .trip-header-settings-btn {
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+    width: 32px;
+    height: 32px;
+  }
+  
+  .trip-header-settings-btn i {
+    font-size: 0.8125rem;
+  }
 }
 
 /* ===== Trip Tabs ===== */
@@ -652,9 +744,9 @@
   }
 }
 
-  
+@media (max-width: 768px) {
   .trip-tabs {
-    display: none; /* Hide desktop tabs, use ScrollableTabs instead */
+    display: none; /* Hide desktop tabs, use TripTabsBottomDrawer instead */
   }
   
   .trip-layout {

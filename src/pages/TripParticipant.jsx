@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from '../hooks/useAuthState'
 import { tripService } from '../services/tripService'
 import { participantService } from '../services/participantService'
@@ -20,6 +20,8 @@ import BoatCard from '../components/BoatCard'
 import BeforeTripTab from '../components/BeforeTripTab'
 import ScrollableTabs from '../components/ScrollableTabs'
 import TripTabsBottomDrawer from '../components/TripTabsBottomDrawer'
+import ParticipationManagementModal from '../components/ParticipationManagementModal'
+import BottomDrawer from '../components/BottomDrawer'
 import './TripDetail.css'
 
 export default function TripParticipant() {
@@ -39,6 +41,7 @@ export default function TripParticipant() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('prehled')
   const [activeChecklist, setActiveChecklist] = useState(null)
+  const [showParticipationModal, setShowParticipationModal] = useState(false)
 
   const tripTabs = [
     { id: 'prehled', label: 'Přehled', icon: <i className="fas fa-info-circle"></i> },
@@ -396,6 +399,15 @@ export default function TripParticipant() {
             </div>
           </div>
         </div>
+        
+        {/* Settings button - positioned in bottom right corner */}
+        <button
+          onClick={() => setShowParticipationModal(true)}
+          className="trip-header-settings-btn"
+          aria-label="Správa účasti"
+        >
+          <i className="fas fa-cog"></i>
+        </button>
       </div>
 
       {/* Trip Tabs */}
@@ -533,6 +545,15 @@ export default function TripParticipant() {
                   <>
                     {/* Boat Details Card */}
                     <div className="card animate-in" style={{ marginBottom: 'var(--space-lg)' }}>
+                      {boat.thumbnailUrl && (
+                        <div style={{ 
+                          height: '200px', 
+                          backgroundImage: `url(${boat.thumbnailUrl})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          borderRadius: 'var(--radius-md) var(--radius-md) 0 0'
+                        }}></div>
+                      )}
                       <div style={{ padding: 'var(--space-lg)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-md)' }}>
                           <div>
@@ -563,11 +584,24 @@ export default function TripParticipant() {
                             </div>
                           )}
                           <div>
-                            <div className="text-xs text-muted">Kapacita</div>
-                            <div className="font-semibold">{boat.capacity || '-'}</div>
+                            <div className="text-xs text-muted">Obsazenost</div>
+                            <div className="font-semibold">{boatParticipants.length}{boat.capacity ? `/${boat.capacity}` : ''}</div>
                           </div>
-
                         </div>
+                        {boat.charterLink && (
+                          <div style={{ marginTop: 'var(--space-md)', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--gray-100)' }}>
+                            <a 
+                              href={boat.charterLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="btn btn-sm btn-ghost"
+                              style={{ fontSize: '0.875rem' }}
+                            >
+                              <i className="fas fa-external-link-alt"></i>
+                              Detail lodi
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -576,7 +610,7 @@ export default function TripParticipant() {
                       <div className="card-header">
                         <h4 className="card-title">
                           <i className="fas fa-users" style={{ color: 'var(--turquoise)' }}></i>
-                          Posádka
+                          Posádka ({boatParticipants.length}{boat.capacity ? `/${boat.capacity}` : ''})
                         </h4>
                       </div>
                       
@@ -618,9 +652,14 @@ export default function TripParticipant() {
                                   {initials}
                                 </div>
                                 <div style={{ flex: 1 }}>
-                                  <h5 style={{ margin: 0, marginBottom: 'var(--space-xs)' }}>
-                                      {displayName}
-                                    </h5>
+                                  <h5 style={{ margin: 0, marginBottom: 'var(--space-xs)', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                                    {displayName}
+                                    {isCurrentUser && (
+                                      <span className="status-pill info" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>
+                                        Já
+                                      </span>
+                                    )}
+                                  </h5>
                                   <p style={{ margin: 0, color: 'var(--gray-500)', fontSize: '0.875rem' }}>
                                     {isCaptain ? 'Kapitán' : 'Posádka'}
                                   </p>
@@ -1197,7 +1236,100 @@ export default function TripParticipant() {
           })()}
         </div>
       </main>
+
+      {/* Participation Management Modal (Desktop) */}
+      {!isMobile && (
+        <ParticipationManagementModal
+          isOpen={showParticipationModal}
+          onClose={() => setShowParticipationModal(false)}
+          participantId={participant?.id}
+          tripName={trip?.name}
+        />
+      )}
+
+      {/* Participation Management BottomDrawer (Mobile) */}
+      {isMobile && (
+        <BottomDrawer
+          isOpen={showParticipationModal}
+          onClose={() => setShowParticipationModal(false)}
+          title="Správa účasti"
+        >
+          <ParticipationManagementContent
+            participantId={participant?.id}
+            tripName={trip?.name}
+            onClose={() => setShowParticipationModal(false)}
+          />
+        </BottomDrawer>
+      )}
     </>
+  )
+}
+
+// Content component for BottomDrawer
+function ParticipationManagementContent({ participantId, tripName, onClose }) {
+  const navigate = useNavigate()
+  const [leaving, setLeaving] = useState(false)
+
+  const handleLeaveTrip = async () => {
+    const message = 'Opravdu se chcete nezůčastnit této plavby?\n\nTato akce vás odebere z plavby a ztratíte přístup ke všem informacím o této plavbě. Tuto akci nelze vrátit zpět.'
+    
+    if (!window.confirm(message)) {
+      return
+    }
+
+    setLeaving(true)
+    const { error } = await participantService.removeParticipant(participantId)
+    
+    if (!error) {
+      navigate('/trips')
+    } else {
+      alert('Chyba při odhlášení z plavby: ' + error)
+      setLeaving(false)
+      onClose()
+    }
+  }
+
+  return (
+    <div style={{ padding: 'var(--space-md) 0' }}>
+      <p className="text-muted" style={{ marginBottom: 'var(--space-lg)' }}>
+        Zde můžete spravovat svou účast na této plavbě{tripName ? ` "${tripName}"` : ''}.
+      </p>
+      
+      {/* Warning section for leave trip */}
+      <div style={{ 
+        padding: 'var(--space-md)', 
+        background: 'var(--danger-light)', 
+        borderRadius: 'var(--radius-md)',
+        marginBottom: 'var(--space-md)'
+      }}>
+        <p style={{ 
+          fontSize: '0.875rem', 
+          color: 'var(--danger)',
+          margin: 0,
+          fontWeight: 500
+        }}>
+          <i className="fas fa-exclamation-triangle" style={{ marginRight: 'var(--space-xs)' }}></i>
+          Odhlášení z plavby je nevratná akce. Po odhlášení ztratíte přístup ke všem informacím o této plavbě.
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', marginTop: 'var(--space-lg)' }}>
+        <button
+          className="btn"
+          onClick={handleLeaveTrip}
+          disabled={leaving}
+          style={{ 
+            background: 'var(--danger)',
+            borderColor: 'var(--danger)',
+            color: 'white',
+            width: '100%'
+          }}
+        >
+          <i className="fas fa-user-minus"></i>
+          {leaving ? 'Odhlašování...' : 'Nezůčastnit se plavby'}
+        </button>
+      </div>
+    </div>
   )
 }
 

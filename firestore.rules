@@ -235,6 +235,8 @@ service cloud.firestore {
     // User Profiles collection
     match /userProfiles/{userId} {
       // Users can read their own profile, organizers can read profiles of participants
+      // Public read is NOT allowed to avoid leaking participant names; organizer name
+      // for public pages must be sourced from organizerContacts.
       allow read: if isAuthenticated();
       
       // Only the user can create/update their own profile
