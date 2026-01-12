@@ -1,6 +1,6 @@
 // Tiny helper for shared inline SVG icons used across pages.
 // (Static demo: no build step, so we keep this small and optional.)
-window.SailplanIcons = {
+window.BoatraIcons = {
   sail: `
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M12 3c3.4 3.7 6 8.1 7.6 13.3-3.4 1.9-7.2 2.8-11.4 2.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>

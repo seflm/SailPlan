@@ -1,6 +1,11 @@
 /* Dashboard uses styles from index.css */
 /* Additional dashboard-specific styles if needed */
 
+/* Add top padding to container on Dashboard page */
+.dashboard-content > .container {
+  padding-top: var(--space-xl);
+}
+
 .dashboard-grid aside .sidebar-card:first-child {
   margin-top: calc(var(--space-lg) + 1.5rem + var(--space-lg));
 }

@@ -44,16 +44,10 @@
   text-decoration: none;
 }
 
-.logo-icon {
-  width: 40px;
+.logo-svg {
   height: 40px;
-  background: linear-gradient(135deg, var(--turquoise), var(--ocean-light));
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--white);
-  font-size: 1.25rem;
+  width: auto;
+  display: block;
 }
 
 .onboarding-card {
@@ -205,17 +199,6 @@
   font-size: 0.875rem;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin: 0;
-  margin-bottom: var(--space-sm);
-}
-
-.form-group:last-child {
-  margin-bottom: 0;
-}
 
 .password-fields-group {
   display: flex;
@@ -227,51 +210,36 @@
   margin-bottom: 0;
 }
 
-.form-label {
-  font-weight: 500;
+/* Onboarding specific form styles - using different border and sizes */
+.onboarding-card .form-label {
   font-size: 0.8125rem;
-  color: var(--gray-700);
   margin-bottom: 1px;
 }
 
-.form-input {
-  padding: 12px;
+.onboarding-card .form-input {
   border: 1px solid var(--gray-300);
   border-radius: var(--radius-sm);
   font-size: 0.9375rem;
-  font-family: var(--font-body);
-  transition: all var(--transition-fast);
-  color: var(--gray-700);
-  background: var(--white);
 }
 
-.form-input:focus {
-  outline: none;
-  border-color: var(--turquoise);
+.onboarding-card .form-input:focus {
   box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
 }
 
-.form-input:disabled {
+.onboarding-card .form-input:disabled {
   background: var(--gray-100);
   color: var(--gray-500);
   cursor: not-allowed;
 }
 
-.form-input.error {
+.onboarding-card .form-input.error {
   border-color: var(--danger);
-}
-
-.form-input.error {
   border-width: 1px;
 }
 
-.form-input.error:focus {
+.onboarding-card .form-input.error:focus {
   border-color: var(--danger);
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
-}
-
-.form-input::placeholder {
-  color: var(--gray-400);
 }
 
 .form-error {
@@ -281,10 +249,9 @@
   margin-top: 2px;
 }
 
-.form-help {
-  color: var(--gray-500);
+/* Onboarding specific form-help - smaller font */
+.onboarding-card .form-help {
   font-size: 0.6875rem;
-  margin: 0;
   margin-top: 2px;
 }
 
@@ -316,11 +283,10 @@
   margin-top: var(--space-sm);
 }
 
-.form-actions {
-  display: flex;
+/* Onboarding specific form-actions - space-between layout */
+.onboarding-card .form-actions {
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--space-md);
   gap: var(--space-md);
 }
 

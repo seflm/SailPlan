@@ -102,10 +102,7 @@ const SideDrawer = ({
       >
         <div className="side-drawer-header">
           <div className="side-drawer-brand">
-            <div className="side-drawer-logo">⛵</div>
-            <div>
-              <div className="side-drawer-app-name">SailPlan</div>
-            </div>
+            <img src="/logo.svg" alt="Boatra.com" className="logo-svg" style={{ height: '40px' }} />
           </div>
           <button onClick={onClose} className="side-drawer-close" aria-label="Zavřít">
             <i className="fas fa-times"></i>
@@ -140,7 +137,7 @@ const SideDrawer = ({
           <div className="side-drawer-divider"></div>
           {currentUser && (
             <div className="side-drawer-user">
-              <div className="side-drawer-avatar">{userInitials}</div>
+              <div className="user-avatar">{userInitials}</div>
               <div className="side-drawer-user-info">
                 <div className="side-drawer-user-name">{currentUser.displayName || 'Uživatel'}</div>
                 <div className="side-drawer-user-email">{currentUser.email}</div>

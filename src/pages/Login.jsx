@@ -71,10 +71,7 @@ export default function Login() {
     <div className="login-page">
       <div className="login-container">
         <Link to="/" className="logo">
-          <div className="logo-icon">
-            <i className="fas fa-sailboat"></i>
-          </div>
-          SailPlan
+          <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
         </Link>
 
         <div className="login-card">

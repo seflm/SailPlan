@@ -97,7 +97,7 @@ export default function Trips() {
 
   return (
     <div className="container">
-      <div className="row wrap" style={{ alignItems: 'flex-end', marginBottom: 'var(--space-xl)' }}>
+      <div className="row wrap">
         <div className="grow">
           <h1 className="h1">Mé plavby</h1>
           <p className="subtitle" style={{ textAlign: 'left' }}>Plavby, kterých se účastníš jako účastník nebo kapitán.</p>
@@ -163,19 +163,6 @@ export default function Trips() {
             </div>
             <h3>Zatím se neúčastníš žádné plavby</h3>
             <p>Připoj se k plavbě pomocí ID a hesla, nebo počkej až tě organizátor pozve.</p>
-            <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap', marginTop: 'var(--space-lg)' }}>
-              <button 
-                className="btn btn-coral"
-                onClick={() => setShowJoinModal(true)}
-              >
-                <i className="fas fa-sign-in-alt"></i>
-                Zúčastnit se plavby
-              </button>
-              <Link to="/trip/new" className="btn">
-                <i className="fas fa-plus"></i>
-                Zorganizovat plavbu
-              </Link>
-            </div>
           </div>
         )}
       </div>

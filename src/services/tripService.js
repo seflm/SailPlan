@@ -89,6 +89,13 @@ export const tripService = {
         if (tripData.password === password) {
           return { data: { id: docSnap.id, ...tripData }, error: null }
         }
+        console.warn('[tripService.getTripByCodeAndPassword] Nesprávné heslo pro dokument ID:', {
+          tripId,
+          tripIdLength: tripId.length,
+          passwordLength: password.length,
+          hasPassword: !!tripData.password,
+          passwordMatch: tripData.password === password
+        })
         return { data: null, error: 'Nesprávné heslo' }
       }
       
@@ -102,11 +109,30 @@ export const tripService = {
       
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0]
+        console.log('[tripService.getTripByCodeAndPassword] Nalezeno pomocí fallback metody (tripId field):', {
+          tripId,
+          documentId: doc.id
+        })
         return { data: { id: doc.id, ...doc.data() }, error: null }
       }
       
+      console.warn('[tripService.getTripByCodeAndPassword] Plavba nenalezena:', {
+        tripId,
+        tripIdLength: tripId.length,
+        passwordLength: password.length,
+        triedDocumentId: true,
+        triedTripIdField: true
+      })
       return { data: null, error: 'Nesprávné ID nebo heslo' }
     } catch (error) {
+      console.error('[tripService.getTripByCodeAndPassword] Chyba při hledání plavby:', {
+        error,
+        message: error.message,
+        stack: error.stack,
+        tripId,
+        tripIdLength: tripId?.length,
+        passwordLength: password?.length
+      })
       return { data: null, error: error.message }
     }
   },

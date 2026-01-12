@@ -1,5 +1,5 @@
 /**
- * SailPlan - Interactive Demo Script
+ * Boatra.com - Interactive Demo Script
  * Handles navigation, forms, modals, and admin panel functionality
  */
 

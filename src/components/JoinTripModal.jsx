@@ -34,10 +34,16 @@ export default function JoinTripModal({ tripId: providedTripId, onClose, onSucce
     setLoading(true)
 
     try {
-      // Find trip by code and password
-      const { data: trip, error: tripError } = await tripService.getTripByCodeAndPassword(tripCode.toUpperCase().trim(), password.trim())
+      // Find trip by code and password (ID is case-sensitive, don't convert to uppercase)
+      const { data: trip, error: tripError } = await tripService.getTripByCodeAndPassword(tripCode.trim(), password.trim())
       
       if (tripError || !trip) {
+        console.error('[JoinTripModal] Chyba při hledání plavby:', {
+          tripCode: tripCode.trim(),
+          passwordLength: password.trim().length,
+          error: tripError,
+          tripFound: !!trip
+        })
         setError('Nesprávné ID nebo heslo. Zkuste to znovu.')
         setLoading(false)
         return
@@ -46,6 +52,11 @@ export default function JoinTripModal({ tripId: providedTripId, onClose, onSucce
       // Check if user is already a participant
       const { data: existingParticipant } = await participantService.getParticipant(trip.id, user.uid)
       if (existingParticipant) {
+        console.warn('[JoinTripModal] Uživatel je již účastníkem plavby:', {
+          tripId: trip.id,
+          userId: user.uid,
+          existingParticipantId: existingParticipant.id
+        })
         setError('Již jsi účastníkem této plavby.')
         setLoading(false)
         return
@@ -55,6 +66,13 @@ export default function JoinTripModal({ tripId: providedTripId, onClose, onSucce
       const { id, error: addError } = await participantService.addParticipant(trip.id, user.uid, role, null)
       
       if (addError) {
+        console.error('[JoinTripModal] Chyba při přidávání účastníka:', {
+          tripId: trip.id,
+          userId: user.uid,
+          role,
+          error: addError,
+          participantId: id
+        })
         setError(addError)
         setLoading(false)
         return
@@ -72,6 +90,14 @@ export default function JoinTripModal({ tripId: providedTripId, onClose, onSucce
         }
       }
     } catch (err) {
+      console.error('[JoinTripModal] Neočekávaná chyba při připojování k plavbě:', {
+        error: err,
+        message: err.message,
+        stack: err.stack,
+        tripCode: tripCode.trim(),
+        passwordLength: password.trim().length,
+        userId: user?.uid
+      })
       setError(err.message || 'Došlo k chybě')
       setLoading(false)
     }
@@ -87,19 +113,20 @@ export default function JoinTripModal({ tripId: providedTripId, onClose, onSucce
           </button>
         </div>
         <div className="modal-body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
               <label className="form-label">ID plavby {providedTripId ? '' : '*'}</label>
               <input
                 type="text"
                 className="form-input"
                 value={tripCode}
-                onChange={(e) => setTripCode(e.target.value.toUpperCase())}
+                onChange={(e) => setTripCode(e.target.value)}
                 placeholder="např. ABC123"
-                style={{ fontFamily: 'monospace', textTransform: 'uppercase', background: providedTripId ? 'var(--gray-50)' : 'var(--white)' }}
-                maxLength={6}
+                style={{ fontFamily: 'monospace', background: providedTripId ? 'var(--gray-50)' : 'var(--white)' }}
+                maxLength={50}
                 readOnly={!!providedTripId}
                 required={!providedTripId}
+                autoComplete="off"
               />
               <p className="text-xs text-muted" style={{ marginTop: 'var(--space-xs)' }}>
                 {providedTripId ? 'ID plavby je automaticky předvyplněno.' : 'Zadejte ID plavby, které vám poskytl organizátor.'}
@@ -115,8 +142,9 @@ export default function JoinTripModal({ tripId: providedTripId, onClose, onSucce
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Zadejte heslo"
                 style={{ fontFamily: 'monospace' }}
-                maxLength={20}
+                maxLength={100}
                 required
+                autoComplete="new-password"
               />
               <p className="text-xs text-muted" style={{ marginTop: 'var(--space-xs)' }}>
                 Zadejte heslo, které vám poskytl organizátor.

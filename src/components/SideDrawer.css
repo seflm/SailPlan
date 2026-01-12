@@ -55,8 +55,10 @@
   gap: var(--space-sm);
 }
 
-.side-drawer-logo {
-  font-size: 1.5rem;
+.logo-svg {
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
 .side-drawer-app-name {
@@ -88,20 +90,6 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
-}
-
-.side-drawer-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise));
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 1rem;
-  flex-shrink: 0;
 }
 
 .side-drawer-user-info {

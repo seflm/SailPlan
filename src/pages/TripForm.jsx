@@ -52,6 +52,43 @@ function CollapsableItem({ title, icon, children, defaultCollapsed = false, isNe
   )
 }
 
+// Collapsable Section Component
+function CollapsableSection({ title, description, icon, iconColor, children, defaultCollapsed = true, className = '' }) {
+  const [collapsed, setCollapsed] = useState(defaultCollapsed)
+  
+  return (
+    <div className={`form-section ${className} ${collapsed ? 'collapsed-section' : ''}`}>
+      <div className="form-section-header collapsable-section-header" onClick={() => setCollapsed(!collapsed)}>
+        <div className="form-section-title">
+          <div>
+            <h3>
+              <i className={`fas ${icon}`} style={{ color: iconColor, marginRight: 'var(--space-sm)' }}></i>
+              {title}
+            </h3>
+            <p>{description}</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          className="btn btn-icon btn-expand"
+          onClick={(e) => {
+            e.stopPropagation()
+            setCollapsed(!collapsed)
+          }}
+          aria-label={collapsed ? 'Rozbalit' : 'Sbalit'}
+        >
+          <i className={`fas fa-chevron-${collapsed ? 'down' : 'up'}`}></i>
+        </button>
+      </div>
+      {!collapsed && (
+        <div className="collapsable-section-content">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function TripForm() {
   const { tripId } = useParams()
   const [searchParams] = useSearchParams()
@@ -664,7 +701,7 @@ export default function TripForm() {
                 <p className="text-xs text-muted" style={{ marginBottom: 'var(--space-md)' }}>
                   Tyto informace se zobrazí účastníkům v modalu po kliknutí na tlačítko u ceny nebo v timeline eventech typu platba.
                 </p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 'var(--space-md)' }}>
+                <div className="form-grid-auto">
                   <div className="form-group">
                     <label className="form-label">Číslo účtu *</label>
                     <input
@@ -716,9 +753,9 @@ export default function TripForm() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-md)' }}>
+              <div className="form-grid-auto-lg">
                 <div className="form-group full-width">
-                  <label className="form-label">Zkrácený popis (volitelný)</label>
+                    <label className="form-label">Zkrácený popis (volitelný)</label>
                   <textarea
                     className="form-input"
                     rows={4}
@@ -940,19 +977,13 @@ export default function TripForm() {
             </div>
 
             {/* Useful Links Section */}
-            <div className="form-section animate-in delay-2">
-              <div className="form-section-header">
-                <div className="form-section-title">
-                  <div>
-                    <h3>
-                      <i className="fas fa-link" style={{ color: 'var(--turquoise)', marginRight: 'var(--space-sm)' }}></i>
-                      Užitečné odkazy
-                    </h3>
-                    <p>Přidejte odkazy na externí služby (WhatsApp skupina, SettleUp, atd.)</p>
-                  </div>
-                </div>
-              </div>
-              
+            <CollapsableSection
+              title="Užitečné odkazy"
+              description="Přidejte odkazy na externí služby (WhatsApp skupina, SettleUp, atd.)"
+              icon="fa-link"
+              iconColor="var(--turquoise)"
+              className="animate-in delay-2"
+            >
               <div style={{ padding: '0' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
                   {formData.usefulLinks.map((link, index) => (
@@ -1034,22 +1065,16 @@ export default function TripForm() {
                   </button>
                 </div>
               </div>
-            </div>
+            </CollapsableSection>
 
             {/* Crewlist Section */}
-            <div className="form-section animate-in delay-2">
-              <div className="form-section-header">
-                <div className="form-section-title">
-                  <div>
-                    <h3>
-                      <i className="fas fa-clipboard-list" style={{ color: 'var(--coral)', marginRight: 'var(--space-sm)' }}></i>
-                      Definice crewlistu
-                    </h3>
-                    <p>Definujte, jaké údaje potřebujete od účastníků a kapitánů</p>
-                  </div>
-                </div>
-              </div>
-              
+            <CollapsableSection
+              title="Definice crewlistu"
+              description="Definujte, jaké údaje potřebujete od účastníků a kapitánů"
+              icon="fa-clipboard-list"
+              iconColor="var(--coral)"
+              className="animate-in delay-2"
+            >
               <div style={{ marginBottom: 'var(--space-md)' }}>
                 <CrewlistFieldsEditor
                   title="Údaje pro účastníky"
@@ -1069,44 +1094,32 @@ export default function TripForm() {
                   setNewItemIds={setNewItemIds}
                 />
               </div>
-            </div>
+            </CollapsableSection>
 
             {/* Timeline Events Section */}
-            <div className="form-section animate-in delay-3">
-              <div className="form-section-header">
-                <div className="form-section-title">
-                  <div>
-                    <h3>
-                      <i className="fas fa-flag-checkered" style={{ color: 'var(--turquoise)', marginRight: 'var(--space-sm)' }}></i>
-                      Hlavní checklist (Před plavbou)
-                    </h3>
-                    <p>Definujte události a úkoly, které je potřeba splnit před plavbou</p>
-                  </div>
-                </div>
-              </div>
-              
+            <CollapsableSection
+              title="Hlavní checklist (Před plavbou)"
+              description="Definujte události a úkoly, které je potřeba splnit před plavbou"
+              icon="fa-flag-checkered"
+              iconColor="var(--turquoise)"
+              className="animate-in delay-3"
+            >
               <TimelineEventsEditor
                 events={timelineEvents}
                 onEventsChange={setTimelineEvents}
                 newItemIds={newItemIds}
                 setNewItemIds={setNewItemIds}
               />
-            </div>
+            </CollapsableSection>
 
             {/* Checklist Assignment Section */}
-            <div className="form-section animate-in delay-4">
-              <div className="form-section-header">
-                <div className="form-section-title">
-                  <div>
-                    <h3>
-                      <i className="fas fa-tasks" style={{ color: 'var(--coral)', marginRight: 'var(--space-sm)' }}></i>
-                      Systémové checklisty
-                    </h3>
-                    <p>Přiřaďte systémové checklisty k rolím nebo lodím</p>
-                  </div>
-                </div>
-              </div>
-              
+            <CollapsableSection
+              title="Systémové checklisty"
+              description="Přiřaďte systémové checklisty k rolím nebo lodím"
+              icon="fa-tasks"
+              iconColor="var(--coral)"
+              className="animate-in delay-4"
+            >
               <ChecklistAssignmentEditor
                 checklistTemplates={checklistTemplates}
                 assignedChecklists={assignedChecklists}
@@ -1114,7 +1127,7 @@ export default function TripForm() {
                 newItemIds={newItemIds}
                 setNewItemIds={setNewItemIds}
               />
-            </div>
+            </CollapsableSection>
 
             {/* Sticky Actions */}
             <div className="sticky-actions">
@@ -1200,7 +1213,7 @@ function CrewlistFieldsEditor({ title, fields, onFieldsChange, newItemIds, setNe
               onDelete={() => removeField(index)}
               deleteLabel="Smazat pole"
             >
-              <div className="crewlist-field-grid" style={{ gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
+              <div className="crewlist-field-grid">
                 <div className="form-group" style={{ margin: 0 }}>
                   <label className="form-label" style={{ fontSize: '0.75rem' }}>Název pole *</label>
                   <input
@@ -1329,7 +1342,7 @@ function TimelineEventsEditor({ events, onEventsChange, newItemIds, setNewItemId
                 onDelete={() => removeEvent(index)}
                 deleteLabel="Smazat událost"
               >
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
+                <div className="form-grid-2col">
                 <div className="form-group" style={{ margin: 0 }}>
                   <label className="form-label" style={{ fontSize: '0.75rem' }}>Název události *</label>
                   <input
@@ -1366,7 +1379,7 @@ function TimelineEventsEditor({ events, onEventsChange, newItemIds, setNewItemId
                   />
                 </div>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
+              <div className="form-grid-2col">
                 <div className="form-group" style={{ margin: 0 }}>
                   <label className="form-label" style={{ fontSize: '0.75rem' }}>Datum splnění (volitelně)</label>
                   <input

@@ -9,9 +9,8 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <Link to="/dashboard" className="brand">
-        <div className="brandMark" aria-hidden="true">⛵</div>
+        <img src="/logo.svg" alt="Boatra.com" className="logo-svg" style={{ height: '40px' }} />
         <div>
-          <div className="brandName">SailPlan</div>
           <div className="brandTag">dashboard</div>
         </div>
       </Link>

@@ -68,13 +68,11 @@ export default function Layout() {
                   <i className="fas fa-bars"></i>
                 </button>
                 <Link to="/dashboard" className="logo">
-                  <div className="logo-icon">
-                    <i className="fas fa-sailboat"></i>
-                  </div>
-                  SailPlan
+                  <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
+                  <span className="beta-badge">Beta</span>
                 </Link>
                 <Link to="/profile" className="profile-btn-mobile">
-                  <div className="profile-avatar">{userInitials}</div>
+                  <div className="user-avatar">{userInitials}</div>
                 </Link>
               </div>
             </div>
@@ -93,8 +91,8 @@ export default function Layout() {
           <div className="container">
             <div className="header-inner">
               <Link to="/dashboard" className="logo">
-                <div className="logo-icon">⛵</div>
-                SailPlan
+                <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
+                <span className="beta-badge">Beta</span>
               </Link>
               
               <nav className="nav">
@@ -132,7 +130,7 @@ export default function Layout() {
                   onMouseEnter={handleMouseEnter} 
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="profile-avatar">{userInitials}</div>
+                  <div className="user-avatar">{userInitials}</div>
                   {dropdownOpen && (
                     <div 
                       className="dropdown" 

@@ -1,6 +1,6 @@
-# SailPlan Data Model Documentation
+# Boatra.com Data Model Documentation
 
-This document describes the Firestore data model for the SailPlan application.
+This document describes the Firestore data model for the Boatra.com application.
 
 ## Collections
 

@@ -1,4 +1,4 @@
-/* ===== SailPlan Design System ===== */
+/* ===== Boatra.com Design System ===== */
 /* A modern, nautical-inspired design */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -327,11 +327,6 @@ button {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--ocean-deep);
   text-decoration: none;
   line-height: 1;
   margin: 0;
@@ -339,22 +334,28 @@ button {
   height: auto;
 }
 
-.logo > * {
-  display: inline-flex;
-  align-items: center;
+.logo-svg {
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--turquoise), var(--ocean-light));
-  border-radius: var(--radius-md);
-  display: flex;
+.beta-badge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, var(--coral), var(--coral-light));
   color: var(--white);
-  font-size: 1.25rem;
-  flex-shrink: 0;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  margin-left: var(--space-xs);
+  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+  line-height: 1;
+  font-family: var(--font-display);
 }
 
 .nav {
@@ -397,30 +398,26 @@ button {
   position: relative;
 }
 
-.profile-avatar {
-  width: 44px;
-  height: 44px;
+/* Společná třída pro avatary uživatelů - unifikovaný vzhled */
+.user-avatar {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--turquoise), var(--ocean-light));
+  background: linear-gradient(135deg, var(--ocean-mid), var(--turquoise));
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--white);
   font-weight: 600;
   font-size: 1rem;
+  flex-shrink: 0;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  border: 2px solid transparent;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, white);
-  mask-image: radial-gradient(white, white);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
-.profile-avatar:hover {
-  border-color: var(--turquoise);
+.user-avatar:hover {
   transform: scale(1.05);
+  opacity: 0.9;
 }
 
 .dropdown {
@@ -1624,7 +1621,8 @@ button {
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-lg);
+  row-gap: var(--space-sm);
+  column-gap: var(--space-lg);
 }
 
 @media (max-width: 768px) {
@@ -1633,8 +1631,41 @@ button {
   }
 }
 
+.form-grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  row-gap: var(--space-sm);
+  column-gap: var(--space-lg);
+}
+
+.form-grid-auto-lg {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  row-gap: var(--space-sm);
+  column-gap: var(--space-lg);
+}
+
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: var(--space-sm);
+  column-gap: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
 .form-group {
-  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-label {
@@ -1642,7 +1673,12 @@ button {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--gray-700);
-  margin-bottom: 0.125rem;
+  margin-bottom: calc(var(--space-xs) / 2);
+}
+
+.form-label .required {
+  color: var(--danger);
+  margin-left: 2px;
 }
 
 .form-input {
@@ -1667,6 +1703,19 @@ button {
 
 .form-input::placeholder {
   color: var(--gray-400);
+}
+
+.form-help {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  margin: 0;
+  margin-top: var(--space-xs);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-md);
 }
 
 textarea.form-input,

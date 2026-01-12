@@ -8,10 +8,8 @@ export default function Landing() {
         <div className="container">
           <div className="header-inner">
             <Link to="/" className="logo">
-              <div className="logo-icon">
-                <i className="fas fa-sailboat"></i>
-              </div>
-              SailPlan
+              <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
+              <span className="beta-badge">Beta</span>
             </Link>
             
             <nav className="nav">
@@ -32,22 +30,36 @@ export default function Landing() {
 
       <section className="hero">
         {/* Floating decorative elements */}
-        <div className="floating-element" style={{fontSize: '4rem', color: 'var(--turquoise)'}}>
+        <div className="floating-element floating-1">
           <i className="fas fa-anchor"></i>
         </div>
-        <div className="floating-element" style={{fontSize: '3rem', color: 'var(--coral)'}}>
+        <div className="floating-element floating-2">
           <i className="fas fa-compass"></i>
         </div>
-        <div className="floating-element" style={{fontSize: '3.5rem', color: 'var(--turquoise-light)'}}>
+        <div className="floating-element floating-3">
           <i className="fas fa-life-ring"></i>
         </div>
+        <div className="floating-element floating-4">
+          <i className="fas fa-ship"></i>
+        </div>
+        <div className="floating-element floating-5">
+          <i className="fas fa-water"></i>
+        </div>
+        
+        {/* Animated gradient orbs */}
+        <div className="hero-orb orb-1"></div>
+        <div className="hero-orb orb-2"></div>
+        <div className="hero-orb orb-3"></div>
         
         <div className="container">
           <div className="hero-content animate-in">
             <h1>Organizujte plavby <span>bez stresu</span></h1>
+            <div style={{marginTop: 'var(--space-sm)', marginBottom: 'var(--space-lg)'}}>
+              <span className="beta-badge-hero">Beta</span>
+            </div>
             <p>Kompletní platforma pro správu jachtových plaveb. Od plánování přes rozdělení posádky až po předávání lodí – vše na jednom místě.</p>
             <div className="hero-buttons">
-              <Link to="/register" className="btn btn-coral btn-lg">
+              <Link to="/register" className="btn btn-coral btn-lg hero-cta">
                 <i className="fas fa-rocket"></i>
                 Začít zdarma
               </Link>
@@ -60,7 +72,7 @@ export default function Landing() {
         <div className="container">
           <div className="section-header animate-in">
             <h2>Vše co potřebujete pro úspěšnou plavbu</h2>
-            <p>SailPlan nabízí kompletní sadu nástrojů pro organizátory, kapitány i účastníky plaveb.</p>
+            <p>Boatra.com nabízí kompletní sadu nástrojů pro organizátory, kapitány i účastníky plaveb.</p>
           </div>
           
           <div className="features-grid">
@@ -83,18 +95,24 @@ export default function Landing() {
             </div>
             
             <div className="card feature-card animate-in delay-4">
-              <div className="feature-icon">💳</div>
-              <h4>Sledování plateb</h4>
-              <p>Mějte přehled o zálohách a platbách. Připomínky termínů a jasný přehled kdo co zaplatil.</p>
+              <div className="feature-icon">📝</div>
+              <h4>Lodní deník</h4>
+              <p>Denní záznamy z plavby s trasou, ujetými mílemi, motohodinami a spotřebou paliva. Sledujte statistiku a exportujte data.</p>
             </div>
             
             <div className="card feature-card animate-in delay-1">
+              <div className="feature-icon">📄</div>
+              <h4>Dokumenty</h4>
+              <p>Ukládejte a sdílejte dokumenty k plavbě. Smlouvy, pojištění, licence, mapy, itineráře a další důležité soubory na jednom místě.</p>
+            </div>
+            
+            <div className="card feature-card animate-in delay-2">
               <div className="feature-icon">🗺️</div>
               <h4>Trasy a lokace</h4>
               <p>Sdílejte informace o místě startu, trase i cíli plavby. Včetně tipů na dopravu a praktických informací.</p>
             </div>
             
-            <div className="card feature-card animate-in delay-2">
+            <div className="card feature-card animate-in delay-3">
               <div className="feature-icon">⏱️</div>
               <h4>Časová osa</h4>
               <p>Hlavní timeline s důležitými termíny. Od zaplacení zálohy přes vyplnění crew listu až po den odjezdu.</p>
@@ -158,10 +176,13 @@ export default function Landing() {
         <div className="container container-narrow">
           <div className="section-header">
             <h2>Jednoduchý ceník</h2>
-            <p>Aktuálně je SailPlan zcela zdarma. Do budoucna plánujeme prémiové funkce.</p>
+            <p>Aktuálně je Boatra.com zcela zdarma. Do budoucna plánujeme prémiové funkce.</p>
           </div>
           
-          <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)', border: '2px solid var(--turquoise)' }}>
+          <div className="card pricing-card" style={{ textAlign: 'center', padding: 'var(--space-3xl)', border: '2px solid var(--turquoise)', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 'var(--space-lg)', right: 'var(--space-lg)' }}>
+              <span className="beta-badge-pricing">Beta</span>
+            </div>
             <div style={{ display: 'inline-block', background: 'var(--success-light)', color: 'var(--success)', padding: '4px 16px', borderRadius: 'var(--radius-full)', fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--space-lg)' }}>
               Aktuálně dostupné
             </div>
@@ -171,7 +192,7 @@ export default function Landing() {
             <ul style={{ listStyle: 'none', textAlign: 'left', maxWidth: '300px', margin: '0 auto var(--space-xl)' }}>
               <li style={{ padding: 'var(--space-sm) 0', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <i className="fas fa-check" style={{color: 'var(--success)'}}></i>
-                Neomezený počet plaveb
+                Až 2 organizované plavby
               </li>
               <li style={{ padding: 'var(--space-sm) 0', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <i className="fas fa-check" style={{color: 'var(--success)'}}></i>
@@ -187,7 +208,7 @@ export default function Landing() {
               </li>
               <li style={{ padding: 'var(--space-sm) 0', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <i className="fas fa-check" style={{color: 'var(--success)'}}></i>
-                Sledování plateb
+                Lodní deník a dokumenty
               </li>
             </ul>
             
@@ -217,10 +238,7 @@ export default function Landing() {
           <div className="footer-grid">
             <div className="footer-brand">
               <Link to="/" className="logo">
-                <div className="logo-icon">
-                  <i className="fas fa-sailboat"></i>
-                </div>
-                SailPlan
+                <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
               </Link>
               <p>Moderní platforma pro organizaci jachtových plaveb. Vytvořeno s láskou pro námořníky.</p>
             </div>
@@ -253,7 +271,7 @@ export default function Landing() {
           </div>
           
           <div className="footer-bottom">
-            <p>&copy; 2025 SailPlan. Všechna práva vyhrazena.</p>
+            <p>&copy; 2025 Boatra.com. Všechna práva vyhrazena.</p>
             <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
               <a href="#" style={{ color: 'var(--gray-400)' }}><i className="fab fa-facebook"></i></a>
               <a href="#" style={{ color: 'var(--gray-400)' }}><i className="fab fa-instagram"></i></a>

@@ -62,11 +62,11 @@
 
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
-    storage.set("sailplan.theme", theme);
+    storage.set("boatra.theme", theme);
   }
 
   function initTheme() {
-    const saved = storage.get("sailplan.theme", null);
+    const saved = storage.get("boatra.theme", null);
     if (saved === "light" || saved === "dark") {
       applyTheme(saved);
       return;
@@ -127,11 +127,11 @@
     $$("[data-persist-check]").forEach((el) => {
       const key = el.getAttribute("data-persist-check");
       if (!key) return;
-      const saved = storage.get(`sailplan.check.${key}`, null);
+      const saved = storage.get(`boatra.check.${key}`, null);
       if (saved != null) el.checked = !!saved;
       updateCheckRow(el);
       el.addEventListener("change", () => {
-        storage.set(`sailplan.check.${key}`, el.checked);
+        storage.set(`boatra.check.${key}`, el.checked);
         updateCheckRow(el);
       });
     });
@@ -140,9 +140,9 @@
     $$("[data-persist]").forEach((el) => {
       const key = el.getAttribute("data-persist");
       if (!key) return;
-      const saved = storage.get(`sailplan.value.${key}`, "");
+      const saved = storage.get(`boatra.value.${key}`, "");
       if (typeof saved === "string") el.value = saved;
-      el.addEventListener("input", () => storage.set(`sailplan.value.${key}`, el.value));
+      el.addEventListener("input", () => storage.set(`boatra.value.${key}`, el.value));
     });
   }
 

@@ -92,17 +92,15 @@ export default function Organizing() {
 
   return (
     <div className="container">
-      <div className="row wrap" style={{ alignItems: 'flex-end', marginBottom: 'var(--space-xl)' }}>
+      <div className="row wrap">
         <div className="grow">
           <h1 className="h1">Organizuji</h1>
           <p className="subtitle" style={{ textAlign: 'left' }}>Plavby, které organizuješ. Zde máš plný přístup ke všem funkcím správy plavby.</p>
         </div>
-        {organizingTrips.length === 0 && (
-          <Link to="/trip/new" className="btn btn-primary">
-            <i className="fas fa-plus"></i>
-            Zorganizovat plavbu
-          </Link>
-        )}
+        <Link to="/trip/new" className="btn btn-primary">
+          <i className="fas fa-plus"></i>
+          Zorganizovat plavbu
+        </Link>
       </div>
 
       <div className="trips-content">

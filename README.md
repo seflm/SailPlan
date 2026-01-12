@@ -1,4 +1,4 @@
-# SailPlan
+# Boatra.com
 
 Moderní platforma pro organizaci jachtových plaveb. Od plánování přes rozdělení posádky až po předávání lodí – vše na jednom místě.
 

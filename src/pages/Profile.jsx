@@ -197,7 +197,7 @@ export default function Profile() {
                       {nameError}
                     </p>
                   )}
-                  <p className="form-help">Toto jméno bude zobrazeno ostatním účastníkům plaveb. Jméno a příjmení je povinné a nelze ho smazat bez nahrazení.</p>
+                  <p className="form-help">Zobrazí se ostatním účastníkům plaveb.</p>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email *</label>

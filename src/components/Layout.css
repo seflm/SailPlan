@@ -52,6 +52,7 @@
   justify-content: center;
   text-decoration: none;
   color: inherit;
+  /* Avatar uvnitř používá třídu .user-avatar z index.css */
 }
 
 @media (max-width: 768px) {

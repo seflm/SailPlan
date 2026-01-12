@@ -96,7 +96,7 @@ export default function CrewlistForm({ tripId, boatId, userId, role, onSave }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="crewlist-form">
+    <form onSubmit={handleSubmit}>
       {error && (
         <div className="crewlist-error">
           <i className="fas fa-exclamation-circle"></i>

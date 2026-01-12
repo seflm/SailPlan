@@ -1,8 +1,8 @@
-# Specifikace aplikace SailPlan
+# Specifikace aplikace Boatra.com
 
 ## 1. Úvod
 
-SailPlan je aplikace pro organizaci a management plaveb, převážně jachet určených pro 2-20 lidí. Aplikace je navržena pro účastníky, kapitány i organizátory plaveb. Plná podpora pro mobilní responzivní zobrazení - většina uživatelů bude na mobilním zařízení a kapitáni na mobilech budou i vyplňovat checklisty při předání lodí.
+Boatra.com je aplikace pro organizaci a management plaveb, převážně jachet určených pro 2-20 lidí. Aplikace je navržena pro účastníky, kapitány i organizátory plaveb. Plná podpora pro mobilní responzivní zobrazení - většina uživatelů bude na mobilním zařízení a kapitáni na mobilech budou i vyplňovat checklisty při předání lodí.
 
 ## 2. Role a oprávnění
 

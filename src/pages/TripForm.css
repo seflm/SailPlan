@@ -80,11 +80,76 @@
   border-bottom: 1px solid var(--gray-100);
 }
 
+.collapsable-section-header {
+  cursor: pointer;
+  margin: calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) 0 calc(var(--space-lg) * -1);
+  padding: var(--space-lg);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.form-section.collapsed-section .collapsable-section-header {
+  margin: calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) calc(var(--space-lg) * -1);
+  padding: var(--space-lg);
+  border-bottom: none;
+}
+
+.collapsable-section-content {
+  padding-top: var(--space-md);
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-expand {
+  width: 36px;
+  height: 36px;
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  color: var(--gray-600);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.btn-expand:hover {
+  background: var(--turquoise);
+  border-color: var(--turquoise);
+  color: var(--white);
+  transform: scale(1.05);
+}
+
+.form-section.collapsed-section .btn-expand {
+  background: var(--gray-100);
+  border-color: var(--gray-200);
+  color: var(--gray-600);
+}
+
+.form-section.collapsed-section .btn-expand:hover {
+  background: var(--turquoise);
+  border-color: var(--turquoise);
+  color: var(--white);
+}
+
 .form-section-title {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-sm);
+  flex: 1;
 }
 
 .form-section-title h3 {
@@ -97,53 +162,6 @@
   font-size: 0.8125rem;
   color: var(--gray-500);
   margin-top: var(--space-xs);
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-lg);
-}
-
-.form-grid .form-group.full-width {
-  grid-column: 1 / -1;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin-bottom: 0;
-}
-
-.form-label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--gray-700);
-  margin-bottom: var(--space-xs);
-}
-
-.form-input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid var(--gray-200);
-  border-radius: var(--radius-md);
-  font-size: 0.9375rem;
-  font-family: var(--font-body);
-  transition: all var(--transition-fast);
-  color: var(--gray-700);
-  line-height: 1.5;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--turquoise);
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
-}
-
-.form-input::placeholder {
-  color: var(--gray-400);
 }
 
 .check-option {
@@ -337,6 +355,19 @@
     gap: var(--space-sm);
   }
   
+  .collapsable-section-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: calc(var(--space-md) * -1) calc(var(--space-md) * -1) 0 calc(var(--space-md) * -1) !important;
+    padding: var(--space-md) !important;
+  }
+  
+  .form-section.collapsed-section .collapsable-section-header {
+    margin: calc(var(--space-md) * -1) !important;
+    padding: var(--space-md) !important;
+  }
+  
   .collapsable-item {
     max-width: 100%;
     overflow-x: hidden;
@@ -351,6 +382,9 @@
   .crewlist-field-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 120px;
+    row-gap: var(--space-sm);
+    column-gap: var(--space-lg);
+    margin-bottom: var(--space-sm);
   }
   
   @media (max-width: 768px) {

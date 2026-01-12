@@ -36,7 +36,7 @@ export default function Onboarding() {
   useEffect(() => {
     if (mode === 'join-trip' && tripId) {
       loadTripData()
-      setTripCode(tripId.toUpperCase())
+      setTripCode(tripId) // ID is case-sensitive, don't convert to uppercase
     }
   }, [mode, tripId])
   
@@ -257,8 +257,8 @@ export default function Onboarding() {
       
       // Handle join-trip mode
       if (mode === 'join-trip') {
-        // Validate trip code
-        const codeToUse = tripCode.trim().toUpperCase() || tripId?.toUpperCase().trim()
+        // Validate trip code (ID is case-sensitive, don't convert to uppercase)
+        const codeToUse = tripCode.trim() || tripId?.trim()
         if (!codeToUse) {
           setErrors({ tripCode: 'ID plavby je povinné' })
           setLoading(false)
@@ -272,6 +272,13 @@ export default function Onboarding() {
         )
         
         if (tripError || !trip) {
+          console.error('[Onboarding] Chyba při hledání plavby:', {
+            tripCode: codeToUse,
+            passwordLength: tripPassword.trim().length,
+            error: tripError,
+            tripFound: !!trip,
+            mode: 'join-trip'
+          })
           setErrors({ tripPassword: 'Nesprávné heslo plavby' })
           setLoading(false)
           return
@@ -286,6 +293,14 @@ export default function Onboarding() {
         )
         
         if (addError) {
+          console.error('[Onboarding] Chyba při přidávání účastníka:', {
+            tripId: trip.id,
+            userId: currentUser.uid,
+            role: 'participant',
+            error: addError,
+            participantId: id,
+            mode: 'join-trip'
+          })
           setErrors({ general: addError })
           setLoading(false)
           return
@@ -307,6 +322,16 @@ export default function Onboarding() {
         navigate('/dashboard')
       }
     } catch (error) {
+      console.error('[Onboarding] Neočekávaná chyba:', {
+        error,
+        message: error.message,
+        stack: error.stack,
+        mode,
+        tripId,
+        tripCode: mode === 'join-trip' ? tripCode : undefined,
+        passwordLength: mode === 'join-trip' ? tripPassword.trim().length : undefined,
+        userId: currentUser?.uid
+      })
       setErrors({ general: error.message || 'Došlo k chybě' })
       setLoading(false)
     }
@@ -346,10 +371,7 @@ export default function Onboarding() {
     <div className="onboarding-page">
       <div className="onboarding-container">
         <Link to="/" className="logo">
-          <div className="logo-icon">
-            <i className="fas fa-sailboat"></i>
-          </div>
-          SailPlan
+          <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
         </Link>
         
         <div className="onboarding-card">
@@ -363,7 +385,7 @@ export default function Onboarding() {
             </div>
           )}
           
-          <form onSubmit={handleSubmit} className="onboarding-form">
+          <form onSubmit={handleSubmit} className="onboarding-form" autoComplete="off">
             <div className="form-sections-container">
               {/* Account Section */}
               {showAuthSection && (
@@ -551,7 +573,7 @@ export default function Onboarding() {
                     className={`form-input ${errors.tripCode ? 'error' : ''}`}
                     value={tripCode}
                     onChange={(e) => {
-                      setTripCode(e.target.value.toUpperCase())
+                      setTripCode(e.target.value) // ID is case-sensitive, don't convert to uppercase
                       if (errors.tripCode) {
                         setErrors(prev => {
                           const newErrors = { ...prev }
@@ -563,8 +585,9 @@ export default function Onboarding() {
                     placeholder="např. ABC123"
                     disabled={!!tripId}
                     required
-                    maxLength={6}
-                    style={{ fontFamily: 'monospace', textTransform: 'uppercase' }}
+                    maxLength={50}
+                    style={{ fontFamily: 'monospace' }}
+                    autoComplete="off"
                   />
                   {errors.tripCode && (
                     <p className="form-error">{errors.tripCode}</p>
@@ -590,6 +613,7 @@ export default function Onboarding() {
                     }}
                     placeholder="Zadejte heslo plavby"
                     required
+                    autoComplete="new-password"
                   />
                   {errors.tripPassword && (
                     <p className="form-error">{errors.tripPassword}</p>

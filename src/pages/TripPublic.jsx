@@ -194,10 +194,8 @@ export default function TripPublic() {
         <div className="container">
           <div className="header-inner">
             <Link to="/" className="logo">
-              <div className="logo-icon">
-                <i className="fas fa-sailboat"></i>
-              </div>
-              SailPlan
+              <img src="/logo.svg" alt="Boatra.com" className="logo-svg" />
+              <span className="beta-badge">Beta</span>
             </Link>
             
             <div className="header-actions">
@@ -386,13 +384,10 @@ export default function TripPublic() {
       {/* Footer */}
       <footer style={{ background: 'var(--ocean-deep)', color: 'white', padding: 'var(--space-xl) 0', textAlign: 'center' }}>
         <div className="container">
-          <Link to="/" className="logo" style={{ justifyContent: 'center', color: 'white', marginBottom: 'var(--space-md)' }}>
-            <div className="logo-icon" style={{ background: 'rgba(255,255,255,0.1)' }}>
-              <i className="fas fa-sailboat"></i>
-            </div>
-            SailPlan
+          <Link to="/" className="logo" style={{ justifyContent: 'center', marginBottom: 'var(--space-md)' }}>
+            <img src="/logo.svg" alt="Boatra.com" className="logo-svg" style={{ filter: 'brightness(0) invert(1)' }} />
           </Link>
-          <p style={{ opacity: 0.6, fontSize: '0.875rem' }}>© 2025 SailPlan. Všechna práva vyhrazena.</p>
+          <p style={{ opacity: 0.6, fontSize: '0.875rem' }}>© 2025 Boatra.com. Všechna práva vyhrazena.</p>
         </div>
       </footer>
 
